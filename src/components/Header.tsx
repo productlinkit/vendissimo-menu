@@ -8,7 +8,7 @@ export default function Header({ onPlay }: { onPlay: () => void }) {
   return (
     <header className="khead">
       <div className="headtop">
-        <img className="logo" src="/assets/logo.png" alt="Vendissimo" />
+        <img className="logo" src="/assets/logo.webp" width={731} height={200} alt="Vendissimo" />
         <div className="headtools">
           <div className="clock"><b>{time}</b><span>{date}</span></div>
           <div className="lang" role="group" aria-label="Language">
