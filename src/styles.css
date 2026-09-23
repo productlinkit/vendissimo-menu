@@ -234,7 +234,7 @@ html.fit .cartbar{margin-top:16px}
 .chev{flex:none; color:var(--pink); font-size:clamp(15px,2.2vw,20px)}
 @media (max-width:639px){ .step small{display:none} }
 @media (max-width:639px){
-  .steps{justify-content:space-between}
+  .steps{justify-content:space-between; padding-block:13px}
   .step{gap:clamp(4px,1.1vw,7px)}
   .step svg, .chev{display:none}
 }
