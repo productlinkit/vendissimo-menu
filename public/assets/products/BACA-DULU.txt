@@ -1,0 +1,19 @@
+FOTO PRODUK ASLI
+================
+Taruh foto di folder ini dengan nama = id produk.
+Format yang dikenali: .png, .jpg, .jpeg, .webp (dicari berurutan).
+
+  cola.png       -> Coca-Cola          sprite.png   -> Sprite
+  fanta.png      -> Fanta              aqua.png     -> Drinking Water
+  lays.png       -> Lay's Classic      prin.png     -> Pringles
+  oreo.png       -> Oreo               pocky.png    -> Pocky
+  kitkat.png     -> KitKat             mms.png      -> M&M's
+  taro.png       -> Taro Snack         noodle.png   -> Instant Noodles
+  token.png      -> Arcade Token       claw.png     -> Claw Machine Play
+
+Saran ukuran: bujur sangkar, 800 x 800 piksel, maksimal ~300 KB.
+Foto memenuhi seluruh kotak (object-fit: cover), jadi letakkan produk di tengah.
+PNG berlatar transparan juga bisa - warna gradasi kartu akan terlihat di belakangnya.
+
+Produk yang belum ada fotonya tetap memakai gambar kemasan bawaan,
+jadi kamu bisa menambahkannya satu per satu tanpa merusak tampilan.
