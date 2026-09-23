@@ -26,6 +26,7 @@ export const PRODUCTS: Product[] = [
   { id: "pocky",  slot: "B4", en: "Pocky",              my: "Pocky",                mark: "Pocky",   price: 150, cat: "sweets", shape: "box",    bg: ["#FF6B7A", "#B3121F"], ink: "#B3121F", stock: 4 },
   { id: "kitkat", slot: "C1", en: "KitKat",             my: "KitKat",               mark: "KitKat",  price: 150, cat: "sweets", shape: "bar",    bg: ["#FF6F6F", "#B3121F"], ink: "#B3121F", stock: 6 },
   { id: "mms",    slot: "C2", en: "M&M's",              my: "M&M's",                mark: "M&M",     price: 150, cat: "sweets", shape: "bag",    bg: ["#FFD84D", "#E8A400"], ink: "#C07C00", stock: 5 },
+  { id: "snickers",slot: "D3", en: "Snickers",           my: "Snickers",             mark: "Snickers",price: 150, cat: "sweets", shape: "bar",    bg: ["#C68B4F", "#7A4A1E"], ink: "#5C3414", stock: 6 },
   { id: "taro",   slot: "C3", en: "Taro Snack",         my: "Taro မုန့်",             mark: "Taro",    price: 150, cat: "snacks", shape: "bag",    bg: ["#6BC96B", "#14612B"], ink: "#14612B", stock: 6 },
   { id: "noodle", slot: "C4", en: "Instant Noodles",    my: "ခေါက်ဆွဲခွက်",           mark: "Noodles", price: 200, cat: "snacks", shape: "cup",    bg: ["#FFC978", "#E06A10"], ink: "#C2540A", stock: 4 },
   { id: "token",  slot: "D1", en: "Arcade Token",       my: "ဂိမ်းတိုကင်",             mark: "Token",   price: 100, cat: "games",  shape: "token",  bg: ["#B98BFF", "#5B21B6"], ink: "#5B21B6", stock: 30 },
