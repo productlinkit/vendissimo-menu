@@ -16,7 +16,7 @@ type Props = {
 const ROWS_DEFAULT = 3;
 const MAX_ROWS = 6;
 const MIN_TILE = 80;        // di bawah ini gambar produk sudah tidak terbaca
-const FLAT = 0.5;           // gambar boleh gepeng sampai 50% lebarnya, lebih dari itu jelek
+const FLAT = 0.62;          // gambar boleh gepeng sampai 62% lebarnya, lebih dari itu jelek
 
 // 2 / 3 / 4 kolom -- harus sama dengan .page di styles.css
 function columns() {
@@ -65,7 +65,7 @@ export default function ProductDeck({ list, stock, cart, photos, onAdd, onRemove
     const gap = parseFloat(getComputedStyle(pageEl).rowGap) || 16;
     const avail = deck.clientHeight;
     const chrome = card.offsetHeight - tile.offsetHeight;   // judul + harga + tombol + padding
-    const natural = tile.offsetWidth * 0.92;                // tinggi gambar kalau tidak dipaksa
+    const natural = tile.offsetWidth * 1.05;                // tinggi gambar kalau tidak dipaksa (sedikit lebih jangkung dari kotak)
     const minTile = Math.max(MIN_TILE, tile.offsetWidth * FLAT);
     const tileFor = (r: number) => (avail - gap * (r - 1)) / r - chrome;
 
