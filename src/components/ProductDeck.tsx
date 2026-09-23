@@ -20,6 +20,8 @@ const FLAT = 0.5;           // gambar boleh gepeng sampai 50% lebarnya, lebih da
 
 // 2 / 3 / 4 kolom -- harus sama dengan .page di styles.css
 function columns() {
+  if (window.matchMedia("(min-width:2100px)").matches) return 6;
+  if (window.matchMedia("(min-width:1700px)").matches) return 5;
   if (window.matchMedia("(min-width:900px)").matches) return 4;
   if (window.matchMedia("(min-width:640px)").matches) return 3;
   return 2;
