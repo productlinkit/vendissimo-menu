@@ -51,7 +51,6 @@ html.fit .notes{flex:none; margin-top:12px}
    di antara 5 tombolnya, bukan memaksa tingginya sendiri. */
 html.fit .kbody{grid-template-rows:minmax(0,1fr)}
 html.fit .rail{min-height:0; overflow-y:auto}
-html.fit .rail button{flex:1 1 auto}
 /* Lanskap tablet: header dan rail dirampingkan supaya produk kebagian ruang */
 @media (max-height:820px){
   html.fit .khead{gap:10px; margin-bottom:12px}
