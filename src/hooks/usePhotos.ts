@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PRODUCTS } from "../lib/products";
 
-const EXTS = ["png", "jpg", "jpeg", "webp"];
+const EXTS = ["webp", "png", "jpg", "jpeg"];
 
 /**
  * Mencari foto asli di public/assets/products/<id>.<ext> satu kali saat halaman dibuka.

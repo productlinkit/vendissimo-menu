@@ -167,10 +167,10 @@ html.fit .cartbar{margin-top:16px}
 .tile{position:relative; border-radius:clamp(10px,7cqw,16px); overflow:hidden; aspect-ratio:1/.92;
   display:grid; place-items:center; margin-bottom:clamp(7px,8.2cqw,14px)}
 .tile svg.pack{width:78%; height:78%}
-.tile .photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none}
+.tile .photo{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:7%; display:none}
 .tile.has-photo .photo{display:block}
 .tile.has-photo svg.pack{display:none}
-.li-art .photo{width:100%; height:100%; object-fit:cover; display:none}
+.li-art .photo{width:100%; height:100%; object-fit:contain; padding:6%; display:none}
 .li-art.has-photo .photo{display:block}
 .li-art.has-photo svg.pack{display:none}
 .chip-slot{position:absolute; z-index:1; left:clamp(6px,5.3cqw,9px); top:clamp(6px,5.3cqw,9px); font-size:clamp(11px,6.4cqw,11px);
