@@ -34,11 +34,38 @@ button{font-family:inherit}
 /* ---------- mode muat satu layar (layar tinggi / mesin) ---------- */
 html.fit, html.fit body{height:100%}
 html.fit .stage{height:100%; display:flex; flex-direction:column}
-html.fit .kiosk{flex:1 1 auto; display:flex; flex-direction:column; min-height:0}
+/* margin-inline:auto mematikan stretch pada flex item, jadi kiosk menyusut ke
+   lebar kontennya begitu .stage jadi flex column. width:100% mengembalikannya. */
+html.fit .kiosk{flex:1 1 auto; width:100%; display:flex; flex-direction:column; min-height:0}
 html.fit .kbody{flex:1 1 auto; min-height:0}
 html.fit .deckcol{display:flex; flex-direction:column; min-height:0}
 html.fit .deck{flex:1 1 auto; min-height:0; overflow-y:hidden}
 html.fit .notes{flex:none; margin-top:12px}
+/* Layar pendek (tablet): tukar hiasan dengan satu baris produk lagi.
+   Di layar mesin yang tinggi keduanya tetap tampil. */
+@media (max-height:1100px){
+  html.fit .slide-hint{display:none}
+  html.fit .notes{display:none}
+}
+/* Baris kbody tidak boleh melebihi sisa tinggi; rail membagi ruang yang ada
+   di antara 5 tombolnya, bukan memaksa tingginya sendiri. */
+html.fit .kbody{grid-template-rows:minmax(0,1fr)}
+html.fit .rail{min-height:0; overflow-y:auto}
+html.fit .rail button{flex:1 1 auto}
+/* Lanskap tablet: header dan rail dirampingkan supaya produk kebagian ruang */
+@media (max-height:820px){
+  html.fit .khead{gap:10px; margin-bottom:12px}
+  html.fit .headtitle .sub{display:none}
+  html.fit .headtitle h1{font-size:clamp(18px,2.6vw,28px)}
+  html.fit .logo{height:clamp(24px,3vw,34px)}
+  html.fit .playbadge .crew img{width:clamp(26px,3.4vw,40px); height:clamp(26px,3.4vw,40px)}
+  html.fit .steps{padding-block:6px}
+  html.fit .rail{padding-block:6px; gap:4px}
+  html.fit .rail button{min-height:36px; padding-block:5px; font-size:clamp(11px,1.2vw,12px)}
+  html.fit .rail svg{width:19px; height:19px}
+}
+/* tinggi gambar produk dihitung ProductDeck agar semua baris muat tanpa scroll */
+html.fit .tile{height:var(--tile-h); aspect-ratio:auto}
 html.fit .steps{margin-top:14px}
 html.fit .khead{margin-bottom:18px}
 html.fit .cartbar{margin-top:16px}

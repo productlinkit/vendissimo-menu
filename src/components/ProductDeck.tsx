@@ -14,6 +14,9 @@ type Props = {
 };
 
 const ROWS_DEFAULT = 3;
+const MAX_ROWS = 6;
+const MIN_TILE = 80;        // di bawah ini gambar produk sudah tidak terbaca
+const FLAT = 0.5;           // gambar boleh gepeng sampai 50% lebarnya, lebih dari itu jelek
 
 // 2 / 3 / 4 kolom -- harus sama dengan .page di styles.css
 function columns() {
@@ -35,26 +38,55 @@ export default function ProductDeck({ list, stock, cart, photos, onAdd, onRemove
   useEffect(() => { setPage(0); }, [resetKey]);
   useEffect(() => { if (page > pages - 1) setPage(pages - 1); }, [pages, page]);
 
-  // berapa baris kartu yang muat pada tinggi layar (mode satu layar)
+  // Muat dalam satu layar: jumlah baris DAN tinggi gambar produk dihitung dari
+  // sisa tinggi yang ada. Kartu mengecil lebih dulu; baris baru dikurangi kalau
+  // gambarnya sudah terlalu gepeng.
   const measure = useCallback(() => {
     setCols(columns());
+    const root = document.documentElement;
     const deck = deckRef.current;
     const card = deck?.querySelector<HTMLElement>(".card");
+    const tile = deck?.querySelector<HTMLElement>(".tile");
     const pageEl = deck?.querySelector<HTMLElement>(".page");
-    const fits = window.innerHeight >= 700;
-    document.documentElement.classList.toggle("fit", fits);
-    if (!fits || !deck || !card || !pageEl) { setRows(ROWS_DEFAULT); return; }
-    const gap = parseFloat(getComputedStyle(pageEl).rowGap) || 16;
-    const n = Math.floor((deck.clientHeight + gap) / (card.offsetHeight + gap));
-    if (n < ROWS_DEFAULT) {
-      document.documentElement.classList.remove("fit");
+
+    // Mode satu layar untuk tablet/mesin. Di layar sempit (HP) scroll justru
+    // wajar, dan memaksa muat cuma menyisakan dua produk per halaman.
+    const wide = window.innerWidth >= 700;
+    const fits = wide ? window.innerHeight >= 600 : window.innerHeight >= 1000;
+    root.classList.toggle("fit", fits);
+    if (!fits || !deck || !card || !tile || !pageEl) {
+      root.style.removeProperty("--tile-h");
       setRows(ROWS_DEFAULT);
-    } else {
-      setRows(Math.min(n, 8));
+      return;
     }
+
+    const gap = parseFloat(getComputedStyle(pageEl).rowGap) || 16;
+    const avail = deck.clientHeight;
+    const chrome = card.offsetHeight - tile.offsetHeight;   // judul + harga + tombol + padding
+    const natural = tile.offsetWidth * 0.92;                // tinggi gambar kalau tidak dipaksa
+    const minTile = Math.max(MIN_TILE, tile.offsetWidth * FLAT);
+    const tileFor = (r: number) => (avail - gap * (r - 1)) / r - chrome;
+
+    let rows = ROWS_DEFAULT;
+    while (rows < MAX_ROWS && tileFor(rows + 1) >= natural) rows++;  // ruang lebih: tambah baris
+    while (rows > 1 && tileFor(rows) < minTile) rows--;              // ruang kurang: kurangi baris
+
+    const h = Math.floor(Math.max(MIN_TILE, Math.min(tileFor(rows), natural)));
+    if (root.style.getPropertyValue("--tile-h") !== h + "px") root.style.setProperty("--tile-h", h + "px");
+    setRows(rows);
   }, []);
 
   useLayoutEffect(() => { measure(); }, [measure, list.length, rows]);
+
+  // Mengubah jumlah baris ikut mengubah tinggi bar paginasi, yang mengubah lagi
+  // sisa ruang deck. Tanpa ini pengukuran memakai angka lama dan kartu meluber.
+  useEffect(() => {
+    const deck = deckRef.current;
+    if (!deck || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(deck);
+    return () => ro.disconnect();
+  }, [measure]);
   useEffect(() => {
     let id: number | undefined;
     const onResize = () => { window.clearTimeout(id); id = window.setTimeout(measure, 200); };
