@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function ProductCard({ p, stock, qty, photo, onAdd, onRemove }: Props) {
-  const { t, lang } = useI18n();
+  const { t, fmt, lang } = useI18n();
   const out = stock === 0;
   const name = lang === "my" ? p.my : p.en;
 
@@ -29,12 +29,17 @@ export default function ProductCard({ p, stock, qty, photo, onAdd, onRemove }: P
         <span className="price">{money(p.price)}</span>
         {qty > 0 ? (
           <span className="stepper">
-            <button type="button" aria-label="-1" onClick={onRemove}>−</button>
+            <button type="button" aria-label={fmt("removeOneOf", { x: name })} onClick={onRemove}>−</button>
             <b>{qty}</b>
-            <button type="button" aria-label="+1" onClick={onAdd}>+</button>
+            <button type="button" aria-label={fmt("addOneMore", { x: name })} onClick={onAdd}>+</button>
           </span>
         ) : (
-          <button className="add" type="button" aria-label="+" disabled={out} onClick={onAdd}>+</button>
+          <button
+            className="add" type="button" disabled={out} onClick={onAdd}
+            aria-label={fmt(out ? "soldOutOf" : "addToCart", { x: name })}
+          >
+            <span aria-hidden="true">+</span>
+          </button>
         )}
       </div>
     </article>

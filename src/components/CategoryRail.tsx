@@ -14,7 +14,7 @@ type Props = { active: CatId; onPick: (c: CatId) => void };
 export default function CategoryRail({ active, onPick }: Props) {
   const { t } = useI18n();
   return (
-    <nav className="rail" aria-label="Categories">
+    <nav className="rail" aria-label={t("categories")}>
       {CATS.map((c) => (
         <button key={c.id} type="button" aria-pressed={c.id === active} onClick={() => onPick(c.id)}>
           <svg viewBox="0 0 24 24" aria-hidden="true">{c.icon}</svg>

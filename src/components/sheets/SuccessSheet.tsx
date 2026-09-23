@@ -22,7 +22,7 @@ export default function SuccessSheet({ lines, photos, onGame, onClose }: Props) 
   }, [lines]);
 
   return (
-    <Sheet onClose={onClose}>
+    <Sheet title={t("okTitle")} onClose={onClose}>
       <div className="sheet-done">
         <img className="win" src="/assets/success.png" alt="" />
         <h2 style={{ color: "var(--mint)" }}>{t("okTitle")}</h2>

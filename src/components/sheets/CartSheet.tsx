@@ -45,7 +45,7 @@ export default function CartSheet(props: Props) {
   ];
 
   return (
-    <Sheet onClose={onClose}>
+    <Sheet title={t("cartTitle")} onClose={onClose}>
       <h2>{t("cartTitle")}</h2>
       <p className="sheet-sub">{t("cartSub")}</p>
 

@@ -103,12 +103,12 @@ export default function App() {
 
           <div className="kbody">
             <CategoryRail active={cat} onPick={setCat} />
-            <div className="deckcol">
-              <div className="toolbar">
+            <main className="deckcol">
+              <div className="toolbar" role="search">
                 <label className="search">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.6-3.6" /></svg>
                   <input
-                    id="search" type="search" placeholder={t("search")} aria-label={t("search")}
+                    id="search" type="search" placeholder={t("search")} aria-label={t("searchLabel")}
                     value={query} onChange={(e) => setQuery(e.target.value)}
                   />
                 </label>
@@ -118,7 +118,7 @@ export default function App() {
                 list={visible} stock={stock} cart={cart} photos={photos}
                 onAdd={add} onRemove={remove} resetKey={cat + "|" + query}
               />
-            </div>
+            </main>
           </div>
 
           <CartBar count={count} total={total} onOpen={() => setSheet("cart")} />

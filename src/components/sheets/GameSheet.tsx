@@ -68,7 +68,7 @@ export default function GameSheet({ best, onBest, onWin, onUseCoupon, onClose }:
   };
 
   return (
-    <Sheet onClose={onClose}>
+    <Sheet title={t("gameTitle")} onClose={onClose}>
       <h2>{t("gameTitle")}</h2>
       <p className="sheet-sub">{t("gameSub")}</p>
 
@@ -81,7 +81,7 @@ export default function GameSheet({ best, onBest, onWin, onUseCoupon, onClose }:
       <div className="holes">
         {Array.from({ length: HOLES }, (_, i) => (
           <button
-            key={i} type="button" aria-label={t("gameTitle")}
+            key={i} type="button" aria-label={fmt(up[i] ? "holeUp" : "holeEmpty", { n: i + 1 })}
             className={"hole" + (up[i] ? " up" : "") + (hit === i ? " hit" : "")}
             onClick={() => whack(i)}
           >

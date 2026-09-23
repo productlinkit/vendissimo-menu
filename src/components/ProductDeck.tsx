@@ -104,7 +104,7 @@ export default function ProductDeck({ list, stock, cart, photos, onAdd, onRemove
 
   return (
     <>
-      <div className="deck" ref={deckRef} onScroll={onScroll}>
+      <div className="deck" ref={deckRef} onScroll={onScroll} aria-label={t("productList")} role="group">
         {chunks.map((chunk, i) => (
           <div className="page" key={i} aria-label={fmt("page", { n: i + 1, m: pages })}>
             {chunk.map((p) => (
@@ -124,7 +124,9 @@ export default function ProductDeck({ list, stock, cart, photos, onAdd, onRemove
 
       {pages > 1 && (
         <div className="deckbar">
-          <button className="navbtn" type="button" aria-label="‹" disabled={page === 0} onClick={() => goTo(page - 1)}>‹</button>
+          <button className="navbtn" type="button" aria-label={t("prevPage")} disabled={page === 0} onClick={() => goTo(page - 1)}>
+            <span aria-hidden="true">‹</span>
+          </button>
           <span className="dots">
             {chunks.map((_, i) => (
               <button
@@ -134,7 +136,9 @@ export default function ProductDeck({ list, stock, cart, photos, onAdd, onRemove
               />
             ))}
           </span>
-          <button className="navbtn" type="button" aria-label="›" disabled={page === pages - 1} onClick={() => goTo(page + 1)}>›</button>
+          <button className="navbtn" type="button" aria-label={t("nextPage")} disabled={page === pages - 1} onClick={() => goTo(page + 1)}>
+            <span aria-hidden="true">›</span>
+          </button>
           <p className="slide-hint">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h13M12.5 6.5L18 12l-5.5 5.5" /></svg>
             {t("slide")}

@@ -37,7 +37,7 @@ export default function PaymentSheet({ method, total, onPaid, onBack, onExpire, 
   const hint = method === "qris" ? t("qrHint") : method === "wallet" ? t("walletHint") : t("cardHint");
 
   return (
-    <Sheet onClose={onClose}>
+    <Sheet title={t("payTitle")} onClose={onClose}>
       <h2>{t("payTitle")}</h2>
       <p className="sheet-sub">{hint}</p>
 
@@ -49,14 +49,14 @@ export default function PaymentSheet({ method, total, onPaid, onBack, onExpire, 
       ) : (
         <div className="qr-wrap">
           <div className="qr-box">
-            <canvas ref={canvas} width={228} height={228} aria-label="QR" />
+            <canvas ref={canvas} width={228} height={228} role="img" aria-label={t("qrLabel")} />
           </div>
           <div><span className="qr-tag">{method === "qris" ? t("qrTag") : t("walletTag")}</span></div>
           <Brands keys={method === "qris" ? ["kbz", "aya", "cb", "wave"] : ["kbz", "wave", "aya", "okd"]} />
         </div>
       )}
 
-      <p className="timer">{t("expires")} <b>{mm}:{ss < 10 ? "0" : ""}{ss}</b></p>
+      <p className="timer" role="timer" aria-live="off" aria-label={t("timeLeft")}>{t("expires")} <b>{mm}:{ss < 10 ? "0" : ""}{ss}</b></p>
       <div className="totals" style={{ borderTop: "none", paddingTop: 0 }}>
         <div className="grand"><span>{t("total")}</span><span>{money(total)}</span></div>
       </div>
