@@ -61,7 +61,7 @@ html.fit .rail{min-height:0; overflow-y:auto}
   html.fit .steps{padding-block:6px}
   html.fit .rail{padding-block:2px; gap:2px}
   html.fit .rail button{min-height:var(--tap); padding:3px 2px; gap:2px; font-size:11px}
-  html.fit .rail img{width:18px; height:18px}
+  html.fit .rail img{height:24px}
 }
 /* tinggi gambar produk dihitung ProductDeck agar semua baris muat tanpa scroll */
 html.fit .tile{height:var(--tile-h); aspect-ratio:auto}
@@ -122,14 +122,14 @@ html.fit .cartbar{margin-top:16px}
 .rail{display:flex; flex-direction:column; gap:clamp(4px,.9vw,8px); background:var(--panel);
   border-radius:clamp(16px,3.1vw,28px); padding:clamp(8px,1.8vw,16px) clamp(4px,1.1vw,10px)}
 .rail button{min-height:var(--tap); aspect-ratio:1; border:none; background:none; cursor:pointer; border-radius:clamp(12px,2.2vw,20px);
-  padding:clamp(6px,1.15vw,11px); display:flex; flex-direction:column;
+  padding:clamp(6px,1.4vw,14px); display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:clamp(2px,.7vw,6px); font-size:clamp(11px,1.45vw,13px); font-weight:600; color:var(--muted); line-height:1.15}
 .rail img{width:auto; max-width:100%; height:clamp(26px,3.6vw,34px); aspect-ratio:1;
-  flex:0 1 auto; min-height:22px; object-fit:contain; display:block}
+  flex:0 1 auto; min-height:24px; object-fit:contain; display:block}
 .rail button span{flex:none}
 .rail button[aria-pressed="true"]{background:var(--pink); color:#fff; box-shadow:0 5px 14px rgba(224,0,105,.35)}
 /* ikonnya berwarna, jadi di atas latar pink perlu alas putih supaya tidak menyatu */
-.rail button[aria-pressed="true"] img{background:#fff; border-radius:28%; padding:3px}
+.rail button[aria-pressed="true"] img{background:#fff; border-radius:28%; box-shadow:0 0 0 5px #fff}
 
 .toolbar{display:flex; gap:clamp(6px,1.4vw,10px); align-items:center; flex-wrap:wrap; margin-bottom:clamp(12px,2.6vw,20px)}
 .search{flex:1 1 160px; min-width:0; display:flex; align-items:center; gap:clamp(5px,1.1vw,8px); background:var(--panel);
@@ -371,7 +371,7 @@ canvas{display:block; width:clamp(130px,38vw,196px); height:clamp(130px,38vw,196
   .kiosk{max-width:min(1360px,94vw); padding:38px 42px 36px}
   .kbody{grid-template-columns:clamp(104px,7.6vw,124px) 1fr; gap:clamp(26px,2.1vw,34px)}
   .rail img{height:clamp(42px,3.1vw,52px); min-height:30px}
-  .rail button{font-size:clamp(13px,1vw,15px); padding:clamp(9px,.8vw,12px); gap:clamp(6px,.55vw,9px)}
+  .rail button{font-size:clamp(13px,1vw,15px); padding:clamp(11px,1vw,14px); gap:clamp(6px,.55vw,9px)}
   .page{gap:clamp(20px,1.6vw,26px)}
   .card h3{font-size:clamp(17px,9.9cqw,21px)}
   .price{font-size:clamp(18px,10.5cqw,23px)}
