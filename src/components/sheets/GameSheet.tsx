@@ -69,16 +69,17 @@ export default function GameSheet({ best, onBest, onWin, onUseCoupon, onClose }:
 
   return (
     <Sheet title={t("gameTitle")} onClose={onClose}>
-      <h2>{t("gameTitle")}</h2>
-      <p className="sheet-sub">{t("gameSub")}</p>
+      <div className="sheet-game">
+        <h2>{t("gameTitle")}</h2>
+        <p className="sheet-sub">{t("gameSub")}</p>
 
-      <div className="game-head">
-        <div className="stat"><span>{t("score")}</span><b>{score}</b></div>
-        <div className="stat"><span>{t("time")}</span><b>{Math.max(0, time)}</b></div>
-        <div className="stat"><span>{t("best")}</span><b>{Math.max(best, score)}</b></div>
+        <div className="game-head">
+          <div className="stat"><span>{t("score")}</span><b>{score}</b></div>
+          <div className="stat"><span>{t("time")}</span><b>{Math.max(0, time)}</b></div>
+          <div className="stat"><span>{t("best")}</span><b>{Math.max(best, score)}</b></div>
       </div>
 
-      <div className="holes">
+      <div className={"holes" + (over ? " compact" : "")}>
         {Array.from({ length: HOLES }, (_, i) => (
           <button
             key={i} type="button" aria-label={fmt(up[i] ? "holeUp" : "holeEmpty", { n: i + 1 })}
@@ -97,7 +98,7 @@ export default function GameSheet({ best, onBest, onWin, onUseCoupon, onClose }:
               <b>{prize.code}</b>
               <p>{fmt("won", { a: money(prize.amount), n: score })}</p>
             </div>
-            <button className="btn block" type="button" style={{ marginTop: 14 }} onClick={onUseCoupon}>{t("useCoupon")}</button>
+            <button className="btn block game-btn" type="button" onClick={onUseCoupon}>{t("useCoupon")}</button>
           </>
         ) : (
           <>
@@ -105,12 +106,13 @@ export default function GameSheet({ best, onBest, onWin, onUseCoupon, onClose }:
               <b style={{ color: "var(--grape)" }}>{fmt("scoreIs", { n: score })}</b>
               <p>{t("lost")}</p>
             </div>
-            <button className="btn block" type="button" style={{ marginTop: 14 }} onClick={() => setRound((r) => r + 1)}>{t("playAgain")}</button>
+            <button className="btn block game-btn" type="button" onClick={() => setRound((r) => r + 1)}>{t("playAgain")}</button>
           </>
         )
       )}
 
-      <button className="btn ghost sm block" type="button" style={{ marginTop: 14 }} onClick={onClose}>{t("close")}</button>
+      <button className="btn ghost sm block game-btn" type="button" onClick={onClose}>{t("close")}</button>
+      </div>
     </Sheet>
   );
 }
