@@ -173,7 +173,7 @@ html.fit .cartbar{margin-top:16px}
 .li-art .photo{width:100%; height:100%; object-fit:cover; display:none}
 .li-art.has-photo .photo{display:block}
 .li-art.has-photo svg.pack{display:none}
-.chip-slot{position:absolute; left:clamp(6px,5.3cqw,9px); top:clamp(6px,5.3cqw,9px); font-size:clamp(11px,6.4cqw,11px);
+.chip-slot{position:absolute; z-index:1; left:clamp(6px,5.3cqw,9px); top:clamp(6px,5.3cqw,9px); font-size:clamp(11px,6.4cqw,11px);
   font-weight:700; letter-spacing:.6px; color:#fff; background:rgba(43,17,80,.64); border-radius:7px; padding:2px clamp(6px,4.7cqw,8px)}
 .card h3{font-size:clamp(11.5px,9.9cqw,17px); font-weight:600; line-height:1.3}
 .card-foot{margin-top:clamp(6px,5.8cqw,10px); display:flex; align-items:center; gap:clamp(4px,4.7cqw,8px); flex-wrap:wrap}
