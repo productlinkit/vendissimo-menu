@@ -36,7 +36,7 @@ export default function SuccessSheet({ lines, photos, onGame, onClose }: Props) 
               <PackArt p={p} />
               {photos[p.id] && <img className="photo" src={photos[p.id]} alt="" />}
             </span>
-            <div>
+            <div className="li-txt">
               <div className="li-name">{(lang === "my" ? p.my : p.en)} x{qty}</div>
               <div className="li-meta">Slot {p.slot}</div>
             </div>

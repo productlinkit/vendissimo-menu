@@ -64,7 +64,7 @@ export default function CartSheet(props: Props) {
           {lines.map(({ p, qty }) => (
             <div className="line-item" key={p.id}>
               <Art p={p} photo={photos[p.id]} />
-              <div>
+              <div className="li-txt">
                 <div className="li-name">{name(p)}</div>
                 <div className="li-meta">Slot {p.slot} · {money(p.price)}</div>
               </div>
