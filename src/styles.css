@@ -232,7 +232,7 @@ html.fit .cartbar{margin-top:16px}
 .step b{font-size:clamp(11.5px,1.6vw,14.5px); color:var(--grape); font-weight:700; white-space:nowrap}
 .step small{font-size:clamp(11px,1.28vw,11.5px); font-weight:500; color:var(--muted); white-space:nowrap}
 .chev{flex:none; color:var(--pink); font-size:clamp(15px,2.2vw,20px)}
-@media (max-width:899px){ .step small{display:none} }
+@media (max-width:639px){ .step small{display:none} }
 @media (max-width:639px){
   .steps{justify-content:space-between}
   .step{gap:clamp(4px,1.1vw,7px)}
