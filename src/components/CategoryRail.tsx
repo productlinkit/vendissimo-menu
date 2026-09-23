@@ -4,7 +4,7 @@ import { useI18n, type Key } from "../lib/i18n";
 const CATS: { id: CatId; icon: JSX.Element }[] = [
   { id: "all", icon: (<><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="7" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /><rect x="13" y="13" width="7" height="7" rx="2" /></>) },
   { id: "drinks", icon: (<><path d="M6 7h12l-1.4 12.2a2 2 0 0 1-2 1.8H9.4a2 2 0 0 1-2-1.8z" /><path d="M6 7l1-3h10l1 3" /></>) },
-  { id: "snacks", icon: (<><path d="M7 4h10l-1 3v13H8V7z" /><path d="M8 7h8" /></>) },
+  { id: "snacks", icon: (<><path d="M6.2 10h11.6l-1.1 9.1a1.6 1.6 0 0 1-1.6 1.4H8.9a1.6 1.6 0 0 1-1.6-1.4z" /><circle cx="8.8" cy="7.4" r="2" /><circle cx="12.4" cy="5.9" r="2.1" /><circle cx="15.8" cy="7.6" r="1.9" /></>) },
   { id: "sweets", icon: (<><circle cx="12" cy="12" r="4" /><path d="M8.6 9.4L4 6l1 5-1 5 4.6-3.4" /><path d="M15.4 9.4L20 6l-1 5 1 5-4.6-3.4" /></>) },
   { id: "games", icon: (<><rect x="2.5" y="7.5" width="19" height="10" rx="5" /><path d="M7 10.5v4M5 12.5h4" /><circle cx="16" cy="11.6" r=".9" /><circle cx="18" cy="13.8" r=".9" /></>) },
 ];
