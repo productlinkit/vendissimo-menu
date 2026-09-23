@@ -148,7 +148,7 @@ html.fit .cartbar{margin-top:16px}
 @media (min-width:900px){ .page{grid-template-columns:repeat(4,1fr)} }
 
 .deckbar{display:flex; align-items:center; justify-content:center; gap:clamp(8px,2vw,14px); margin-top:clamp(10px,2.4vw,18px); flex-wrap:wrap}
-.deckbar:empty{display:none}
+.deckbar-off{visibility:hidden; pointer-events:none}
 .navbtn{width:var(--tap); height:var(--tap); flex:none; border:none; border-radius:50%; cursor:pointer;
   background:var(--panel); color:var(--grape); font-size:clamp(16px,2.6vw,20px); line-height:1; padding:0}
 .navbtn:hover{background:var(--line)}

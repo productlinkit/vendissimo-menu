@@ -156,9 +156,11 @@ export default function ProductDeck({ list, stock, cart, photos, onAdd, onRemove
         ))}
       </div>
 
-      {pages > 1 && (
-        <div className="deckbar">
-          <button className="navbtn" type="button" aria-label={t("prevPage")} disabled={page === 0} onClick={() => goTo(page - 1)}>
+      <div
+        className={"deckbar" + (pages > 1 ? "" : " deckbar-off")}
+        aria-hidden={pages > 1 ? undefined : true}
+      >
+          <button className="navbtn" type="button" aria-label={t("prevPage")} disabled={page === 0 || pages === 1} onClick={() => goTo(page - 1)}>
             <span aria-hidden="true">‹</span>
           </button>
           <span className="dots">
@@ -170,15 +172,14 @@ export default function ProductDeck({ list, stock, cart, photos, onAdd, onRemove
               />
             ))}
           </span>
-          <button className="navbtn" type="button" aria-label={t("nextPage")} disabled={page === pages - 1} onClick={() => goTo(page + 1)}>
+          <button className="navbtn" type="button" aria-label={t("nextPage")} disabled={page === pages - 1 || pages === 1} onClick={() => goTo(page + 1)}>
             <span aria-hidden="true">›</span>
           </button>
           <p className="slide-hint">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h13M12.5 6.5L18 12l-5.5 5.5" /></svg>
             {t("slide")}
           </p>
-        </div>
-      )}
+      </div>
     </>
   );
 }
