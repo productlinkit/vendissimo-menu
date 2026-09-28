@@ -73,14 +73,12 @@ html.fit .cartbar{margin-top:16px}
 /* ---------- stage ---------- */
 .stage{
   position:relative; min-height:100%;
-  background-image:url("/assets/bg-tall.png");
-  background-size:cover; background-position:center top; background-attachment:fixed;
-  background-color:var(--cream);
+  background:var(--cream);
   padding:34px 24px 40px;
 }
-@media (min-width:900px){ .stage{ background-image:url("/assets/bg-wide.png"); background-position:center; padding:84px 70px 88px } }
+@media (min-width:900px){ .stage{ padding:48px 40px 52px } }
 @media (max-width:639px){ .stage{padding:16px 10px 22px} }
-.kiosk{max-width:1060px; margin-inline:auto; background:var(--paper); border-radius:var(--r-xl); box-shadow:var(--shadow-m); padding:22px 20px 24px}
+.kiosk{max-width:1060px; margin-inline:auto; background:var(--paper); border-radius:var(--r-xl); border:1px solid var(--line); box-shadow:var(--shadow-s); padding:22px 20px 24px}
 @media (min-width:900px){ .kiosk{padding:34px 36px 32px} }
 @media (max-width:639px){ .kiosk{padding:14px 10px 16px; border-radius:var(--r-l)} }
 
