@@ -1,168 +1,199 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { PRODUCTS, type CatId, type Product } from "./lib/products";
-import { LangContext, makeI18n, type Lang } from "./lib/i18n";
-import { load, save } from "./lib/storage";
-import { usePhotos } from "./hooks/usePhotos";
-import Header from "./components/Header";
-import StepsBar from "./components/StepsBar";
-import CategoryRail from "./components/CategoryRail";
-import ProductDeck from "./components/ProductDeck";
-import CartBar from "./components/CartBar";
-import CartSheet, { type PayMethod } from "./components/sheets/CartSheet";
-import PaymentSheet from "./components/sheets/PaymentSheet";
-import SuccessSheet from "./components/sheets/SuccessSheet";
-import GameSheet from "./components/sheets/GameSheet";
-
-type SheetName = null | "cart" | "pay" | "done" | "game";
-type Voucher = { code: string; amount: number } | null;
-
-const saved = load();
+import { useCallback, useState } from "react";
+import { Confetti } from "./components/Confetti";
+import { Footer } from "./components/Footer";
+import { Loader } from "./components/Loader";
+import { Toast } from "./components/Toast";
+import { isCategoryRoute, TopNav } from "./components/TopNav";
+import { Welcome } from "./components/Welcome";
+import { EnglishPractice } from "./components/viewers/EnglishPractice";
+import { GamePlayer } from "./components/viewers/GamePlayer";
+import { MagazineReader } from "./components/viewers/MagazineReader";
+import { VideoPlayer } from "./components/viewers/VideoPlayer";
+import { useI18n } from "./i18n";
+import { ENGLISH_SETS, GAMES, MAGAZINES, POINTS, VIDEOS } from "./data";
+import { useProgress } from "./lib/progress";
+import { CategoryPage } from "./pages/CategoryPage";
+import { ExplorePage } from "./pages/ExplorePage";
+import { HomePage } from "./pages/HomePage";
+import { ProfilePage } from "./pages/ProfilePage";
+import { RewardsPage } from "./pages/RewardsPage";
+import type { Reward, Route, Viewer } from "./types";
 
 export default function App() {
-  const [lang, setLangState] = useState<Lang>(saved.lang ?? "en");
-  const [cat, setCat] = useState<CatId>("all");
-  const [query, setQuery] = useState("");
-  const [cart, setCart] = useState<Record<string, number>>({});
-  const [stock, setStock] = useState<Record<string, number>>(
-    () => Object.fromEntries(PRODUCTS.map((p) => [p.id, p.stock])),
-  );
-  const [sheet, setSheet] = useState<SheetName>(null);
-  const [method, setMethod] = useState<PayMethod>("qris");
-  const [voucher, setVoucher] = useState<Voucher>(saved.voucher ?? null);
-  const [best, setBest] = useState(saved.best ?? 0);
-  const [toast, setToast] = useState("");
-  const [paidLines, setPaidLines] = useState<{ p: Product; qty: number }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [route, setRoute] = useState<Route>(`home`);
+  const [viewer, setViewer] = useState<Viewer | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const [confetti, setConfetti] = useState(false);
+  const { S: progress, earnOnce, addPts, markOpened } = useProgress();
+  const { t } = useI18n();
 
-  const photos = usePhotos();
+  const showToast = useCallback((msg: string) => setToast(msg), []);
 
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    save({ ...load(), lang: l });
+  const navigate = useCallback((next: Route) => {
+    setRoute(next);
+    window.scrollTo({
+      top: 0,
+      behavior: `smooth`,
+    });
   }, []);
 
-  const i18n = useMemo(() => makeI18n(lang, setLang), [lang, setLang]);
-  const { t, fmt } = i18n;
-
-  useEffect(() => { document.documentElement.setAttribute("lang", lang); }, [lang]);
-
-  useEffect(() => {
-    if (!toast) return;
-    const id = setTimeout(() => setToast(""), 1900);
-    return () => clearTimeout(id);
-  }, [toast]);
-
-  const lines = useMemo(
-    () => PRODUCTS.filter((p) => (cart[p.id] ?? 0) > 0).map((p) => ({ p, qty: cart[p.id] })),
-    [cart],
+  const openMagazine = useCallback(
+    (idx: number) => {
+      setViewer({
+        type: `mag`,
+        idx,
+      });
+      if (!progress.opened.includes(`mag-${idx}`)) {
+        markOpened(`mag-${idx}`);
+        earnOnce(`mag-${idx}`, POINTS.magazine, `Read a magazine`);
+        earnOnce(`mag`, 0, ``);
+        showToast(t(`+{n} pts — Magazine`, { n: POINTS.magazine }));
+      }
+    },
+    [progress.opened, markOpened, earnOnce, showToast, t],
   );
-  const count = lines.reduce((n, l) => n + l.qty, 0);
-  const subtotal = lines.reduce((s, l) => s + l.p.price * l.qty, 0);
-  const discount = voucher ? Math.min(voucher.amount, subtotal) : 0;
-  const total = Math.max(0, subtotal - discount);
 
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return PRODUCTS.filter((p) => {
-      const inCat = cat === "all" || p.cat === cat;
-      const inQ = !q || p.en.toLowerCase().includes(q) || p.my.toLowerCase().includes(q);
-      return inCat && inQ;
-    });
-  }, [cat, query]);
+  const openVideo = useCallback(
+    (idx: number) => {
+      setViewer({
+        type: `video`,
+        idx,
+      });
+      if (!progress.opened.includes(`vid-${idx}`)) {
+        markOpened(`vid-${idx}`);
+        earnOnce(`vid-${idx}`, POINTS.video, `Watched a video`);
+        earnOnce(`video`, 0, ``);
+        showToast(t(`+{n} pts — Video`, { n: POINTS.video }));
+      }
+    },
+    [progress.opened, markOpened, earnOnce, showToast, t],
+  );
 
-  const add = (p: Product) => {
-    const have = cart[p.id] ?? 0;
-    const left = stock[p.id] ?? p.stock;
-    if (have >= left) { setToast(fmt("onlyLeft", { n: left, s: p.slot })); return; }
-    setCart((c) => ({ ...c, [p.id]: have + 1 }));
-    if (have === 0) setToast(`${lang === "my" ? p.my : p.en} ${t("added")}`);
-  };
-  const remove = (p: Product) => setCart((c) => ({ ...c, [p.id]: Math.max(0, (c[p.id] ?? 0) - 1) }));
-  const kill = (p: Product) => {
-    setCart((c) => ({ ...c, [p.id]: 0 }));
-    setToast(`${lang === "my" ? p.my : p.en} ${t("removed")}`);
-  };
+  const openGame = useCallback(
+    (idx: number) => {
+      setViewer({
+        type: `game`,
+        idx,
+      });
+      if (!progress.opened.includes(`game-${idx}`)) {
+        markOpened(`game-${idx}`);
+        earnOnce(`game-${idx}`, GAMES[idx].pts, `Played a game`);
+        earnOnce(`game`, 0, ``);
+        showToast(t(`+{n} pts — Game`, { n: GAMES[idx].pts }));
+      }
+    },
+    [progress.opened, markOpened, earnOnce, showToast, t],
+  );
 
-  const onPaid = () => {
-    setPaidLines(lines);
-    setStock((s) => {
-      const next = { ...s };
-      lines.forEach(({ p, qty }) => { next[p.id] = Math.max(0, (next[p.id] ?? p.stock) - qty); });
-      return next;
-    });
-    setCart({});
-    if (voucher) { setVoucher(null); save({ ...load(), voucher: null }); }
-    setSheet("done");
-  };
+  const openEnglish = useCallback(
+    (idx: number) =>
+      setViewer({
+        type: `eng`,
+        idx,
+      }),
+    [],
+  );
+
+  const finishEnglish = useCallback(() => {
+    if (viewer?.type === `eng`) {
+      earnOnce(`eng-${viewer.idx}`, POINTS.english, `English practice`);
+      earnOnce(`english_done`, 0, ``);
+      showToast(t(`+{n} pts — English`, { n: POINTS.english }));
+      setConfetti(true);
+    }
+  }, [viewer, earnOnce, showToast, t]);
+
+  const handleSpin = useCallback(
+    (pts: number) => {
+      earnOnce(`spin`, pts, `Daily spin`);
+      showToast(t(`Daily spin: +{n} pts!`, { n: pts }));
+      setConfetti(true);
+    },
+    [earnOnce, showToast, t],
+  );
+
+  // Logged under the reward's name; the negative amount shows it was spent.
+  const handleRedeem = useCallback(
+    (reward: Reward) => addPts(-reward.pts, reward.label),
+    [addPts],
+  );
+
+  const isCategory = isCategoryRoute(route);
+  const playingGame = viewer?.type === `game`;
 
   return (
-    <LangContext.Provider value={i18n}>
-      <div className="stage">
-        <div className="kiosk">
-          <Header onPlay={() => setSheet("game")} />
-          <StepsBar />
-
-          <div className="kbody">
-            <CategoryRail active={cat} onPick={setCat} />
-            <main className="deckcol">
-              <div className="toolbar" role="search">
-                <label className="search">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.6-3.6" /></svg>
-                  <input
-                    id="search" type="search" placeholder={t("search")} aria-label={t("searchLabel")}
-                    value={query} onChange={(e) => setQuery(e.target.value)}
-                  />
-                </label>
-              </div>
-
-              <ProductDeck
-                list={visible} stock={stock} cart={cart} photos={photos}
-                onAdd={add} onRemove={remove} resetKey={cat + "|" + query}
-              />
-            </main>
-          </div>
-
-          <CartBar count={count} total={total} onOpen={() => setSheet("cart")} />
-        </div>
-
-        <div className="notes">
-          <span>{t("note1")}</span>
-          <span className="right">{t("note2")}</span>
-        </div>
-      </div>
-
-      {sheet === "cart" && (
-        <CartSheet
-          lines={lines} photos={photos} subtotal={subtotal} discount={discount} total={total}
-          voucher={voucher} method={method} onMethod={setMethod}
-          onAdd={add} onRemove={remove} onKill={kill}
-          onPay={() => setSheet("pay")} onClose={() => setSheet(null)}
+    <div
+      className="vp-app"
+      style={{
+        background: `transparent`,
+      }}
+    >
+      {loading && <Loader onDone={() => setLoading(false)} />}
+      {!loading && showWelcome && (
+        <Welcome
+          onPlay={() => {
+            setShowWelcome(false);
+            navigate(`home`);
+          }}
+          onExplore={() => setShowWelcome(false)}
         />
       )}
-
-      {sheet === "pay" && (
-        <PaymentSheet
-          method={method} total={total}
-          onPaid={onPaid} onBack={() => setSheet("cart")}
-          onExpire={() => { setSheet("cart"); setToast(t("expired")); }}
-          onClose={() => setSheet(null)}
+      {!playingGame && (
+        <TopNav route={route} onNavigate={navigate} pts={progress.pts} />
+      )}
+      {!playingGame && (
+        <main className="vp-main">
+          {route === `home` && (
+            <HomePage S={progress} onNavigate={navigate} onSpin={handleSpin} />
+          )}
+          {route === `explore` && <ExplorePage onNavigate={navigate} />}
+          {route === `rewards` && (
+            <RewardsPage S={progress} onRedeem={handleRedeem} />
+          )}
+          {route === `profile` && (
+            <ProfilePage S={progress} onNavigate={navigate} />
+          )}
+          {isCategory && (
+            <CategoryPage
+              catId={route}
+              onBack={() => navigate(`explore`)}
+              onMag={openMagazine}
+              onVideo={openVideo}
+              onGame={openGame}
+              onEng={openEnglish}
+            />
+          )}
+          <Footer />
+        </main>
+      )}
+      {viewer?.type === `mag` && (
+        <MagazineReader
+          mag={MAGAZINES[viewer.idx]}
+          onClose={() => setViewer(null)}
         />
       )}
-
-      {sheet === "done" && (
-        <SuccessSheet lines={paidLines} photos={photos} onGame={() => setSheet("game")} onClose={() => setSheet(null)} />
-      )}
-
-      {sheet === "game" && (
-        <GameSheet
-          best={best}
-          onBest={(n) => { setBest(n); save({ ...load(), best: n }); }}
-          onWin={(v) => { setVoucher(v); save({ ...load(), voucher: v }); }}
-          onUseCoupon={() => setSheet("cart")}
-          onClose={() => setSheet(null)}
+      {viewer?.type === `video` && (
+        <VideoPlayer
+          video={VIDEOS[viewer.idx]}
+          onClose={() => setViewer(null)}
+          onOther={openVideo}
         />
       )}
-
-      {toast && <div className="toast" role="status">{toast}</div>}
-    </LangContext.Provider>
+      {viewer?.type === `game` && (
+        <GamePlayer game={GAMES[viewer.idx]} onClose={() => setViewer(null)} />
+      )}
+      {viewer?.type === `eng` && (
+        <EnglishPractice
+          set={ENGLISH_SETS[viewer.idx]}
+          onClose={() => setViewer(null)}
+          onEarn={finishEnglish}
+          onOtherSet={openEnglish}
+        />
+      )}
+      {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
+      {confetti && <Confetti onDone={() => setConfetti(false)} />}
+    </div>
   );
 }
