@@ -53,7 +53,7 @@ type CategoryPageProps = {
   onMag: (idx: number) => void;
   onVideo: (idx: number) => void;
   onGame: (idx: number) => void;
-  onEng: (idx: number) => void;
+  onEng: (idx: number, from?: `education`) => void;
 };
 
 export function CategoryPage({
@@ -82,7 +82,7 @@ export function CategoryPage({
           display: `inline-flex`,
           alignItems: `center`,
           gap: 8,
-          color: `var(--pink)`,
+          color: `#fff`,
           fontWeight: 600,
           fontSize: 14,
         }}
@@ -144,7 +144,7 @@ export function CategoryPage({
             <CourseCard
               key={idx}
               course={course}
-              onClick={() => onEng(idx % ENGLISH_SETS.length)}
+              onClick={() => onEng(idx % ENGLISH_SETS.length, `education`)}
               ptsLabel={t("+{n} pts", { n: POINTS.lesson })}
             />
           ))}
@@ -214,7 +214,7 @@ export function CategoryPage({
           <span
             style={{
               background: `#FFFFFF`,
-              color: `#E72385`,
+              color: `var(--pink-on-white)`,
               borderRadius: 999,
               padding: `8px 14px`,
               fontFamily: `var(--f-display)`,

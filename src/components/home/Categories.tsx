@@ -154,17 +154,9 @@ export function Categories({
           marginBottom: 14,
         }}
       >
-        <span
-          style={{
-            fontFamily: `var(--f-mono)`,
-            fontSize: 12,
-            letterSpacing: `.18em`,
-            textTransform: `uppercase`,
-            color: `var(--ink-3)`,
-          }}
-        >
+        <h2 className="vp-eyebrow">
           {t(`Categories`)}
-        </span>
+        </h2>
       </div>
       <div className="vp-cat-grid">
         {gridCategories.map((category) => (

@@ -21,8 +21,8 @@ export const Icon = {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="11" cy="11" r="7" />
-      <path d="M21 21l-4.35-4.35" />
+      <circle cx="12" cy="12" r="9" />
+      <path d="M15.6 8.4l-2.2 5.2-5.2 2.2 2.2-5.2z" />
     </svg>
   ),
   gift: (

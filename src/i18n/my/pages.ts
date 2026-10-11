@@ -1,5 +1,9 @@
 // Myanmar strings for the Explore, Category, Rewards and Profile pages and the content cards.
 export const pages: Record<string, string> = {
+  // salinan saldo & profil (Sprint 2)
+  "{n} more pts for a {reward}": `{reward} အတွက် {n} မှတ် လိုပါသေးသည်`,
+  "Rewards redeemed": `ရွေးယူပြီး ဆုလက်ဆောင်`,
+
   // Shared
   pts: "ပွိုင့်",
   "{n} pts": "{n} ပွိုင့်",

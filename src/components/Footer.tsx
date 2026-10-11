@@ -21,7 +21,7 @@ export function Footer() {
         }}
       >
         <img
-          src="/img/vendissimo-logo.png"
+          src="/img/vendissimo-logo.webp"
           alt="Vendissimo"
           style={{
             height: 20,

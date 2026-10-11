@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { COMPLETION_RATIO } from "../../lib/pointsService";
 import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
 import { MagCover } from "../cards";
@@ -8,9 +9,11 @@ import type { Magazine } from "../../types";
 export function MagazineReader({
   mag,
   onClose,
+  onFinish,
 }: {
   mag: Magazine;
   onClose: () => void;
+  onFinish: () => void;
 }) {
   const { t } = useI18n();
   // cover + contents + one page per story
@@ -26,6 +29,11 @@ export function MagazineReader({
     : null;
   const storyNumber = storyIndex + 1;
   const progressPct = ((page + 1) / pageCount) * 100;
+
+  // Counts as read once the reader has reached 80% of the pages.
+  useEffect(() => {
+    if ((page + 1) / pageCount >= COMPLETION_RATIO) onFinish();
+  }, [page, pageCount, onFinish]);
   const isLastPage = page === pageCount - 1;
   const goNext = () => {
     if (isLastPage) setShowMore(true);
@@ -527,7 +535,7 @@ export function MagazineReader({
             padding: `11px 22px`,
             borderRadius: 999,
             background: `#FFFFFF`,
-            color: `#E72385`,
+            color: `var(--pink-on-white)`,
             border: 0,
             fontFamily: `var(--f-display)`,
             fontWeight: 700,

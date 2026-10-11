@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Confetti } from "./components/Confetti";
 import { Footer } from "./components/Footer";
 import { Loader } from "./components/Loader";
@@ -12,6 +12,7 @@ import { VideoPlayer } from "./components/viewers/VideoPlayer";
 import { useI18n } from "./i18n";
 import { ENGLISH_SETS, GAMES, MAGAZINES, POINTS, VIDEOS } from "./data";
 import { useProgress } from "./lib/progress";
+import { award } from "./lib/pointsService";
 import { CategoryPage } from "./pages/CategoryPage";
 import { ExplorePage } from "./pages/ExplorePage";
 import { HomePage } from "./pages/HomePage";
@@ -26,33 +27,41 @@ export default function App() {
   const [viewer, setViewer] = useState<Viewer | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
-  const { S: progress, earnOnce, addPts, markOpened } = useProgress();
+  const { S: progress, earnOnce, addPts, markOpened, markMission } =
+    useProgress();
   const { t } = useI18n();
 
   const showToast = useCallback((msg: string) => setToast(msg), []);
 
   const navigate = useCallback((next: Route) => {
     setRoute(next);
+    setConfetti(false);
     window.scrollTo({
       top: 0,
       behavior: `smooth`,
     });
   }, []);
 
+  const points = useMemo(
+    () => ({
+      earnOnce,
+      markMission,
+      awarded: progress.awarded,
+    }),
+    [earnOnce, markMission, progress.awarded],
+  );
+
+  // Opening only records that the item was seen. Points are granted by the
+  // finish* handlers below, so open-and-close earns nothing.
   const openMagazine = useCallback(
     (idx: number) => {
       setViewer({
         type: `mag`,
         idx,
       });
-      if (!progress.opened.includes(`mag-${idx}`)) {
-        markOpened(`mag-${idx}`);
-        earnOnce(`mag-${idx}`, POINTS.magazine, `Read a magazine`);
-        earnOnce(`mag`, 0, ``);
-        showToast(t(`+{n} pts — Magazine`, { n: POINTS.magazine }));
-      }
+      markOpened(`mag-${idx}`);
     },
-    [progress.opened, markOpened, earnOnce, showToast, t],
+    [markOpened],
   );
 
   const openVideo = useCallback(
@@ -61,14 +70,9 @@ export default function App() {
         type: `video`,
         idx,
       });
-      if (!progress.opened.includes(`vid-${idx}`)) {
-        markOpened(`vid-${idx}`);
-        earnOnce(`vid-${idx}`, POINTS.video, `Watched a video`);
-        earnOnce(`video`, 0, ``);
-        showToast(t(`+{n} pts — Video`, { n: POINTS.video }));
-      }
+      markOpened(`vid-${idx}`);
     },
-    [progress.opened, markOpened, earnOnce, showToast, t],
+    [markOpened],
   );
 
   const openGame = useCallback(
@@ -77,33 +81,64 @@ export default function App() {
         type: `game`,
         idx,
       });
-      if (!progress.opened.includes(`game-${idx}`)) {
-        markOpened(`game-${idx}`);
-        earnOnce(`game-${idx}`, GAMES[idx].pts, `Played a game`);
-        earnOnce(`game`, 0, ``);
-        showToast(t(`+{n} pts — Game`, { n: GAMES[idx].pts }));
-      }
+      markOpened(`game-${idx}`);
     },
-    [progress.opened, markOpened, earnOnce, showToast, t],
+    [markOpened],
   );
 
   const openEnglish = useCallback(
-    (idx: number) =>
+    (idx: number, from?: `education`) =>
       setViewer({
         type: `eng`,
         idx,
+        from,
       }),
     [],
   );
 
+  const finishMagazine = useCallback(
+    (idx: number) => {
+      const got = award(points, `magazine`, String(idx), POINTS.magazine);
+      if (got) showToast(t(`+{n} pts — Magazine`, { n: got.pts }));
+    },
+    [points, showToast, t],
+  );
+
+  const finishVideo = useCallback(
+    (idx: number) => {
+      const got = award(points, `video`, String(idx), POINTS.video);
+      if (got) showToast(t(`+{n} pts — Video`, { n: got.pts }));
+    },
+    [points, showToast, t],
+  );
+
+  const finishGame = useCallback(
+    (idx: number) => {
+      const got = award(points, `game`, String(idx), GAMES[idx].pts);
+      if (got) showToast(t(`+{n} pts — Game`, { n: got.pts }));
+    },
+    [points, showToast, t],
+  );
+
   const finishEnglish = useCallback(() => {
-    if (viewer?.type === `eng`) {
-      earnOnce(`eng-${viewer.idx}`, POINTS.english, `English practice`);
-      earnOnce(`english_done`, 0, ``);
-      showToast(t(`+{n} pts — English`, { n: POINTS.english }));
+    if (viewer?.type !== `eng`) return;
+    // Education cards advertise POINTS.lesson, so finishing one pays that.
+    const fromCourse = viewer.from === `education`;
+    const got = award(
+      points,
+      fromCourse ? `education` : `english`,
+      String(viewer.idx),
+      fromCourse ? POINTS.lesson : POINTS.english,
+    );
+    if (got) {
+      showToast(
+        fromCourse
+          ? t(`+{n} pts — Course`, { n: got.pts })
+          : t(`+{n} pts — English`, { n: got.pts }),
+      );
       setConfetti(true);
     }
-  }, [viewer, earnOnce, showToast, t]);
+  }, [viewer, points, showToast, t]);
 
   const handleSpin = useCallback(
     (pts: number) => {
@@ -172,6 +207,7 @@ export default function App() {
         <MagazineReader
           mag={MAGAZINES[viewer.idx]}
           onClose={() => setViewer(null)}
+          onFinish={() => finishMagazine(viewer.idx)}
         />
       )}
       {viewer?.type === `video` && (
@@ -179,10 +215,15 @@ export default function App() {
           video={VIDEOS[viewer.idx]}
           onClose={() => setViewer(null)}
           onOther={openVideo}
+          onFinish={() => finishVideo(viewer.idx)}
         />
       )}
       {viewer?.type === `game` && (
-        <GamePlayer game={GAMES[viewer.idx]} onClose={() => setViewer(null)} />
+        <GamePlayer
+          game={GAMES[viewer.idx]}
+          onClose={() => setViewer(null)}
+          onFinish={() => finishGame(viewer.idx)}
+        />
       )}
       {viewer?.type === `eng` && (
         <EnglishPractice

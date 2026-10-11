@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { COMPLETION_RATIO } from "../../lib/pointsService";
 import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
 import { MoreOnSite } from "./MoreOnSite";
@@ -10,10 +11,20 @@ type VideoPlayerProps = {
   video: Video;
   onClose: () => void;
   onOther: (index: number) => void;
+  /** Called once the current video passes the watched-enough threshold. */
+  onFinish: () => void;
 };
 
-export function VideoPlayer({ video, onClose, onOther }: VideoPlayerProps) {
+export function VideoPlayer({
+  video,
+  onClose,
+  onOther,
+  onFinish,
+}: VideoPlayerProps) {
   const { t } = useI18n();
+  // Fires once per mount; award() also guards, this just avoids calling it on
+  // every timeupdate tick after the threshold.
+  const counted = useRef(false);
   const currentIndex = VIDEOS.indexOf(video);
   // The selected video first, then the rest in order, wrapping around.
   const queue = [
@@ -108,6 +119,14 @@ export function VideoPlayer({ video, onClose, onOther }: VideoPlayerProps) {
                   controls
                   autoPlay
                   playsInline
+                  onTimeUpdate={(event) => {
+                    const el = event.currentTarget;
+                    if (counted.current || !el.duration) return;
+                    if (el.currentTime / el.duration >= COMPLETION_RATIO) {
+                      counted.current = true;
+                      onFinish();
+                    }
+                  }}
                   style={{
                     position: `absolute`,
                     inset: 0,
@@ -391,7 +410,7 @@ export function VideoPlayer({ video, onClose, onOther }: VideoPlayerProps) {
                 justifyContent: `center`,
                 gap: 8,
                 background: `#FFFFFF`,
-                color: `#E72385`,
+                color: `var(--pink-on-white)`,
                 border: 0,
                 borderRadius: 999,
                 padding: `14px 28px`,

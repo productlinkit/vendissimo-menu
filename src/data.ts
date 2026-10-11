@@ -11,19 +11,19 @@ import type {
 
 export const REWARDS: Reward[] = [
   {
-    img: `/img/reward-coffee.png`,
+    img: `/img/reward-coffee.webp`,
     label: `Free Coffee`,
     pts: 150,
     desc: `Hot or iced, from any machine`,
   },
   {
-    img: `/img/reward-voucher.png`,
+    img: `/img/reward-voucher.webp`,
     label: `10% Voucher`,
     pts: 250,
     desc: `On your next vending purchase`,
   },
   {
-    img: `/img/reward-drink.png`,
+    img: `/img/reward-drink.webp`,
     label: `Free Drink`,
     pts: 400,
     desc: `Any drink from Vendissimo`,
@@ -44,7 +44,7 @@ export const GAMES: Game[] = [
     cat: `Arcade`,
     d: `Launch your truck and wreck every tower in the destruction yard.`,
     pts: 40,
-    img: `/img/g-crash.jpg`,
+    img: `/img/g-crash.webp`,
     url: `https://html5.gamemonetize.co/rdemkirp5xpirbtyu7ahmubmvd8iv0bt/`,
   },
   {
@@ -53,7 +53,7 @@ export const GAMES: Game[] = [
     cat: `Puzzle`,
     d: `Match three or more candies to collect the stars on every board.`,
     pts: 40,
-    img: `/img/g-candy.jpg`,
+    img: `/img/g-candy.webp`,
     url: `https://html5.gamedistribution.com/51bc02a2d771428d8db83e910602a9cd/`,
   },
   {
@@ -62,7 +62,7 @@ export const GAMES: Game[] = [
     cat: `Puzzle`,
     d: `Place the blocks, clear full lines and keep the board open.`,
     pts: 40,
-    img: `/img/g-blast.jpg`,
+    img: `/img/g-blast.webp`,
     url: `https://html5.gamemonetize.co/fx0o3r69oqzzat8ha5lvjmkdxjlmztxy/`,
   },
   {
@@ -71,7 +71,7 @@ export const GAMES: Game[] = [
     cat: `Puzzle`,
     d: `Pour the colors until every tube holds a single color.`,
     pts: 40,
-    img: `/img/g-water.jpg`,
+    img: `/img/g-water.webp`,
     url: `https://html5.gamemonetize.co/6q7y013mx7y4lrxwc0ehrdgyeucglv46/`,
   },
   {
@@ -80,7 +80,7 @@ export const GAMES: Game[] = [
     cat: `Puzzle`,
     d: `Drop numbered blocks and merge them all the way to 2048.`,
     pts: 40,
-    img: `/img/g-merge.jpg`,
+    img: `/img/g-merge.webp`,
     url: `https://html5.gamemonetize.co/ko2lmr75kxnfmquatlcpby0osal7gvoc/`,
   },
   {
@@ -89,7 +89,7 @@ export const GAMES: Game[] = [
     cat: `Arcade`,
     d: `Tap to fly through the gaps. How far can you go?`,
     pts: 40,
-    img: `/img/g-flappy.jpg`,
+    img: `/img/g-flappy.webp`,
     url: `https://html5.gamemonetize.co/lgyrd454mjci4dzalk9fzpvc9t2iq9hu/`,
   },
   {
@@ -98,7 +98,7 @@ export const GAMES: Game[] = [
     cat: `Sports`,
     d: `Line up your shot and sink every ball before your opponent.`,
     pts: 40,
-    img: `/img/g-pool.jpg`,
+    img: `/img/g-pool.webp`,
     url: `https://html5.gamemonetize.co/y6a1aleruzcehw6bbaxxblkn41elfaqe/`,
   },
   {
@@ -107,7 +107,7 @@ export const GAMES: Game[] = [
     cat: `Sports`,
     d: `Shoot hoops, beat the clock and chase a new high score.`,
     pts: 40,
-    img: `/img/g-basket.jpg`,
+    img: `/img/g-basket.webp`,
     url: `https://html5.gamemonetize.co/5wnj7eq5j718vi5zur2rm64ld4jguwl7/`,
   },
 ];
@@ -521,7 +521,7 @@ export const VIDEOS: Video[] = [
     a: `Patrick Rothfuss`,
     cat: `Fantasy`,
     dur: 187,
-    img: `/img/v-1.jpg`,
+    img: `/img/v-1.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/d5a6a0ae-86fb-492a-b0e3-9e402ae4e2ab_1782458395.mp4`,
   },
   {
@@ -529,7 +529,7 @@ export const VIDEOS: Video[] = [
     a: `Heather Morris`,
     cat: `Thriller`,
     dur: 210,
-    img: `/img/v-2.jpg`,
+    img: `/img/v-2.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/b28c97f0-b07f-4f46-919b-af998dde73d8_1776412197.mp4`,
   },
   {
@@ -537,7 +537,7 @@ export const VIDEOS: Video[] = [
     a: `Brandon Sanderson`,
     cat: `Fantasy`,
     dur: 182,
-    img: `/img/v-3.jpg`,
+    img: `/img/v-3.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/a0959847-b1e2-46aa-8781-cc54e4726bfa_1782458769.mp4`,
   },
   {
@@ -545,7 +545,7 @@ export const VIDEOS: Video[] = [
     a: `Jojo Moyes`,
     cat: `Romance`,
     dur: 153,
-    img: `/img/v-4.jpg`,
+    img: `/img/v-4.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/3798e820-c7b5-40d7-af0a-ac494e1ef583_1776411337.mp4`,
   },
   {
@@ -553,7 +553,7 @@ export const VIDEOS: Video[] = [
     a: `Anthony Doerr`,
     cat: `Historical`,
     dur: 165,
-    img: `/img/v-5.jpg`,
+    img: `/img/v-5.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/eb4e2aa5-54a9-49b6-b76f-288d5ebdd41b_1782458643.mp4`,
   },
   {
@@ -561,7 +561,7 @@ export const VIDEOS: Video[] = [
     a: `Samantha Shannon`,
     cat: `Fantasy`,
     dur: 176,
-    img: `/img/v-6.jpg`,
+    img: `/img/v-6.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/c59cf208-d06b-4091-87a9-e6aeb35e0194_1782458973.mp4`,
   },
   {
@@ -569,7 +569,7 @@ export const VIDEOS: Video[] = [
     a: `Nicholas Sparks`,
     cat: `Romance`,
     dur: 142,
-    img: `/img/v-7.jpg`,
+    img: `/img/v-7.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/223ba1d0-5e0b-403f-bf07-9a786548112e_1782458880.mp4`,
   },
   {
@@ -577,7 +577,7 @@ export const VIDEOS: Video[] = [
     a: `Arthur Golden`,
     cat: `Fiction`,
     dur: 186,
-    img: `/img/v-8.jpg`,
+    img: `/img/v-8.webp`,
     url: `https://be.booksnap.ai/uploads/videos/files/74e93c1d-aa4c-407b-b860-0e7ad7f0a1a5_1776412081.mp4`,
   },
 ];
@@ -585,7 +585,7 @@ export const VIDEOS: Video[] = [
 export const ENGLISH_SETS: EnglishSet[] = [
   {
     t: `Daily Challenge`,
-    img: `/img/eng-daily.png`,
+    img: `/img/eng-daily.webp`,
     lvl: `Beginner`,
     daily: true,
     q: [
@@ -633,7 +633,7 @@ export const ENGLISH_SETS: EnglishSet[] = [
   },
   {
     t: `Casual Conversations`,
-    img: `/img/eng-chat.png`,
+    img: `/img/eng-chat.webp`,
     lvl: `Beginner`,
     daily: false,
     q: [
@@ -664,7 +664,7 @@ export const ENGLISH_SETS: EnglishSet[] = [
   },
   {
     t: `Build Strong Vocabulary`,
-    img: `/img/eng-vocab.png`,
+    img: `/img/eng-vocab.webp`,
     lvl: `All levels`,
     daily: false,
     q: [
@@ -690,7 +690,7 @@ export const ENGLISH_SETS: EnglishSet[] = [
   },
   {
     t: `Grammar Check`,
-    img: `/img/eng-grammar.png`,
+    img: `/img/eng-grammar.webp`,
     lvl: `Beginner`,
     daily: false,
     q: [
@@ -716,7 +716,7 @@ export const ENGLISH_SETS: EnglishSet[] = [
   },
   {
     t: `Travel Comfortably Abroad`,
-    img: `/img/eng-travel.png`,
+    img: `/img/eng-travel.webp`,
     lvl: `Beginner`,
     daily: false,
     q: [
@@ -757,7 +757,7 @@ export const ENGLISH_SETS: EnglishSet[] = [
   },
   {
     t: `Watch Movies Without Subtitles`,
-    img: `/img/eng-movies.png`,
+    img: `/img/eng-movies.webp`,
     lvl: `Intermediate`,
     daily: false,
     q: [
@@ -783,7 +783,7 @@ export const ENGLISH_SETS: EnglishSet[] = [
   },
   {
     t: `Improve Writing`,
-    img: `/img/eng-writing.png`,
+    img: `/img/eng-writing.webp`,
     lvl: `Intermediate`,
     daily: false,
     q: [
@@ -814,7 +814,7 @@ export const ENGLISH_SETS: EnglishSet[] = [
   },
   {
     t: `Speak Confidently in Public`,
-    img: `/img/eng-speaking.png`,
+    img: `/img/eng-speaking.webp`,
     lvl: `Intermediate`,
     daily: false,
     q: [
@@ -854,56 +854,56 @@ export const COURSES: Course[] = [
   {
     t: `Travel English`,
     cat: `Travel`,
-    img: `/img/edu-travel.png`,
+    img: `/img/edu-travel.webp`,
     lvl: `Beginner`,
     d: `Key phrases for airports, hotels, restaurants and getting around.`,
   },
   {
     t: `Grammar Basics`,
     cat: `Grammar`,
-    img: `/img/edu-splash1.png`,
+    img: `/img/edu-splash1.webp`,
     lvl: `Beginner`,
     d: `Tenses, prepositions and sentence structure with everyday examples.`,
   },
   {
     t: `Learn from Movies & Series`,
     cat: `Movies`,
-    img: `/img/edu-movie.png`,
+    img: `/img/edu-movie.webp`,
     lvl: `Intermediate`,
     d: `Train your listening with real lines from movies and TV shows.`,
   },
   {
     t: `Learn with Songs`,
     cat: `Songs`,
-    img: `/img/edu-song.png`,
+    img: `/img/edu-song.webp`,
     lvl: `All levels`,
     d: `Understand lyrics and culture through popular songs.`,
   },
   {
     t: `Chat with AI Tutor`,
     cat: `Speaking`,
-    img: `/img/edu-tutor.png`,
+    img: `/img/edu-tutor.webp`,
     lvl: `All levels`,
     d: `Practise conversation any time with a patient AI tutor.`,
   },
   {
     t: `Structured Courses`,
     cat: `Course`,
-    img: `/img/edu-video-course.png`,
+    img: `/img/edu-video-course.webp`,
     lvl: `A1–C1`,
     d: `Step-by-step video lessons from basics to advanced, with exercises.`,
   },
   {
     t: `Public Speaking`,
     cat: `Career`,
-    img: `/img/edu-splash3.png`,
+    img: `/img/edu-splash3.webp`,
     lvl: `Intermediate`,
     d: `Structure a talk and practise pronunciation for meetings and interviews.`,
   },
   {
     t: `Career & Business English`,
     cat: `Career`,
-    img: `/img/edu-career.png`,
+    img: `/img/edu-career.webp`,
     lvl: `Intermediate`,
     d: `Level up your English for job interviews, meetings and emails.`,
   },
@@ -914,35 +914,35 @@ export const CATEGORIES: Category[] = [
     id: `magazines`,
     label: `Magazines`,
     sub: `Read while you wait`,
-    art: `/img/cat-magazines.png`,
+    art: `/img/cat-magazines.webp`,
     emoji: `📖`,
   },
   {
     id: `videos`,
     label: `Videos`,
     sub: `Book summaries in minutes`,
-    art: `/img/cat-videos.png`,
+    art: `/img/cat-videos.webp`,
     emoji: `🎬`,
   },
   {
     id: `games`,
     label: `Games`,
     sub: `Play instantly, win points`,
-    art: `/img/cat-games.png`,
+    art: `/img/cat-games.webp`,
     emoji: `🎮`,
   },
   {
     id: `education`,
     label: `Education`,
     sub: `English & life skills`,
-    art: `/img/cat-education.png`,
+    art: `/img/cat-education.webp`,
     emoji: `🎓`,
   },
   {
     id: `english`,
     label: `English`,
     sub: `Quick practice, big results`,
-    art: `/img/cat-english.png`,
+    art: `/img/cat-english.webp`,
     emoji: `🗣️`,
   },
 ];
@@ -960,7 +960,7 @@ export const MISSIONS: Mission[] = [
   },
   {
     label: `Finish a course or English practice`,
-    key: `video`,
+    key: `english`,
     route: `english`,
   },
 ];

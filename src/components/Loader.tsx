@@ -168,7 +168,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
             {[
               {
                 id: `wave`,
-                src: `/img/loader/robot_wave.png`,
+                src: `/img/loader/robot_wave.webp`,
                 label: `Wave Robot`,
                 scatterX: -260,
                 scatterY: -280,
@@ -178,7 +178,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `controller`,
-                src: `/img/loader/controller.png`,
+                src: `/img/loader/controller.webp`,
                 label: `Controller`,
                 scatterX: 240,
                 scatterY: -290,
@@ -188,7 +188,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `wink`,
-                src: `/img/loader/robot_wink.png`,
+                src: `/img/loader/robot_wink.webp`,
                 label: `Wink Robot`,
                 scatterX: 300,
                 scatterY: -120,
@@ -198,7 +198,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `headphones`,
-                src: `/img/loader/headphones.png`,
+                src: `/img/loader/headphones.webp`,
                 label: `Headphones`,
                 scatterX: 280,
                 scatterY: 100,
@@ -208,7 +208,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `heart`,
-                src: `/img/loader/robot_heart.png`,
+                src: `/img/loader/robot_heart.webp`,
                 label: `Heart Robot`,
                 scatterX: 220,
                 scatterY: 260,
@@ -218,7 +218,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `popcorn`,
-                src: `/img/loader/popcorn.png`,
+                src: `/img/loader/popcorn.webp`,
                 label: `Popcorn`,
                 scatterX: 0,
                 scatterY: 300,
@@ -228,7 +228,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `star`,
-                src: `/img/loader/robot_star.png`,
+                src: `/img/loader/robot_star.webp`,
                 label: `Star Robot`,
                 scatterX: -220,
                 scatterY: 260,
@@ -238,7 +238,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `books`,
-                src: `/img/loader/books.png`,
+                src: `/img/loader/books.webp`,
                 label: `Books`,
                 scatterX: -290,
                 scatterY: 100,
@@ -248,7 +248,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `sleep`,
-                src: `/img/loader/robot_sleep.png`,
+                src: `/img/loader/robot_sleep.webp`,
                 label: `Sleep Robot`,
                 scatterX: -300,
                 scatterY: -110,
@@ -258,7 +258,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               },
               {
                 id: `laptop`,
-                src: `/img/loader/laptop.png`,
+                src: `/img/loader/laptop.webp`,
                 label: `Laptop`,
                 scatterX: 0,
                 scatterY: -300,
@@ -356,7 +356,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
           }}
         >
           <img
-            src="/img/vendissimo-logo.png"
+            src="/img/vendissimo-logo.webp"
             alt="Vendissimo"
             style={{
               height: 40,

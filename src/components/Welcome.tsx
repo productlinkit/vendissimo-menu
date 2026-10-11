@@ -47,7 +47,7 @@ export function Welcome({
           <LangSwitch />
         </div>
         <img
-          src="/img/vendissimo-logo.png"
+          src="/img/vendissimo-logo.webp"
           alt="Vendissimo"
           style={{
             height: `clamp(40px,9vw,58px)`,
@@ -63,7 +63,7 @@ export function Welcome({
           }}
         >
           <img
-            src="/img/welcome-hero.png"
+            src="/img/welcome-hero.webp"
             alt={t(`Play arcade games`)}
             style={{
               width: `100%`,
@@ -119,7 +119,7 @@ export function Welcome({
               border: 0,
               borderRadius: 999,
               background: `#FFFFFF`,
-              color: `#E72385`,
+              color: `var(--pink-on-white)`,
               fontFamily: `var(--f-display)`,
               fontWeight: 900,
               fontSize: `clamp(16px,4.4vw,20px)`,

@@ -69,47 +69,37 @@ export function TopNav({
         }}
       >
         <div
+          className="vp-header-inner"
           style={{
             maxWidth: 1120,
             margin: `0 auto`,
             padding: `0 var(--px)`,
-            display: `flex`,
+            display: `grid`,
+            gridTemplateColumns: `1fr auto 1fr`,
             alignItems: `center`,
             gap: 12,
             height: 60,
           }}
         >
           <img
-            src="/img/vendissimo-logo.png"
+            src="/img/vendissimo-logo.webp"
             alt="Vendissimo"
             style={{
               height: 26,
               width: `auto`,
               flexShrink: 0,
+              justifySelf: `start`,
               filter: `drop-shadow(0 0 10px rgba(255,255,255,.3))`,
             }}
           />
-          <nav
-            className="vp-top-nav"
-            style={{
-              gap: 4,
-              margin: `0 auto`,
-            }}
-          >
+          <nav className="vp-top-nav">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
+                type="button"
+                className={`vp-top-link${activeId === item.id ? ` is-on` : ``}`}
+                aria-current={activeId === item.id ? `page` : undefined}
                 onClick={() => onNavigate(item.id)}
-                style={{
-                  background:
-                    activeId === item.id ? `rgba(255,255,255,0.22)` : `none`,
-                  padding: `8px 16px`,
-                  borderRadius: 999,
-                  fontWeight: 600,
-                  color: `#FFFFFF`,
-                  opacity: activeId === item.id ? 1 : 0.8,
-                  transition: `all .15s`,
-                }}
               >
                 {t(item.label)}
               </button>
@@ -117,7 +107,7 @@ export function TopNav({
           </nav>
           <div
             style={{
-              marginLeft: `auto`,
+              justifySelf: `end`,
               flexShrink: 0,
               display: `flex`,
               alignItems: `center`,
@@ -150,73 +140,27 @@ export function TopNav({
           </div>
         </div>
       </header>
-      <div className="vp-dock">
-        <div
-          style={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-around`,
-            padding: `6px 8px`,
-            borderRadius: 999,
-            background: `rgba(255,255,255,0.2)`,
-            backdropFilter: `blur(20px) saturate(1.4)`,
-            WebkitBackdropFilter: `blur(20px) saturate(1.4)`,
-            border: `1px solid rgba(255,255,255,0.35)`,
-            boxShadow: `0 16px 40px -8px rgba(0,0,0,0.35)`,
-          }}
-        >
+      <nav className="vp-dock" aria-label={t(`Main`)}>
+        <div className="vp-dock-bar">
           {NAV_ITEMS.map((item) => {
             const active = activeId === item.id;
             return (
               <button
                 key={item.id}
+                type="button"
+                className={`vp-dock-link${active ? ` is-on` : ``}`}
+                aria-current={active ? `page` : undefined}
                 onClick={() => onNavigate(item.id)}
-                style={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  gap: active ? 8 : 0,
-                  height: 50,
-                  // slim enough that the longest label ("ဆုလက်ဆောင်") still fits on a 360px phone
-                  padding: active ? `0 14px` : `0 11px`,
-                  borderRadius: 999,
-                  background: active ? `#FFFFFF` : `none`,
-                  color: active ? `#E72385` : `rgba(255,255,255,.85)`,
-                  boxShadow: active
-                    ? `0 6px 20px -4px rgba(0,0,0,.25)`
-                    : `none`,
-                  transition: `all .28s cubic-bezier(.3,1.1,.5,1)`,
-                  overflow: `hidden`,
-                  flex: active ? `1 1 auto` : `0 0 auto`,
-                  justifyContent: `center`,
-                  maxWidth: active ? 160 : 60,
-                }}
               >
-                <span
-                  style={{
-                    width: 24,
-                    height: 24,
-                    flexShrink: 0,
-                  }}
-                >
+                <span className="vp-dock-icon" aria-hidden="true">
                   {item.icon}
                 </span>
-                {active && (
-                  <span
-                    style={{
-                      whiteSpace: `nowrap`,
-                      fontFamily: `var(--f-display)`,
-                      fontWeight: 900,
-                      fontSize: 15,
-                    }}
-                  >
-                    {t(item.label)}
-                  </span>
-                )}
+                <span className="vp-dock-label">{t(item.label)}</span>
               </button>
             );
           })}
         </div>
-      </div>
+      </nav>
     </>
   );
 }

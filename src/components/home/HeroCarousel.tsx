@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Icon } from "../Icon";
 import { MagCover } from "../cards";
 import { GAMES, MAGAZINES, POINTS, VIDEOS } from "../../data";
@@ -31,7 +31,7 @@ export function HeroCarousel({
       p: t(`No sign-up needed to start`),
       btn: t(`Play now`),
       act: () => onNavigate(`games`),
-      img: `/img/hero-crash-tower.png`,
+      img: `/img/hero-crash-tower.webp`,
       mag: null,
       frame: false,
     },
@@ -41,9 +41,10 @@ export function HeroCarousel({
       p: t(GAMES[0].d),
       btn: t(`Play instantly`),
       act: () => onNavigate(`games`),
-      img: GAMES[0].img,
+      // potongan tanpa latar supaya truknya berdiri bebas, bukan foto berbingkai
+      img: `/img/g-crash-cut.webp`,
       mag: null,
-      frame: true,
+      frame: false,
     },
     {
       tag: t(`Now Showing`),
@@ -71,21 +72,46 @@ export function HeroCarousel({
       p: t(`Earn +{n} pts in about a minute`, { n: POINTS.english }),
       btn: t(`Start`),
       act: () => onNavigate(`english`),
-      img: `/img/cat-english.png`,
+      img: `/img/cat-english.webp`,
       mag: null,
       frame: false,
     },
   ];
+  const [paused, setPaused] = useState(false);
+  const hovering = useRef(false);
+  const focused = useRef(false);
+  // Respect the OS setting: no automatic movement for reduced-motion users.
+  const reduceMotion =
+    typeof window !== `undefined` &&
+    window.matchMedia(`(prefers-reduced-motion: reduce)`).matches;
+  const [held, setHeld] = useState(false);
+  const stopped = paused || held || reduceMotion;
+
   useEffect(() => {
+    if (stopped) return;
     const timer = setInterval(
       () => setActiveIndex((index) => (index + 1) % slides.length),
       4500,
     );
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [slides.length, stopped]);
+
+  // Hover and keyboard focus both hold the carousel still.
+  const hold = (which: `hover` | `focus`, on: boolean) => {
+    if (which === `hover`) hovering.current = on;
+    else focused.current = on;
+    setHeld(hovering.current || focused.current);
+  };
   const slide = slides[activeIndex];
   return (
     <section
+      role="region"
+      aria-roledescription={t(`carousel`)}
+      aria-label={t(`Featured`)}
+      onMouseEnter={() => hold(`hover`, true)}
+      onMouseLeave={() => hold(`hover`, false)}
+      onFocusCapture={() => hold(`focus`, true)}
+      onBlurCapture={() => hold(`focus`, false)}
       className="vp-carousel"
       style={{
         background: `rgba(255, 255, 255, 0.16)`,
@@ -164,22 +190,30 @@ export function HeroCarousel({
             paddingTop: 8,
           }}
         >
+          <button
+            type="button"
+            className="vp-carousel-pause"
+            aria-label={
+              stopped ? t(`Play slideshow`) : t(`Pause slideshow`)
+            }
+            onClick={() => setPaused((was) => !was)}
+          >
+            <span aria-hidden="true">{stopped ? `▶` : `❚❚`}</span>
+          </button>
           {slides.map((_, index) => (
             <button
               key={index}
+              type="button"
+              className="vp-carousel-dot"
+              aria-label={t(`Slide {n} of {m}`, {
+                n: index + 1,
+                m: slides.length,
+              })}
+              aria-current={index === activeIndex ? `true` : undefined}
               onClick={() => setActiveIndex(index)}
-              style={{
-                width: index === activeIndex ? 16 : 5,
-                height: 5,
-                borderRadius: 99,
-                background:
-                  index === activeIndex ? `#fff` : `rgba(255,255,255,.3)`,
-                border: 0,
-                padding: 0,
-                transition: `all .3s`,
-                cursor: `pointer`,
-              }}
-            />
+            >
+              <span aria-hidden="true" />
+            </button>
           ))}
         </div>
       </div>

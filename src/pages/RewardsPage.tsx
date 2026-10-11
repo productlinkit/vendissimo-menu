@@ -109,7 +109,7 @@ export function RewardsPage({
               }}
             >
               {nextReward
-                ? t("{n} pts to {reward}", {
+                ? t("{n} more pts for a {reward}", {
                     n: nextReward.pts - S.pts,
                     reward: t(nextReward.label),
                   })
@@ -124,17 +124,9 @@ export function RewardsPage({
             marginBottom: 12,
           }}
         >
-          <span
-            style={{
-              fontFamily: `var(--f-mono)`,
-              fontSize: 12,
-              letterSpacing: `.18em`,
-              textTransform: `uppercase`,
-              color: `var(--ink-3)`,
-            }}
-          >
+          <h2 className="vp-eyebrow">
             {t("Rewards")}
-          </span>
+          </h2>
         </div>
         <div className="vp-rewards-grid">
           {REWARDS.map((reward, idx) => {
@@ -218,6 +210,16 @@ export function RewardsPage({
                   </span>
                   <button
                     disabled={!unlocked}
+                    title={
+                      unlocked
+                        ? undefined
+                        : t(`Need {n} more pts`, { n: reward.pts - S.pts })
+                    }
+                    aria-label={
+                      unlocked
+                        ? undefined
+                        : `${t(reward.label)} — ${t(`Need {n} more pts`, { n: reward.pts - S.pts })}`
+                    }
                     onClick={() => setRedeeming(reward)}
                     style={{
                       background: unlocked ? `var(--pink)` : `var(--card)`,
@@ -231,7 +233,9 @@ export function RewardsPage({
                       whiteSpace: `nowrap`,
                     }}
                   >
-                    {t("Redeem")}
+                    {unlocked
+                      ? t("Redeem")
+                      : t(`Need {n} more pts`, { n: reward.pts - S.pts })}
                   </button>
                 </div>
               </div>
@@ -240,31 +244,15 @@ export function RewardsPage({
         </div>
       </section>
       <section className="vp-panel">
-        <span
-          style={{
-            fontFamily: `var(--f-mono)`,
-            fontSize: 12,
-            letterSpacing: `.18em`,
-            textTransform: `uppercase`,
-            color: `var(--ink-3)`,
-          }}
-        >
+        <h2 className="vp-eyebrow">
           {t("How to redeem")}
-        </span>
+        </h2>
         <RedeemSteps />
       </section>
       <section className="vp-panel">
-        <span
-          style={{
-            fontFamily: `var(--f-mono)`,
-            fontSize: 12,
-            letterSpacing: `.18em`,
-            textTransform: `uppercase`,
-            color: `var(--ink-3)`,
-          }}
-        >
+        <h2 className="vp-eyebrow">
           {t("How to earn")}
-        </span>
+        </h2>
         <ul className="vp-earn">
           {EARN_WAYS.map(([label, amount, n]) => (
             <li key={label}>
@@ -286,17 +274,9 @@ export function RewardsPage({
         </ul>
       </section>
       <section className="vp-panel">
-        <span
-          style={{
-            fontFamily: `var(--f-mono)`,
-            fontSize: 12,
-            letterSpacing: `.18em`,
-            textTransform: `uppercase`,
-            color: `var(--ink-3)`,
-          }}
-        >
+        <h2 className="vp-eyebrow">
           {t("Points history")}
-        </span>
+        </h2>
         {S.log.length === 0 ? (
           <p
             style={{
@@ -315,7 +295,9 @@ export function RewardsPage({
               overflowY: `auto`,
             }}
           >
-            {S.log.map((entry, idx) => (
+            {S.log
+              .filter((entry) => entry.n !== 0)
+              .map((entry, idx) => (
               <li
                 key={idx}
                 style={{
@@ -328,12 +310,7 @@ export function RewardsPage({
               >
                 <span>{t(entry.w)}</span>
                 <small
-                  style={{
-                    fontFamily: `var(--f-mono)`,
-                    fontSize: 13,
-                    color: entry.n >= 0 ? `var(--good)` : `var(--orange)`,
-                    whiteSpace: `nowrap`,
-                  }}
+                  className={`vp-chip ${entry.n >= 0 ? `vp-chip-good` : `vp-chip-count`}`}
                 >
                   {t("{n} pts", { n: `${entry.n > 0 ? `+` : ``}${entry.n}` })}
                 </small>

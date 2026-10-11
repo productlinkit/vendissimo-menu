@@ -59,6 +59,16 @@ export function useProgress() {
         return next;
       });
     }, []),
+    /** Mission done. Deliberately writes no log row: mission keys used to be
+     *  pushed through earnOnce with 0 pts, which left blank rows in history. */
+    markMission: useCallback((key: string) => {
+      setState((prev) => {
+        if (prev.awarded.includes(key)) return prev;
+        const next = { ...prev, awarded: [...prev.awarded, key] };
+        saveState(next);
+        return next;
+      });
+    }, []),
     markOpened: useCallback((key: string) => {
       setState((prev) => {
         if (prev.opened.includes(key)) return prev;

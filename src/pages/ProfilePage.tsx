@@ -15,19 +15,19 @@ const FEATURES = [
 
 const PHOTOS = [
   {
-    src: `/img/about-mall.jpg`,
+    src: `/img/about-mall.webp`,
     label: `Vendissimo machine in a busy shopping mall`,
   },
   {
-    src: `/img/about-shop.jpg`,
+    src: `/img/about-shop.webp`,
     label: `Vendissimo machine in a lounge`,
   },
   {
-    src: `/img/about-office.jpg`,
+    src: `/img/about-office.webp`,
     label: `Vendissimo machine at an office`,
   },
   {
-    src: `/img/about-drinks.jpg`,
+    src: `/img/about-drinks.webp`,
     label: `Our cold drink range`,
   },
 ];
@@ -134,7 +134,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
               </span>,
               `Points`,
             ],
-            [`${unlockedCount}/${REWARDS.length}`, `Rewards`],
+            [String(unlockedCount), `Rewards redeemed`],
             [String(S.awarded.length), `Done today`],
           ] satisfies [value: ReactNode, label: string][]
         ).map(([value, label]) => (
@@ -263,7 +263,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
           }}
         >
           <img
-            src="/img/vendissimo-logo.png"
+            src="/img/vendissimo-logo.webp"
             alt="Vendissimo"
             style={{
               height: 22,
@@ -443,15 +443,6 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
           </div>
         )}
       </section>
-      <p
-        style={{
-          textAlign: `center`,
-          color: `var(--ink-3)`,
-          fontSize: 13,
-        }}
-      >
-        © 2026 Vendissimo · vendissimo.io
-      </p>
     </div>
   );
 }

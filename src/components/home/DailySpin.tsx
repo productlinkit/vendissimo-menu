@@ -46,11 +46,20 @@ export function DailySpin({
       ctx.fill();
       ctx.save();
       ctx.translate(centerX, centerY);
-      ctx.rotate(startAngle + segmentAngle / 2);
+      const mid = startAngle + segmentAngle / 2;
+      ctx.rotate(mid);
       ctx.fillStyle = `#fff`;
-      ctx.font = `900 14px "Nunito"`;
-      ctx.textAlign = `right`;
-      ctx.fillText(`+${prize}`, radius - 10, 5);
+      ctx.font = `900 14px "Outfit"`;
+      // Labels on the left half would come out upside down, so those get
+      // turned around and drawn the other way.
+      if (Math.cos(mid) < 0) {
+        ctx.rotate(Math.PI);
+        ctx.textAlign = `left`;
+        ctx.fillText(`+${prize}`, -(radius - 10), 5);
+      } else {
+        ctx.textAlign = `right`;
+        ctx.fillText(`+${prize}`, radius - 10, 5);
+      }
       ctx.restore();
     });
     ctx.beginPath();
@@ -80,17 +89,9 @@ export function DailySpin({
   return (
     <section className="vp-spin-section">
       <div className="vp-spin-text">
-        <span
-          style={{
-            fontFamily: `var(--f-mono)`,
-            fontSize: 12,
-            letterSpacing: `.18em`,
-            textTransform: `uppercase`,
-            color: `var(--ink-3)`,
-          }}
-        >
+        <h2 className="vp-eyebrow">
           {t(`Daily Spin`)}
-        </span>
+        </h2>
         {won === null ? (
           used ? (
             <>

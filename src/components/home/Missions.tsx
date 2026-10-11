@@ -33,24 +33,11 @@ export function Missions({
           marginBottom: 10,
         }}
       >
-        <span
-          style={{
-            fontFamily: `var(--f-mono)`,
-            fontSize: 12,
-            letterSpacing: `.18em`,
-            textTransform: `uppercase`,
-            color: `var(--ink-3)`,
-          }}
-        >
+        <h2 className="vp-eyebrow">
           {t(`Today's Missions`)}
-        </span>
+        </h2>
         <span
-          style={{
-            fontFamily: `var(--f-mono)`,
-            fontSize: 13,
-            color: doneCount === 3 ? `var(--good)` : `var(--orange)`,
-            fontWeight: 600,
-          }}
+          className={`vp-chip ${doneCount === 3 ? `vp-chip-good` : `vp-chip-count`}`}
         >
           {doneCount}/3
         </span>
@@ -138,15 +125,7 @@ export function Missions({
                 {t(mission.label)}
               </span>
               {isDone ? (
-                <span
-                  style={{
-                    fontFamily: `var(--f-mono)`,
-                    fontSize: 13,
-                    color: `var(--good)`,
-                    fontWeight: 600,
-                    flexShrink: 0,
-                  }}
-                >
+                <span className="vp-chip vp-chip-good">
                   {t(`Done`)}
                 </span>
               ) : (

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { GAME_MIN_SECONDS } from "../../lib/pointsService";
 import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
 import type { Game } from "../../types";
@@ -5,11 +7,19 @@ import type { Game } from "../../types";
 export function GamePlayer({
   game,
   onClose,
+  onFinish,
 }: {
   game: Game;
   onClose: () => void;
+  onFinish: () => void;
 }) {
   const { t } = useI18n();
+  // The games are third-party iframes on another origin, so there is no
+  // game-over message to listen for. Time played is the only signal we get.
+  useEffect(() => {
+    const id = window.setTimeout(onFinish, GAME_MIN_SECONDS * 1000);
+    return () => window.clearTimeout(id);
+  }, [onFinish]);
   return (
     <div
       style={{

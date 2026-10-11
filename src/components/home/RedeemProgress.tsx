@@ -50,7 +50,10 @@ export function RedeemProgress({ pts }: { pts: number }) {
         >
           {unlocked
             ? t(`🎉 {reward} unlocked!`, { reward: t(target.label) })
-            : t(`{n} pts to {reward}`, { n: ptsLeft, reward: t(target.label) })}
+            : t(`{n} more pts for a {reward}`, {
+                n: ptsLeft,
+                reward: t(target.label),
+              })}
         </div>
         <div
           style={{

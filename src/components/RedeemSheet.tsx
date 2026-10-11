@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import qrcode from "qrcode-generator";
 import { useI18n } from "../i18n";
 import type { Reward } from "../types";
 
@@ -16,6 +17,36 @@ function makeCode() {
     { length: 6 },
     () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)],
   ).join(``);
+}
+
+/** Codes are short-lived so a screenshot cannot be reused days later. */
+const CODE_MINUTES = 15;
+
+/** Real, scannable QR as an inline SVG — the machine reads the same string the
+ *  user would otherwise type in. */
+function QrCode({ value }: { value: string }) {
+  const svg = useMemo(() => {
+    const qr = qrcode(0, `M`);
+    qr.addData(value);
+    qr.make();
+    const n = qr.getModuleCount();
+    let path = ``;
+    for (let r = 0; r < n; r++)
+      for (let c = 0; c < n; c++)
+        if (qr.isDark(r, c)) path += `M${c} ${r}h1v1h-1z`;
+    return { n, path };
+  }, [value]);
+  return (
+    <svg
+      className="vp-redeem-qr"
+      viewBox={`-1 -1 ${svg.n + 2} ${svg.n + 2}`}
+      role="img"
+      aria-label={value}
+    >
+      <rect x={-1} y={-1} width={svg.n + 2} height={svg.n + 2} fill="#fff" />
+      <path d={svg.path} fill="#2a0a32" />
+    </svg>
+  );
 }
 
 export function RedeemSteps() {
@@ -44,6 +75,7 @@ export function RedeemSheet({
 }) {
   const { t } = useI18n();
   const [code, setCode] = useState<string | null>(null);
+  const [expires, setExpires] = useState<string | null>(null);
   const label = t(reward.label);
   return (
     <div
@@ -76,6 +108,13 @@ export function RedeemSheet({
                 onClick={() => {
                   onConfirm();
                   setCode(makeCode());
+                  const until = new Date(Date.now() + CODE_MINUTES * 60000);
+                  setExpires(
+                    until.toLocaleTimeString([], {
+                      hour: `2-digit`,
+                      minute: `2-digit`,
+                    }),
+                  );
                 }}
               >
                 {t(`Get my code`)}
@@ -91,8 +130,12 @@ export function RedeemSheet({
           </>
         ) : (
           <>
-            <p>{t(`Your code`)}</p>
+            <p>{t(`Show this at any Vendissimo machine`)}</p>
+            <QrCode value={code} />
             <div className="vp-redeem-code">{code}</div>
+            <p className="vp-redeem-expiry">
+              {t(`Valid until {time}`, { time: expires ?? `` })}
+            </p>
             <RedeemSteps />
             <button
               type="button"

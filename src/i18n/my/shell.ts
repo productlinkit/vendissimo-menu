@@ -1,6 +1,24 @@
 // Myanmar translations for the app shell: nav, loader, welcome, home page,
 // toasts and the redeem sheet. Keys are the exact English strings.
 export const shell: Record<string, string> = {
+  // penyelesaian kursus Education (Sprint 3 revisi)
+  "+{n} pts — Course": `+{n} မှတ် — သင်တန်း`,
+  "Finished a course": `သင်တန်း ပြီးဆုံးပြီ`,
+
+  // kode penukaran (Sprint 2)
+  "Show this at any Vendissimo machine": `Vendissimo စက်တွင် ဤအရာကို ပြပါ`,
+  "Valid until {time}": `{time} အထိ သုံးနိုင်သည်`,
+  "Need {n} more pts": `{n} မှတ် လိုပါသေးသည်`,
+
+  // kontrol carousel ("Featured" sudah ada di blok Hero carousel di bawah)
+  carousel: `ရုပ်ပုံလှိမ့်ပြမှု`,
+  "Pause slideshow": `ရပ်တန့်ရန်`,
+  "Play slideshow": `ဆက်ဖွင့်ရန်`,
+  "Slide {n} of {m}": `ဆလိုက် {n} / {m}`,
+
+  // navigasi utama (label pembaca layar)
+  Main: `ပင်မလမ်းညွှန်`,
+
   // Language switch
   Language: "ဘာသာစကား",
 
@@ -101,4 +119,8 @@ export const shell: Record<string, string> = {
     "စက်မျက်နှာပြင်ပေါ်ရှိ “လဲလှယ်ရန်” ကို နှိပ်ပါ",
   "Enter your code and collect your reward":
     "သင့်ကုဒ်ကို ရိုက်ထည့်ပြီး ဆုလက်ဆောင် ယူပါ",
+  // desktop home tiles
+  "Come back tomorrow": "မနက်ဖြန် ပြန်လာပါ",
+  "{done} of {total} done": "{total} ခုထဲက {done} ခု ပြီးပြီ",
+  Discover: "ရှာဖွေလေ့လာရန်",
 };

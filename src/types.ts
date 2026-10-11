@@ -63,4 +63,4 @@ export type Viewer =
   | { type: "mag"; idx: number }
   | { type: "video"; idx: number }
   | { type: "game"; idx: number }
-  | { type: "eng"; idx: number };
+  | { type: "eng"; idx: number; from?: "education" };

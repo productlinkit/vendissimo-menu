@@ -3,7 +3,12 @@
   --bg: #8f36a1;
   --surface: #ffffff26;
   --surface-2: #fff3;
-  --card: #ffffff26;
+  --card-scrim: #4a14509e;
+  --card: linear-gradient(#ffffff26, #ffffff26), var(--card-scrim);
+  /* isian solid untuk nilai status; teks berwarna di atas gradien tidak pernah
+     lolos kontras (hijau 1,12:1, oranye 1,14:1 di ujung oranye) */
+  --chip-good: #0f766e;
+  --chip-count: #9a3412;
   --card-border: #fff3;
   --line: #fff3;
   --line-2: #ffffff4d;
@@ -11,6 +16,8 @@
   --ink-2: #fffffff2;
   --ink-3: #ffffffe0;
   --pink: #e72385;
+  /* pink untuk TEKS di atas putih; --pink sendiri hanya 4,22:1 */
+  --pink-on-white: #d81b76;
   --orange: #ff8157;
   --purple: #8f36a1;
   --deep: #5a1772;
@@ -22,11 +29,13 @@
     #e72385 50%,
     #ff8157 100%
   );
-  --grad-card: #ffffff26;
+  --grad-card: linear-gradient(#ffffff26, #ffffff26), var(--card-scrim);
   --r-lg: 20px;
   --r-md: 16px;
   --r-sm: 12px;
-  --f-display: "Nunito", "Noto Sans Myanmar", ui-rounded, system-ui, sans-serif;
+  /* satu keluarga untuk judul dan teks; Nunito dibuang (bobot 800/900
+     diminta di index.html supaya judul tetap setebal sebelumnya) */
+  --f-display: "Outfit", "Noto Sans Myanmar", ui-sans-serif, system-ui, sans-serif;
   --f-body: "Outfit", "Noto Sans Myanmar", ui-sans-serif, system-ui, sans-serif;
   --f-mono: "DM Mono", "Noto Sans Myanmar", ui-monospace, Menlo, monospace;
   --px: 24px;
@@ -40,6 +49,9 @@
   box-sizing: border-box;
 }
 html {
+  /* dock mengambang ~74px: beri ruang supaya elemen yang difokus
+     tidak tersembunyi di belakangnya (WCAG 2.4.11) */
+  scroll-padding-bottom: 96px;
   scroll-behavior: smooth;
   background: #8f36a1;
   max-width: 100%;
@@ -124,9 +136,9 @@ svg {
   border-radius: 2px;
 }
 :focus-visible {
-  outline: 2px solid var(--pink);
+  outline: 3px solid #fff;
   outline-offset: 2px;
-  border-radius: 8px;
+  box-shadow: 0 0 0 5px #2a0a3299;
 }
 @keyframes flyUp {
   0% {
@@ -303,8 +315,35 @@ svg {
 }
 @media (width>=860px) {
   .vp-top-nav {
+    gap: 2px;
+    padding: 4px;
+    border: 1px solid #ffffff33;
+    border-radius: 999px;
+    background: #ffffff1f;
     display: flex;
   }
+}
+.vp-top-link {
+  white-space: nowrap;
+  color: #fff;
+  opacity: 0.78;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 600;
+  transition: background 0.18s, color 0.18s, opacity 0.18s;
+}
+.vp-top-link:hover {
+  background: #ffffff24;
+  opacity: 1;
+}
+.vp-top-link.is-on {
+  color: var(--pink-on-white);
+  background: #fff;
+  opacity: 1;
+  box-shadow: 0 4px 14px -4px #00000047;
+}
+.vp-top-link.is-on:hover {
+  background: #fff;
 }
 .vp-dock {
   display: none;
@@ -479,7 +518,7 @@ svg {
   }
 }
 .vp-carousel-btn {
-  color: #e72385;
+  color: var(--pink-on-white);
   font-family: var(--f-display);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -522,17 +561,9 @@ svg {
   width: 100%;
   display: grid;
 }
-@media (width>=640px) {
-  .vp-cat-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (width>=860px) {
-  .vp-cat-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 24px;
-  }
-}
+/* Tetap dua kolom di semua lebar: empat kartu jadi 2x2 dan kartu English
+   (gridColumn 1 / -1) membentang penuh di bawahnya. Lima kolom membuat
+   English melar sendirian di baris kedua. */
 .vp-row {
   scroll-snap-type: x mandatory;
   box-sizing: border-box;
@@ -674,7 +705,7 @@ svg {
 }
 .btn-primary {
   min-height: var(--btn-h);
-  color: #e72385;
+  color: var(--pink-on-white);
   font-family: var(--f-display);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -726,14 +757,9 @@ svg {
   width: 100%;
   display: grid;
 }
-@media (width>=540px) {
+@media (width>=700px) {
   .vp-rewards-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (width>=860px) {
-  .vp-rewards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 .vp-reward-card {
@@ -980,7 +1006,7 @@ svg {
   overflow: hidden;
 }
 .vp-cover-sub {
-  font: 400 12px/1 var(--f-mono);
+  font: 500 12.5px/1.2 var(--f-body);
   color: var(--ink-3);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1077,7 +1103,7 @@ svg {
   font-weight: 600;
 }
 .vp-ex-t small {
-  font: 400 13px/1.4 var(--f-mono);
+  font: 400 13.5px/1.4 var(--f-body);
   color: var(--ink-3);
 }
 .vp-card {
@@ -1366,7 +1392,7 @@ select:focus {
   padding: 0 10px;
 }
 .vp-lang button[aria-pressed="true"] {
-  color: var(--pink);
+  color: var(--pink-on-white);
   background: #fff;
 }
 /* Myanmar script is taller and has no capitals: give it room and drop caps/tracking */
@@ -1488,4 +1514,449 @@ select:focus {
   height: 28px;
   font: 900 14px/1 var(--f-display);
   display: grid;
+}
+/* ---------- desktop home: picture tiles filling one screen ---------- */
+.vp-bento,
+.vp-desktop-only {
+  display: none;
+}
+.vp-mobile-only {
+  display: contents;
+}
+@media (width>=1024px) and (orientation: landscape) {
+  .vp-mobile-only {
+    display: none;
+  }
+  .vp-desktop-only {
+    display: contents;
+  }
+  .vp-main:has(.vp-bento) {
+    max-width: 1440px;
+  }
+  /* line the header up with the wider tile grid (inline styles, hence !important) */
+  body:has(.vp-bento) .vp-header-inner {
+    max-width: 1440px !important;
+    padding-inline: 32px !important;
+  }
+  .vp-bento {
+    /* header is 60px, main has 24px top padding; leave a little air below */
+    height: clamp(540px, calc(100dvh - 60px - 24px - 28px), 820px);
+    grid-template-columns: 1.45fr 1fr minmax(230px, 0.62fr);
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    display: grid;
+  }
+}
+.vp-tile {
+  color: #fff;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  background: #ffffff1f;
+  border: 1px solid #ffffff38;
+  border-radius: var(--r-md);
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px -12px #00000059;
+}
+.vp-tile:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+.vp-tile-art {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+.vp-tile:hover .vp-tile-art {
+  transform: scale(1.04);
+}
+.vp-tile-art > img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* dark fade under the text so labels stay readable on any picture */
+.vp-tile:after {
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(to top, #1e0533e6 0%, #1e05338c 38%, #1e053300 70%);
+  position: absolute;
+  inset: 0;
+}
+.vp-tile-text {
+  z-index: 1;
+  gap: 2px;
+  display: grid;
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  right: 20px;
+}
+.vp-tile-title {
+  font: 900 clamp(22px, 2.2vw, 34px) / 1.1 var(--f-display);
+  text-shadow: 0 2px 12px #0006;
+}
+.vp-tile-sub {
+  color: #fffffff2;
+  font-size: 15px;
+  line-height: 1.35;
+}
+.vp-tile-strip {
+  gap: 2px;
+  height: 100%;
+  display: flex;
+}
+.vp-tile-strip img {
+  object-fit: cover;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+}
+.vp-tile-games {
+  grid-area: 1 / 1 / 3 / 2;
+  background: radial-gradient(70% 70% at 70% 35%, #ff815766, #0000 70%),
+    linear-gradient(135deg, #5a1772, #8f36a1 55%, #e72385);
+}
+.vp-tile-mosaic {
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  height: 100%;
+  display: grid;
+}
+.vp-tile-mosaic img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.vp-tile-games .vp-tile-title {
+  font-size: clamp(34px, 3.6vw, 56px);
+}
+.vp-tile-games .vp-tile-text {
+  bottom: 24px;
+  left: 28px;
+}
+.vp-tile-videos {
+  grid-area: 1 / 2 / 2 / 3;
+}
+.vp-tile-mags {
+  grid-area: 2 / 2 / 3 / 3;
+}
+.vp-tile-edu {
+  grid-area: 3 / 1 / 4 / 2;
+}
+.vp-tile-eng {
+  grid-area: 3 / 2 / 4 / 3;
+  background: #fff;
+}
+.vp-tile-eng .vp-tile-strip img {
+  object-fit: contain;
+  padding: 10px 6px 48px;
+}
+.vp-bento-side {
+  grid-area: 1 / 3 / 4 / 4;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  min-height: 0;
+  display: grid;
+}
+.vp-tile-small .vp-tile-text {
+  bottom: 12px;
+  left: 16px;
+  right: 16px;
+}
+.vp-tile-small .vp-tile-title {
+  font-size: clamp(18px, 1.6vw, 24px);
+}
+.vp-tile-small .vp-tile-sub {
+  font-size: 13px;
+}
+.vp-tile-points,
+.vp-tile-spin,
+.vp-tile-missions {
+  background: linear-gradient(135deg, #8f36a1, #e72385);
+}
+.vp-mini-count {
+  text-shadow: 0 2px 12px #000a;
+  font: 500 34px/1 var(--f-mono);
+  position: absolute;
+  top: 14px;
+  right: 16px;
+}
+@media (width>=1120px) and (orientation: landscape) {
+  body:has(.vp-bento) .vp-header-inner {
+    padding-inline: 40px !important;
+  }
+}
+/* ---------- desktop Today's Missions ---------- */
+.vp-tile-missions .vp-tile-art > img {
+  object-position: 50% 45%;
+}
+.vp-missions-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: #ffffff1f;
+  grid-template-columns: minmax(280px, 0.8fr) 1.2fr;
+  gap: 28px;
+  padding: 16px 28px 16px 16px;
+  display: grid;
+  overflow: hidden;
+}
+.vp-missions-photo {
+  border-radius: var(--r-md);
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+.vp-missions-photo img {
+  object-fit: cover;
+  object-position: 50% 50%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+.vp-missions-photo:after {
+  content: "";
+  background: linear-gradient(to top, #1e0533eb 0%, #1e05338c 45%, #1e053314 75%);
+  position: absolute;
+  inset: 0;
+}
+.vp-missions-photo-text {
+  z-index: 1;
+  gap: 8px;
+  display: grid;
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  right: 22px;
+}
+.vp-missions-photo-text h2 {
+  font-size: 30px;
+  line-height: 1.1;
+}
+.vp-missions-photo-text p {
+  color: var(--ink-2);
+  font-size: 15px;
+}
+.vp-missions-photo-text strong {
+  font: 500 15px/1 var(--f-mono);
+}
+.vp-missions-progress {
+  background: #ffffff38;
+  border-radius: 99px;
+  height: 8px;
+  overflow: hidden;
+}
+.vp-missions-progress span {
+  background: linear-gradient(90deg, var(--pink), #fea832);
+  border-radius: inherit;
+  height: 100%;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  display: block;
+}
+.vp-missions-list {
+  align-content: center;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+/* light pill rows, like the checklist app in the photo */
+.vp-missions-list li {
+  color: #3a0f5c;
+  background: #fffffff0;
+  border-radius: 20px;
+  align-items: center;
+  gap: 16px;
+  min-height: 76px;
+  padding: 12px 14px 12px 16px;
+  display: flex;
+  box-shadow: 0 10px 30px -14px #3a0f5c80;
+}
+.vp-missions-check {
+  color: #fff;
+  border: 2.5px solid #c9b3dc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 7px;
+  display: grid;
+}
+.vp-missions-list li.done .vp-missions-check {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+.vp-missions-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.vp-missions-list li.done .vp-missions-label {
+  color: #7d6a8f;
+  text-decoration: line-through;
+}
+.vp-missions-list img {
+  object-fit: contain;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+}
+.vp-missions-list button {
+  color: #fff;
+  background: var(--pink);
+  font: 900 15px/1 var(--f-display);
+  border: 0;
+  border-radius: 999px;
+  flex-shrink: 0;
+  min-width: 72px;
+  min-height: 44px;
+  padding: 0 20px;
+}
+.vp-missions-done {
+  color: var(--pink);
+  text-align: center;
+  font: 700 14px/1 var(--f-body);
+  flex-shrink: 0;
+  min-width: 72px;
+}
+
+/* ---------- nilai status ---------- */
+.vp-chip {
+  font: 600 13px/1 var(--f-mono);
+  color: #fff;
+  white-space: nowrap;
+  border-radius: 999px;
+  flex-shrink: 0;
+  padding: 4px 9px;
+  display: inline-block;
+}
+.vp-chip-good {
+  background: var(--chip-good);
+}
+.vp-chip-count {
+  background: var(--chip-count);
+}
+
+/* ---------- dock bawah (HP) ---------- */
+.vp-dock-bar {
+  align-items: stretch;
+  justify-content: space-around;
+  gap: 2px;
+  border: 1px solid #ffffff59;
+  border-radius: 999px;
+  padding: 6px;
+  display: flex;
+  background: #ffffff33;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  box-shadow: 0 16px 40px -8px #00000059;
+}
+.vp-dock-link {
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 3px;
+  /* 44px tinggi minimum untuk target sentuh */
+  min-height: 44px;
+  padding: 5px 4px;
+  border-radius: 999px;
+  color: #fff;
+  background: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transition: background 0.2s, color 0.2s;
+}
+.vp-dock-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: block;
+}
+.vp-dock-label {
+  font: 600 10.5px/1.1 var(--f-body);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.vp-dock-link.is-on {
+  color: var(--pink-on-white);
+  background: #fff;
+  box-shadow: 0 6px 20px -4px #00000040;
+}
+
+/* ---------- kontrol carousel ---------- */
+.vp-carousel-dot,
+.vp-carousel-pause {
+  /* titiknya tetap kecil secara visual, tapi area sentuhnya 24x24 (WCAG 2.5.8) */
+  min-width: 24px;
+  min-height: 24px;
+  border: 0;
+  background: none;
+  padding: 0;
+  place-items: center;
+  cursor: pointer;
+  display: grid;
+}
+.vp-carousel-dot > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 99px;
+  background: #ffffffa6;
+  transition: width 0.3s, background 0.3s;
+  display: block;
+}
+.vp-carousel-dot[aria-current="true"] > span {
+  width: 16px;
+  background: #fff;
+}
+.vp-carousel-pause {
+  color: #fff;
+  font-size: 9px;
+  line-height: 1;
+  border-radius: 999px;
+  background: #ffffff2e;
+  margin-right: 2px;
+}
+.vp-carousel-pause:hover {
+  background: #ffffff4d;
+}
+
+/* ---------- judul seksi ---------- */
+/* Tampil sebagai eyebrow seperti sebelumnya, tapi kini h2 sungguhan supaya
+   pembaca layar punya peta halaman. */
+.vp-eyebrow {
+  font: 400 12px/1.2 var(--f-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+/* ---------- kode penukaran ---------- */
+.vp-redeem-qr {
+  width: min(176px, 52vw);
+  height: auto;
+  border-radius: 10px;
+  margin: 4px auto 10px;
+  padding: 8px;
+  background: #fff;
+  display: block;
+}
+.vp-redeem-expiry {
+  font: 400 13px/1.3 var(--f-mono);
+  color: var(--ink-3);
+  margin: 6px 0 2px;
 }
