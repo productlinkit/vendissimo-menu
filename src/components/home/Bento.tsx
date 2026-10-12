@@ -1,14 +1,8 @@
 import type { ReactNode } from "react";
-import {
-  CATEGORIES,
-  GAMES,
-  MAGAZINES,
-  MISSIONS,
-  REWARDS,
-  VIDEOS,
-} from "../../data";
+import { CATEGORIES, MISSIONS, REWARDS } from "../../data";
 import { useI18n } from "../../i18n";
 import type { CategoryId, Progress, Route } from "../../types";
+import { categoryArt } from "./tileArt";
 
 // Desktop/landscape home: one screen of picture tiles, in the style of an
 // in-flight entertainment menu. Phones keep the scrolling home instead.
@@ -39,29 +33,6 @@ function Tile({
   );
 }
 
-/** Four images in a 2x2 block — for the tall tiles, where a row of
- *  side-by-side pictures would leave each one a narrow sliver. */
-function Mosaic({ images }: { images: string[] }) {
-  return (
-    <span className="vp-tile-mosaic">
-      {images.map((src) => (
-        <img key={src} src={src} alt="" loading="lazy" />
-      ))}
-    </span>
-  );
-}
-
-/** Several images side by side, each cropped to fill its slot. */
-function Strip({ images }: { images: string[] }) {
-  return (
-    <span className="vp-tile-strip">
-      {images.map((src) => (
-        <img key={src} src={src} alt="" loading="lazy" />
-      ))}
-    </span>
-  );
-}
-
 export function Bento({
   S,
   spinUsed,
@@ -88,35 +59,27 @@ export function Bento({
       <Tile
         className="vp-tile-games"
         {...tileProps(`games`)}
-        art={<Mosaic images={GAMES.slice(0, 4).map((game) => game.img)} />}
+        art={categoryArt(`games`, `mosaic`)}
       />
       <Tile
         className="vp-tile-videos"
         {...tileProps(`videos`)}
-        art={<Strip images={VIDEOS.slice(0, 4).map((v) => v.img)} />}
+        art={categoryArt(`videos`, `strip`)}
       />
       <Tile
         className="vp-tile-mags"
         {...tileProps(`magazines`)}
-        art={<Strip images={MAGAZINES.slice(0, 4).map((m) => m.img)} />}
+        art={categoryArt(`magazines`, `strip`)}
       />
       <Tile
         className="vp-tile-edu"
         {...tileProps(`education`)}
-        art={
-          <Strip
-            images={[
-              `/img/edu-video-course.webp`,
-              `/img/edu-tutor.webp`,
-              `/img/edu-movie.webp`,
-            ]}
-          />
-        }
+        art={categoryArt(`education`, `strip`)}
       />
       <Tile
         className="vp-tile-eng"
         {...tileProps(`english`)}
-        art={<img src="/img/eng-trio.webp" alt="" loading="lazy" />}
+        art={categoryArt(`english`, `strip`)}
       />
       <div className="vp-bento-side">
         <Tile
