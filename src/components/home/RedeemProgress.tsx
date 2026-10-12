@@ -45,7 +45,7 @@ export function RedeemProgress({ pts }: { pts: number }) {
         <div
           style={{
             fontWeight: 600,
-            fontSize: 14,
+            fontSize: 15,
           }}
         >
           {unlocked
@@ -76,7 +76,7 @@ export function RedeemProgress({ pts }: { pts: number }) {
         <small
           style={{
             fontFamily: `var(--f-mono)`,
-            fontSize: 13,
+            fontSize: 14,
             color: `var(--ink-3)`,
           }}
         >

@@ -92,7 +92,7 @@ export function Welcome({
         </h1>
         <p
           style={{
-            color: `rgba(255,255,255,.9)`,
+            color: `#fff`,
             fontSize: `clamp(15px,4vw,18px)`,
             maxWidth: `30ch`,
             lineHeight: 1.5,

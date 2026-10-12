@@ -105,7 +105,7 @@ export function Missions({
                     style={{
                       fontFamily: `var(--f-display)`,
                       fontWeight: 900,
-                      fontSize: 13,
+                      fontSize: 14,
                       color: `var(--ink-3)`,
                     }}
                   >
@@ -118,7 +118,7 @@ export function Missions({
                   flex: 1,
                   color: isDone ? `var(--ink-3)` : `var(--ink)`,
                   textDecoration: isDone ? `line-through` : `none`,
-                  fontSize: 14,
+                  fontSize: 15,
                   lineHeight: 1.35,
                 }}
               >
@@ -136,7 +136,7 @@ export function Missions({
                     border: `1px solid var(--line-2)`,
                     borderRadius: 999,
                     padding: `5px 16px`,
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: 600,
                     color: `var(--ink)`,
                     background: `rgba(255,255,255,.07)`,
@@ -153,7 +153,7 @@ export function Missions({
       <p
         style={{
           color: `var(--ink-3)`,
-          fontSize: 13,
+          fontSize: 14,
           marginTop: 14,
         }}
       >

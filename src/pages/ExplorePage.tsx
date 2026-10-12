@@ -52,7 +52,9 @@ export function ExplorePage({
           style={{
             color: `var(--ink-2)`,
             marginTop: 6,
-            fontSize: `clamp(13px,3.5vw,15px)`,
+            fontSize: 19,
+            fontWeight: 700,
+            lineHeight: 1.35,
           }}
         >
           {t("Read, watch, play and learn while you wait")}

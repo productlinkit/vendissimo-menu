@@ -84,7 +84,7 @@ export function VideoPlayer({
           fontSize: 12,
           letterSpacing: `.18em`,
           textTransform: `uppercase`,
-          color: `rgba(255,255,255,.85)`,
+          color: `#fff`,
           pointerEvents: `none`,
         }}
       >
@@ -240,7 +240,7 @@ export function VideoPlayer({
                     style={{
                       fontFamily: `var(--f-mono)`,
                       fontSize: 13,
-                      color: `rgba(255,255,255,.85)`,
+                      color: `#fff`,
                     }}
                   >
                     {item.a}
@@ -258,7 +258,7 @@ export function VideoPlayer({
                     style={{
                       fontFamily: `var(--f-mono)`,
                       fontSize: 13,
-                      color: `rgba(255,255,255,.85)`,
+                      color: `#fff`,
                     }}
                   >
                     {formatTime(item.dur)}
@@ -282,7 +282,7 @@ export function VideoPlayer({
                     style={{
                       fontFamily: `var(--f-mono)`,
                       fontSize: 11,
-                      color: `rgba(255,255,255,.85)`,
+                      color: `#fff`,
                       letterSpacing: `.1em`,
                       textTransform: `uppercase`,
                       writingMode: `vertical-rl`,

@@ -519,7 +519,7 @@ export function MagazineReader({
           style={{
             fontFamily: `var(--f-mono)`,
             fontSize: 13,
-            color: `rgba(255,255,255,.85)`,
+            color: `#fff`,
           }}
         >
           {page + 1}

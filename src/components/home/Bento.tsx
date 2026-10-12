@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import {
   CATEGORIES,
-  ENGLISH_SETS,
   GAMES,
   MAGAZINES,
   MISSIONS,
@@ -117,7 +116,7 @@ export function Bento({
       <Tile
         className="vp-tile-eng"
         {...tileProps(`english`)}
-        art={<Strip images={ENGLISH_SETS.slice(0, 3).map((s) => s.img)} />}
+        art={<img src="/img/eng-trio.webp" alt="" loading="lazy" />}
       />
       <div className="vp-bento-side">
         <Tile

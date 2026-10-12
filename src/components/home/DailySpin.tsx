@@ -108,7 +108,7 @@ export function DailySpin({
               <div
                 style={{
                   color: `var(--ink-2)`,
-                  fontSize: 13,
+                  fontSize: 14,
                 }}
               >
                 {t(`A new free spin unlocks tomorrow.`)}
@@ -125,7 +125,7 @@ export function DailySpin({
                   fontWeight: 900,
                   letterSpacing: `.06em`,
                   textTransform: `uppercase`,
-                  fontSize: 13,
+                  fontSize: 14,
                   border: `1px solid var(--line)`,
                   cursor: `default`,
                 }}
@@ -148,7 +148,7 @@ export function DailySpin({
               <div
                 style={{
                   color: `var(--ink-2)`,
-                  fontSize: 13,
+                  fontSize: 14,
                   lineHeight: 1.4,
                 }}
               >
@@ -159,7 +159,9 @@ export function DailySpin({
                 disabled={spinning}
                 style={{
                   alignSelf: `flex-start`,
-                  background: `var(--grad)`,
+                  // var(--grad) berakhir di oranye: teks putih di sana cuma
+                  // 4,28:1. Tanpa ekor oranye jadi 5,4:1 ke atas.
+                  background: `linear-gradient(135deg, var(--purple), #c81e6e)`,
                   color: `#fff`,
                   borderRadius: 999,
                   padding: `10px 18px`,
@@ -167,7 +169,7 @@ export function DailySpin({
                   fontWeight: 900,
                   letterSpacing: `.06em`,
                   textTransform: `uppercase`,
-                  fontSize: 13,
+                  fontSize: 14,
                   border: 0,
                   cursor: `pointer`,
                   opacity: spinning ? 0.7 : 1,
@@ -193,7 +195,7 @@ export function DailySpin({
             <div
               style={{
                 color: `var(--ink-2)`,
-                fontSize: 13,
+                fontSize: 14,
                 lineHeight: 1.4,
               }}
             >
@@ -211,7 +213,7 @@ export function DailySpin({
                 fontWeight: 900,
                 letterSpacing: `.06em`,
                 textTransform: `uppercase`,
-                fontSize: 13,
+                fontSize: 14,
                 border: `1px solid var(--line)`,
                 cursor: `default`,
               }}

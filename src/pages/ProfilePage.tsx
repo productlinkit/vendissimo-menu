@@ -102,7 +102,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
           <div
             style={{
               color: `var(--ink-3)`,
-              fontSize: 13,
+              fontSize: 14,
             }}
           >
             {t("Progress saved locally on this device")}
@@ -160,7 +160,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
             <div
               style={{
                 color: `var(--ink-3)`,
-                fontSize: 13,
+                fontSize: 14,
                 marginTop: 4,
               }}
             >
@@ -275,7 +275,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
             style={{
               flex: 1,
               fontWeight: 600,
-              fontSize: 14,
+              fontSize: 15,
             }}
           >
             {t("About Vendissimo")}
@@ -310,7 +310,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
                 style={{
                   display: `block`,
                   color: `var(--pink)`,
-                  fontSize: 13,
+                  fontSize: 14,
                   fontFamily: `var(--f-mono)`,
                   textDecoration: `none`,
                   marginBottom: 12,
@@ -330,7 +330,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
               <p
                 style={{
                   color: `var(--ink-2)`,
-                  fontSize: 14,
+                  fontSize: 15,
                   lineHeight: 1.65,
                   marginBottom: 10,
                 }}
@@ -342,7 +342,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
               <p
                 style={{
                   color: `var(--ink-2)`,
-                  fontSize: 14,
+                  fontSize: 15,
                   lineHeight: 1.65,
                 }}
               >
@@ -366,7 +366,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
                     border: `1px solid var(--line)`,
                     borderRadius: 999,
                     padding: `7px 14px`,
-                    fontSize: 13,
+                    fontSize: 14,
                     color: `var(--ink-2)`,
                   }}
                 >
@@ -378,7 +378,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
               <div
                 style={{
                   fontFamily: `var(--f-mono)`,
-                  fontSize: 12,
+                  fontSize: 13,
                   letterSpacing: `.18em`,
                   textTransform: `uppercase`,
                   color: `var(--ink-3)`,
@@ -427,8 +427,8 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
                     >
                       <span
                         style={{
-                          fontSize: 12,
-                          color: `rgba(255,255,255,.9)`,
+                          fontSize: 13,
+                          color: `#fff`,
                           lineHeight: 1.3,
                           display: `block`,
                         }}

@@ -367,7 +367,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
             style={{
               fontFamily: `var(--f-mono)`,
               fontSize: 12,
-              color: `rgba(255,255,255,.85)`,
+              color: `#fff`,
               textTransform: `uppercase`,
               letterSpacing: `.22em`,
             }}
@@ -411,7 +411,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
                 fontSize: 12,
                 letterSpacing: `.18em`,
                 textTransform: `uppercase`,
-                color: `rgba(255,255,255,.85)`,
+                color: `#fff`,
               }}
             >
               {t(`Loading…`)}

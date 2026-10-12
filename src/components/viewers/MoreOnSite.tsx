@@ -87,7 +87,7 @@ export function MoreOnSite({
         <p
           style={{
             fontSize: 14,
-            color: `rgba(255,255,255,.9)`,
+            color: `#fff`,
             lineHeight: 1.55,
             margin: `0 0 28px`,
             maxWidth: 280,

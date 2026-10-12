@@ -84,7 +84,7 @@ export function CategoryPage({
           gap: 8,
           color: `#fff`,
           fontWeight: 600,
-          fontSize: 14,
+          fontSize: 15,
         }}
       >
         <span
@@ -197,14 +197,14 @@ export function CategoryPage({
               style={{
                 display: `block`,
                 fontWeight: 700,
-                fontSize: 15,
+                fontSize: 16,
               }}
             >
               {t(more.q)}
             </b>
             <small
               style={{
-                font: `400 12px/1.4 var(--f-mono)`,
+                font: `500 13px/1.45 var(--f-mono)`,
                 color: `var(--ink-3)`,
               }}
             >
@@ -219,7 +219,7 @@ export function CategoryPage({
               padding: `8px 14px`,
               fontFamily: `var(--f-display)`,
               fontWeight: 900,
-              fontSize: 13,
+              fontSize: 14,
               letterSpacing: `.04em`,
               textTransform: `uppercase`,
               whiteSpace: `nowrap`,

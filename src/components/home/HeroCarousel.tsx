@@ -114,7 +114,8 @@ export function HeroCarousel({
       onBlurCapture={() => hold(`focus`, false)}
       className="vp-carousel"
       style={{
-        background: `rgba(255, 255, 255, 0.16)`,
+        // scrim di bawah kaca; tanpa ini subteks hanya 2,99:1 di gradien
+        background: `linear-gradient(#ffffff29, #ffffff29), var(--card-scrim)`,
         backdropFilter: `blur(16px)`,
         WebkitBackdropFilter: `blur(16px)`,
         border: `1px solid rgba(255, 255, 255, 0.25)`,
@@ -182,14 +183,7 @@ export function HeroCarousel({
             {Icon.arrow}
           </span>
         </button>
-        <div
-          style={{
-            display: `flex`,
-            gap: 4,
-            marginTop: `auto`,
-            paddingTop: 8,
-          }}
-        >
+        <div className="vp-carousel-ctl">
           <button
             type="button"
             className="vp-carousel-pause"

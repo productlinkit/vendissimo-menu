@@ -71,7 +71,7 @@ export function HomePage({ S, onNavigate, onSpin }: HomePageProps) {
             <div
               style={{
                 fontFamily: `var(--f-body)`,
-                fontSize: 13.5,
+                fontSize: 15,
                 color: `var(--ink-2)`,
               }}
             >
@@ -109,8 +109,8 @@ export function HomePage({ S, onNavigate, onSpin }: HomePageProps) {
           gap: 12,
           width: `100%`,
           textAlign: `left`,
-          border: `1px solid rgba(255,255,255,.3)`,
-          background: `rgba(255,255,255,.15)`,
+          border: `1px solid var(--line)`,
+          background: `var(--card)`,
           color: `#FFFFFF`,
           backdropFilter: `blur(12px)`,
           borderRadius: `var(--r-md)`,
@@ -142,7 +142,7 @@ export function HomePage({ S, onNavigate, onSpin }: HomePageProps) {
           style={{
             width: 18,
             height: 18,
-            color: `rgba(255,255,255,.85)`,
+            color: `#fff`,
           }}
         >
           {Icon.chev}

@@ -37,7 +37,10 @@ export function RewardsPage({
         <p
           style={{
             color: `var(--ink-2)`,
-            marginTop: 4,
+            marginTop: 6,
+            fontSize: 19,
+            fontWeight: 700,
+            lineHeight: 1.35,
           }}
         >
           {t("Earn points and redeem at any Vendissimo machine")}
@@ -73,7 +76,7 @@ export function RewardsPage({
             <div
               style={{
                 fontFamily: `var(--f-mono)`,
-                fontSize: 12,
+                fontSize: 13,
                 letterSpacing: `.18em`,
                 textTransform: `uppercase`,
                 color: `var(--ink-3)`,
@@ -103,7 +106,7 @@ export function RewardsPage({
             </div>
             <p
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 color: `var(--ink-3)`,
                 marginTop: 4,
               }}
@@ -161,7 +164,7 @@ export function RewardsPage({
                     </div>
                     <div
                       style={{
-                        fontSize: 13,
+                        fontSize: 14,
                         color: `var(--ink-3)`,
                         marginBottom: 4,
                       }}
@@ -200,7 +203,7 @@ export function RewardsPage({
                   <span
                     style={{
                       fontFamily: `var(--f-mono)`,
-                      fontSize: 13,
+                      fontSize: 14,
                       color: `#fff`,
                       fontWeight: 700,
                       whiteSpace: `nowrap`,
@@ -227,7 +230,7 @@ export function RewardsPage({
                       color: unlocked ? `#fff` : `var(--ink-3)`,
                       borderRadius: 999,
                       padding: `6px 14px`,
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: 600,
                       opacity: unlocked ? 1 : 0.5,
                       whiteSpace: `nowrap`,
@@ -260,7 +263,7 @@ export function RewardsPage({
               <em
                 style={{
                   fontFamily: `var(--f-mono)`,
-                  fontSize: 13,
+                  fontSize: 14,
                   fontStyle: `normal`,
                   color: `#fff`,
                   fontWeight: 700,
@@ -281,7 +284,7 @@ export function RewardsPage({
           <p
             style={{
               color: `var(--ink-3)`,
-              fontSize: 14,
+              fontSize: 15,
             }}
           >
             {t("No points yet. Play a game or try English practice.")}
@@ -303,7 +306,7 @@ export function RewardsPage({
                 style={{
                   display: `flex`,
                   justifyContent: `space-between`,
-                  fontSize: 14,
+                  fontSize: 15,
                   gap: 10,
                   color: `var(--ink-2)`,
                 }}
