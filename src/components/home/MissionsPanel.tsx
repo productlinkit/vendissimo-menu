@@ -54,7 +54,13 @@ export function MissionsPanel({
               {isDone ? (
                 <span className="vp-missions-done">{t(`Done`)}</span>
               ) : (
-                <button type="button" onClick={() => onNavigate(mission.route)}>
+                <button
+                  type="button"
+                  onClick={() => onNavigate(mission.route)}
+                  aria-label={t(`Go — {mission}`, {
+                    mission: t(mission.label),
+                  })}
+                >
                   {t(`Go`)}
                 </button>
               )}

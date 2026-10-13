@@ -185,7 +185,8 @@ export function MagazineReader({
                     fontSize: 12,
                     letterSpacing: `.16em`,
                     textTransform: `uppercase`,
-                    color: `#999`,
+                    // #999 di atas putih hanya 2,85:1
+                    color: `#6b6b6b`,
                     marginBottom: 6,
                   }}
                 >
@@ -208,7 +209,8 @@ export function MagazineReader({
                   style={{
                     fontFamily: `var(--f-mono)`,
                     fontSize: 13,
-                    color: `#aaa`,
+                    // #aaa di atas putih hanya 2,32:1
+                    color: `#6b6b6b`,
                   }}
                 >
                   {t("{read} read · {n} stories", {

@@ -26,7 +26,7 @@ export function Welcome({
         background: `radial-gradient(60% 55% at 18% 22%, rgba(255,255,255,0.22), transparent 70%), radial-gradient(45% 45% at 88% 78%, rgba(255,255,255,0.14), transparent 70%), linear-gradient(to bottom right, #8F36A1 0%, #E72385 50%, #FF8157 100%)`,
         display: `flex`,
         justifyContent: `center`,
-        padding: `calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)`,
+        padding: `calc(env(safe-area-inset-top,0px) + clamp(12px,2.4dvh,28px)) 16px calc(env(safe-area-inset-bottom,0px) + clamp(12px,2.4dvh,28px))`,
         transition: `opacity .4s`,
         opacity: leaving ? 0 : 1,
         pointerEvents: leaving ? `none` : `auto`,
@@ -39,7 +39,7 @@ export function Welcome({
           flexDirection: `column`,
           alignItems: `center`,
           textAlign: `center`,
-          gap: 14,
+          gap: `clamp(6px, 1.6dvh, 14px)`,
           minHeight: `100%`,
         }}
       >
@@ -60,13 +60,20 @@ export function Welcome({
             width: `100%`,
             maxWidth: 440,
             margin: `6px 0 4px`,
+            display: `flex`,
+            justifyContent: `center`,
+            // tinggi layar yang menentukan, bukan lebar: di layar pendek
+            // ilustrasi inilah yang mendorong tombol ke bawah lipatan
+            minHeight: 0,
           }}
         >
           <img
             src="/img/welcome-hero.webp"
             alt={t(`Play arcade games`)}
             style={{
-              width: `100%`,
+              width: `auto`,
+              maxWidth: `100%`,
+              maxHeight: `min(46dvh, 420px)`,
               display: `block`,
               animation: `welcomeFloat 4s ease-in-out infinite`,
             }}
@@ -93,9 +100,12 @@ export function Welcome({
         <p
           style={{
             color: `#fff`,
-            fontSize: `clamp(15px,4vw,18px)`,
-            maxWidth: `30ch`,
-            lineHeight: 1.5,
+            // 17px/700 masih di bawah ambang "teks besar" (18,66px tebal),
+            // jadi butuh 4,5:1 dan hanya dapat 4,29. Mulai dari 19px.
+            fontSize: `clamp(19px,4.6vw,21px)`,
+            fontWeight: 700,
+            maxWidth: `32ch`,
+            lineHeight: 1.45,
           }}
         >
           {t(
@@ -105,7 +115,7 @@ export function Welcome({
         <div
           style={{
             marginTop: `auto`,
-            paddingTop: 22,
+            paddingTop: `clamp(10px, 2.4dvh, 22px)`,
             width: `100%`,
             display: `grid`,
             gap: 10,
@@ -136,13 +146,15 @@ export function Welcome({
             onClick={() => leaveThen(onExplore)}
             style={{
               border: `1px solid rgba(255,255,255,0.6)`,
-              background: `transparent`,
+              // transparan di atas gradien cuma 2,56:1; scrim yang sama
+              // dengan kartu lain menaikkannya ke atas 4,5:1
+              background: `var(--card-scrim)`,
               color: `#FFFFFF`,
-              fontSize: 14,
-              padding: `12px 20px`,
+              fontSize: 15,
+              fontWeight: 700,
+              padding: `13px 20px`,
               borderRadius: 999,
               cursor: `pointer`,
-              fontWeight: 600,
             }}
           >
             {t(`Explore magazines, videos & more`)}

@@ -131,6 +131,9 @@ export function Missions({
               ) : (
                 <button
                   onClick={() => onNavigate(mission.route)}
+                  aria-label={t(`Go — {mission}`, {
+                    mission: t(mission.label),
+                  })}
                   style={{
                     flexShrink: 0,
                     border: `1px solid var(--line-2)`,

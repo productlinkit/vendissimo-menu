@@ -99,7 +99,7 @@ export function HomePage({ S, onNavigate, onSpin }: HomePageProps) {
             {t(`Redeem`)}
           </h2>
         </div>
-        <RedeemProgress pts={S.pts} />
+        <RedeemProgress pts={S.pts} onNavigate={onNavigate} />
       </section>
       <button
         onClick={() => onNavigate(`profile`)}

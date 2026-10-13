@@ -1,8 +1,15 @@
 import { REWARDS } from "../../data";
 import { useI18n } from "../../i18n";
+import type { Route } from "../../types";
 import { Icon } from "../Icon";
 
-export function RedeemProgress({ pts }: { pts: number }) {
+export function RedeemProgress({
+  pts,
+  onNavigate,
+}: {
+  pts: number;
+  onNavigate: (route: Route) => void;
+}) {
   const { t } = useI18n();
   // Same rule as the Rewards page: aim for the cheapest reward not yet reached.
   const target =
@@ -11,7 +18,10 @@ export function RedeemProgress({ pts }: { pts: number }) {
   const progressPercent = Math.min(100, (pts / target.pts) * 100);
   const unlocked = ptsLeft === 0;
   return (
-    <div
+    <button
+      type="button"
+      onClick={() => onNavigate(`rewards`)}
+      aria-label={t(`See rewards and how to redeem`)}
       style={{
         display: `flex`,
         alignItems: `center`,
@@ -22,6 +32,8 @@ export function RedeemProgress({ pts }: { pts: number }) {
         padding: `14px 16px`,
         width: `100%`,
         boxSizing: `border-box`,
+        textAlign: `left`,
+        cursor: `pointer`,
       }}
     >
       <img
@@ -81,20 +93,20 @@ export function RedeemProgress({ pts }: { pts: number }) {
           }}
         >
           {t(`{pts} / {total} pts`, { pts, total: target.pts })}
+          {` · `}
+          {t(`How to redeem`)}
         </small>
       </div>
-      {unlocked && (
-        <span
-          style={{
-            width: 18,
-            height: 18,
-            color: `var(--pink)`,
-            flexShrink: 0,
-          }}
-        >
-          {Icon.chev}
-        </span>
-      )}
-    </div>
+      <span
+        style={{
+          width: 18,
+          height: 18,
+          color: unlocked ? `var(--pink)` : `var(--ink-3)`,
+          flexShrink: 0,
+        }}
+      >
+        {Icon.chev}
+      </span>
+    </button>
   );
 }
