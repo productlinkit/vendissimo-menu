@@ -1,8 +1,19 @@
 import { POINTS, REWARDS } from "../data";
 import { useState } from "react";
 import { RedeemSheet, RedeemSteps } from "../components/RedeemSheet";
+import { RedeemProgress } from "../components/home/RedeemProgress";
+import { Coach, sudahPernahTur } from "../components/levels/Coach";
+import { LevelDetail } from "../components/levels/LevelDetail";
+import { LevelMap } from "../components/levels/LevelMap";
+import { Icon } from "../components/Icon";
+import { gamesOf } from "../lib/levels";
 import { useI18n } from "../i18n";
-import type { Progress, Reward } from "../types";
+import type { GameGroup, Progress, Reward, Route } from "../types";
+
+import { GAMES } from "../data";
+
+/** id -> posisi di GAMES, karena pemutar game dibuka dengan indeks. */
+const GAMES_INDEX = new Map(GAMES.map((game, idx) => [game.id, idx]));
 
 // Amounts are message templates filled with `n` at render time.
 const EARN_WAYS: [label: string, amount: string, n: number][] = [
@@ -11,45 +22,85 @@ const EARN_WAYS: [label: string, amount: string, n: number][] = [
   [`Complete English practice`, `+{n} pts`, POINTS.english],
   [`Watch a video`, `+{n} pts`, POINTS.video],
   [`Read a magazine`, `+{n} pts`, POINTS.magazine],
-  [`Daily spin`, `up to +{n} pts`, 50],
 ];
 
 export function RewardsPage({
   S,
   onRedeem,
+  onNavigate,
+  onGame,
 }: {
   S: Progress;
   onRedeem: (reward: Reward) => void;
+  onNavigate: (route: Route) => void;
+  onGame: (idx: number) => void;
 }) {
   const { t } = useI18n();
   const [redeeming, setRedeeming] = useState<Reward | null>(null);
+  const [levelTerbuka, setLevelTerbuka] = useState<number | null>(null);
+  const [tur, setTur] = useState(() => !sudahPernahTur());
   const nextReward = REWARDS.find((reward) => S.pts < reward.pts);
+
+  // "GO" membuka game pertama di kelompoknya yang belum pernah diselesaikan
+  const mainkan = (group: GameGroup) => {
+    const daftar = gamesOf(group);
+    const belum = daftar.find((game) => !S.played.includes(game.id));
+    const pilih = belum ?? daftar[0];
+    const idx = GAMES_INDEX.get(pilih.id);
+    if (idx !== undefined) onGame(idx);
+  };
+
+  if (levelTerbuka !== null) {
+    return (
+      <>
+        <LevelDetail
+          n={levelTerbuka}
+          S={S}
+          onBack={() => setLevelTerbuka(null)}
+          onPlay={mainkan}
+        />
+        {tur && <Coach onClose={() => setTur(false)} />}
+      </>
+    );
+  }
+
   return (
     <div className="vp-view page-enter">
-      <div>
-        <h1
-          style={{
-            fontSize: `clamp(24px,4vw,38px)`,
-          }}
+      <div className="vp-level-top">
+        <div>
+          <h1
+            style={{
+              fontSize: `clamp(24px,4vw,38px)`,
+            }}
+          >
+            {t("Rewards")}
+          </h1>
+          <p
+            style={{
+              color: `var(--ink-2)`,
+              marginTop: 6,
+              fontSize: 19,
+              fontWeight: 700,
+              lineHeight: 1.35,
+            }}
+          >
+            {t("Level up by playing, then swap points for a real reward")}
+          </p>
+        </div>
+        <button
+          type="button"
+          className="vp-level-help"
+          aria-label={t(`How levels work`)}
+          onClick={() => setTur(true)}
         >
-          {t("Rewards")}
-        </h1>
-        <p
-          style={{
-            color: `var(--ink-2)`,
-            marginTop: 6,
-            fontSize: 19,
-            fontWeight: 700,
-            lineHeight: 1.35,
-          }}
-        >
-          {t("Earn points and redeem at any Vendissimo machine")}
-        </p>
+          {Icon.info}
+        </button>
       </div>
+      <LevelMap S={S} onOpen={setLevelTerbuka} />
       <section
+        className="vp-on-dark"
         style={{
           borderRadius: `var(--r-lg)`,
-          border: `1px solid var(--line)`,
           background: `var(--grad-card)`,
           padding: 24,
           width: `100%`,
@@ -128,6 +179,18 @@ export function RewardsPage({
           }}
         >
           <h2 className="vp-eyebrow">
+            {t("Next reward")}
+          </h2>
+        </div>
+        <RedeemProgress pts={S.pts} onNavigate={onNavigate} />
+      </section>
+      <section>
+        <div
+          style={{
+            marginBottom: 12,
+          }}
+        >
+          <h2 className="vp-eyebrow">
             {t("Rewards")}
           </h2>
         </div>
@@ -137,8 +200,8 @@ export function RewardsPage({
             return (
               <div
                 key={idx}
+                className="vp-on-dark"
                 style={{
-                  border: `1px solid var(--line)`,
                   background: `var(--card)`,
                   borderRadius: `var(--r-md)`,
                   padding: 16,
@@ -322,6 +385,7 @@ export function RewardsPage({
           </ul>
         )}
       </section>
+      {tur && <Coach onClose={() => setTur(false)} />}
       {redeeming && (
         <RedeemSheet
           reward={redeeming}

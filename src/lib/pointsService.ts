@@ -23,14 +23,6 @@ export const GAME_MIN_SECONDS = 60;
 export const COMPLETION_RATIO = 0.8;
 
 /** Mission ticked by each kind. Magazines and videos share one mission. */
-const MISSION_OF: Record<ContentKind, string> = {
-  game: `game`,
-  magazine: `mag`,
-  video: `mag`,
-  english: `english`,
-  // satu misi menutup keduanya: "Finish a course or English practice"
-  education: `english`,
-};
 
 /** Row written into Points History. */
 const LABEL_OF: Record<ContentKind, string> = {
@@ -45,7 +37,6 @@ export type PointsApi = {
   /** Awards once per key per day and writes one history row. */
   earnOnce: (key: string, pts: number, what: string) => void;
   /** Marks a mission done. Writes no history row, so the list stays clean. */
-  markMission: (key: string) => void;
   /** Keys already paid out today. */
   awarded: string[];
 };
@@ -70,6 +61,5 @@ export function award(
   const key = contentKey(kind, contentId);
   if (api.awarded.includes(key)) return null;
   api.earnOnce(key, pts, LABEL_OF[kind]);
-  api.markMission(MISSION_OF[kind]);
   return { pts, label: LABEL_OF[kind] };
 }

@@ -53,11 +53,11 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
         {t("Profile")}
       </h1>
       <div
+        className="vp-on-dark"
         style={{
           display: `flex`,
           alignItems: `center`,
           gap: 14,
-          border: `1px solid var(--line)`,
           background: `var(--card)`,
           borderRadius: `var(--r-md)`,
           padding: 16,
@@ -140,8 +140,8 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
         ).map(([value, label]) => (
           <div
             key={label}
+            className="vp-on-dark"
             style={{
-              border: `1px solid var(--line)`,
               background: `var(--card)`,
               borderRadius: `var(--r-md)`,
               padding: `14px 8px`,
@@ -187,13 +187,13 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
           <li key={item.label}>
             <button
               onClick={() => onNavigate(item.route)}
+              className="vp-on-dark"
               style={{
                 display: `flex`,
                 alignItems: `center`,
                 gap: 14,
                 width: `100%`,
                 padding: `14px 16px`,
-                border: `1px solid var(--line)`,
                 background: `var(--card)`,
                 borderRadius: `var(--r-md)`,
                 textAlign: `left`,
@@ -239,8 +239,8 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
         ))}
       </ul>
       <section
+        className="vp-on-dark"
         style={{
-          border: `1px solid var(--line)`,
           background: `var(--card)`,
           borderRadius: 20,
           overflow: `hidden`,
@@ -363,7 +363,6 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
                   key={feature}
                   style={{
                     background: `rgba(255,255,255,.08)`,
-                    border: `1px solid var(--line)`,
                     borderRadius: 999,
                     padding: `7px 14px`,
                     fontSize: 14,

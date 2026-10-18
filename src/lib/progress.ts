@@ -7,12 +7,24 @@ function today() {
 
 const STORAGE_KEY = `vendissimo-play-react`;
 
+const KOSONG: Progress = {
+  pts: 0,
+  exp: 0,
+  log: [],
+  day: today(),
+  opened: [],
+  awarded: [],
+  played: [],
+};
+
 function loadState(): Progress {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || `null`);
-    if (saved) return saved;
+    // simpanan lama tidak punya exp/played; tanpa penambalan ini aritmetika
+    // levelnya jadi NaN di perangkat yang sudah pernah dipakai
+    if (saved) return { ...KOSONG, ...saved };
   } catch {}
-  return { pts: 0, log: [], day: today(), opened: [], awarded: [] };
+  return { ...KOSONG };
 }
 
 function saveState(state: Progress) {
@@ -41,6 +53,7 @@ export function useProgress() {
         const next = {
           ...prev,
           pts: prev.pts + pts,
+          exp: prev.exp + Math.max(0, pts),
           awarded: [...prev.awarded, key],
           log: [{ w: what, n: pts }, ...prev.log].slice(0, 50),
         };
@@ -48,23 +61,25 @@ export function useProgress() {
         return next;
       });
     }, []),
+    /** Menukar hadiah lewat sini dengan jumlah negatif: poin berkurang,
+     *  EXP tidak, jadi level tidak ikut turun. */
     addPts: useCallback((pts: number, what: string) => {
       setState((prev) => {
         const next = {
           ...prev,
           pts: prev.pts + pts,
+          exp: prev.exp + Math.max(0, pts),
           log: [{ w: what, n: pts }, ...prev.log].slice(0, 50),
         };
         saveState(next);
         return next;
       });
     }, []),
-    /** Mission done. Deliberately writes no log row: mission keys used to be
-     *  pushed through earnOnce with 0 pts, which left blank rows in history. */
-    markMission: useCallback((key: string) => {
+    /** Catatan seumur hidup untuk kemajuan level. */
+    markPlayed: useCallback((id: string) => {
       setState((prev) => {
-        if (prev.awarded.includes(key)) return prev;
-        const next = { ...prev, awarded: [...prev.awarded, key] };
+        if (prev.played.includes(id)) return prev;
+        const next = { ...prev, played: [...prev.played, id] };
         saveState(next);
         return next;
       });

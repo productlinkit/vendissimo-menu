@@ -179,9 +179,9 @@ export function EnglishPractice({
             }}
           >
             <div
+              className="vp-on-dark"
               style={{
                 background: `var(--card)`,
-                border: `1px solid var(--line)`,
                 borderRadius: 20,
                 padding: `22px 20px`,
               }}

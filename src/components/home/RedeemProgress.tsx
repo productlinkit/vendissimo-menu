@@ -20,13 +20,13 @@ export function RedeemProgress({
   return (
     <button
       type="button"
+      className="vp-on-dark"
       onClick={() => onNavigate(`rewards`)}
       aria-label={t(`See rewards and how to redeem`)}
       style={{
         display: `flex`,
         alignItems: `center`,
         gap: 14,
-        border: `1px solid var(--line)`,
         background: `var(--card)`,
         borderRadius: `var(--r-md)`,
         padding: `14px 16px`,

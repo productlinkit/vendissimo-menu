@@ -4,7 +4,6 @@ import { Footer } from "./components/Footer";
 import { Loader } from "./components/Loader";
 import { Toast } from "./components/Toast";
 import { isCategoryRoute, TopNav } from "./components/TopNav";
-import { Welcome } from "./components/Welcome";
 import { EnglishPractice } from "./components/viewers/EnglishPractice";
 import { GamePlayer } from "./components/viewers/GamePlayer";
 import { MagazineReader } from "./components/viewers/MagazineReader";
@@ -22,12 +21,11 @@ import type { Reward, Route, Viewer } from "./types";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [showWelcome, setShowWelcome] = useState(true);
   const [route, setRoute] = useState<Route>(`home`);
   const [viewer, setViewer] = useState<Viewer | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
-  const { S: progress, earnOnce, addPts, markOpened, markMission } =
+  const { S: progress, earnOnce, addPts, markOpened, markPlayed } =
     useProgress();
   const { t } = useI18n();
 
@@ -45,10 +43,9 @@ export default function App() {
   const points = useMemo(
     () => ({
       earnOnce,
-      markMission,
       awarded: progress.awarded,
     }),
-    [earnOnce, markMission, progress.awarded],
+    [earnOnce, progress.awarded],
   );
 
   // Opening only records that the item was seen. Points are granted by the
@@ -114,10 +111,13 @@ export default function App() {
 
   const finishGame = useCallback(
     (idx: number) => {
+      // dicatat seumur hidup supaya kemajuan level bertahan; `awarded`
+      // direset tiap hari dan tidak bisa dipakai untuk itu
+      markPlayed(GAMES[idx].id);
       const got = award(points, `game`, String(idx), GAMES[idx].pts);
       if (got) showToast(t(`+{n} pts — Game`, { n: got.pts }));
     },
-    [points, showToast, t],
+    [markPlayed, points, showToast, t],
   );
 
   const finishEnglish = useCallback(() => {
@@ -140,15 +140,6 @@ export default function App() {
     }
   }, [viewer, points, showToast, t]);
 
-  const handleSpin = useCallback(
-    (pts: number) => {
-      earnOnce(`spin`, pts, `Daily spin`);
-      showToast(t(`Daily spin: +{n} pts!`, { n: pts }));
-      setConfetti(true);
-    },
-    [earnOnce, showToast, t],
-  );
-
   // Logged under the reward's name; the negative amount shows it was spent.
   const handleRedeem = useCallback(
     (reward: Reward) => addPts(-reward.pts, reward.label),
@@ -166,26 +157,22 @@ export default function App() {
       }}
     >
       {loading && <Loader onDone={() => setLoading(false)} />}
-      {!loading && showWelcome && (
-        <Welcome
-          onPlay={() => {
-            setShowWelcome(false);
-            navigate(`home`);
-          }}
-          onExplore={() => setShowWelcome(false)}
-        />
-      )}
       {!playingGame && (
         <TopNav route={route} onNavigate={navigate} pts={progress.pts} />
       )}
       {!playingGame && (
         <main className="vp-main">
           {route === `home` && (
-            <HomePage S={progress} onNavigate={navigate} onSpin={handleSpin} />
+            <HomePage S={progress} onNavigate={navigate} />
           )}
           {route === `explore` && <ExplorePage onNavigate={navigate} />}
           {route === `rewards` && (
-            <RewardsPage S={progress} onRedeem={handleRedeem} />
+            <RewardsPage
+              S={progress}
+              onRedeem={handleRedeem}
+              onNavigate={navigate}
+              onGame={openGame}
+            />
           )}
           {route === `profile` && (
             <ProfilePage S={progress} onNavigate={navigate} />

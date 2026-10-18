@@ -45,18 +45,41 @@ export type Course = { t: string; cat: string; img: string; lvl: string; d: stri
 
 export type Category = { id: CategoryId; label: string; sub: string; art: string; emoji: string };
 
-export type Mission = { label: string; key: string; route: Route };
 
 /** w = what was earned, n = points */
 export type LogEntry = { w: string; n: number };
 
 export type Progress = {
   pts: number;
+  /** Naik bersama poin tapi tidak pernah turun saat hadiah ditukar, jadi
+   *  level sekali dicapai tidak pernah hilang. */
+  exp: number;
   log: LogEntry[];
   /** YYYY-MM-DD; opened/awarded reset when the day changes */
   day: string;
   opened: string[];
   awarded: string[];
+  /** id game yang pernah selesai, seumur hidup -- awarded direset harian
+   *  sehingga tidak bisa dipakai menghitung kemajuan level */
+  played: string[];
+};
+
+export type Level = {
+  n: number;
+  /** EXP minimum untuk membuka level ini */
+  exp: number;
+  img: string;
+  /** hadiah yang diterima pengguna di level ini, menggantikan papan peringkat */
+  prize: string;
+};
+
+export type GameGroup = {
+  id: string;
+  /** cocok dengan field `cat` di GAMES */
+  cat: string;
+  label: string;
+  sub: string;
+  img: string;
 };
 
 export type Viewer =

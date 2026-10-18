@@ -114,12 +114,10 @@ export function HeroCarousel({
       onBlurCapture={() => hold(`focus`, false)}
       className="vp-carousel"
       style={{
-        // scrim di bawah kaca; tanpa ini subteks hanya 2,99:1 di gradien
-        background: `linear-gradient(#ffffff29, #ffffff29), var(--card-scrim)`,
-        backdropFilter: `blur(16px)`,
-        WebkitBackdropFilter: `blur(16px)`,
-        border: `1px solid rgba(255, 255, 255, 0.25)`,
-        boxShadow: `0 10px 40px -10px rgba(0,0,0,0.25)`,
+        // permukaan gelap dengan kilau sudut, bukan kaca datar; subteks
+        // putih di sini 12:1 ke atas
+        background: `radial-gradient(120% 140% at 100% 0%, #a855f759, #0000 58%), radial-gradient(90% 120% at 0% 100%, #e7238547, #0000 62%), #241744`,
+        boxShadow: `0 20px 44px -22px rgba(0,0,0,.85)`,
       }}
     >
       {[
@@ -216,7 +214,7 @@ export function HeroCarousel({
         style={{
           position: `relative`,
           overflow: `hidden`,
-          background: `radial-gradient(ellipse at 60% 80%, rgba(235,52,124,.22) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse at 58% 74%, rgba(255,180,92,.34) 0%, rgba(235,52,124,.22) 38%, transparent 72%)`,
         }}
         aria-hidden="true"
       >

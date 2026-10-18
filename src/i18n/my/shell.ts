@@ -87,6 +87,7 @@ export const shell: Record<string, string> = {
   "Today's Missions": "ယနေ့ မစ်ရှင်များ",
   Done: "ပြီးပါပြီ",
   Go: "သွားမည်",
+  "Play, watch and read": "ကစားရန်၊ ကြည့်ရန်နှင့် ဖတ်ရန်",
   "Go — {mission}": "သွားမည် — {mission}",
   "See rewards and how to redeem": "ဆုများနှင့် လဲလှယ်နည်းကို ကြည့်ရန်",
   "Complete all 3 for a +25 pts bonus":

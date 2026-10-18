@@ -1,10 +1,11 @@
 import type {
+  GameGroup,
+  Level,
   Category,
   Course,
   EnglishSet,
   Game,
   Magazine,
-  Mission,
   Reward,
   Video,
 } from "./types";
@@ -947,22 +948,51 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
-export const MISSIONS: Mission[] = [
+/** Tiga perhentian di peta level. EXP-nya kumulatif seumur hidup. */
+export const LEVELS: Level[] = [
   {
-    label: `Play a game`,
-    key: `game`,
-    route: `games`,
+    n: 1,
+    exp: 0,
+    img: `/img/g-candy.webp`,
+    prize: `Free Coffee`,
   },
   {
-    label: `Read a magazine or watch a video`,
-    key: `mag`,
-    route: `magazines`,
+    n: 2,
+    exp: 250,
+    img: `/img/g-crash.webp`,
+    prize: `10% Voucher`,
   },
   {
-    label: `Finish a course or English practice`,
-    key: `english`,
-    route: `english`,
+    n: 3,
+    exp: 600,
+    img: `/img/g-basket.webp`,
+    prize: `Free Drink`,
   },
 ];
 
-export const SPIN_PRIZES: number[] = [5, 20, 10, 50, 15, 25];
+/** Game dikelompokkan menurut `cat`-nya; satu gambar bagus per sampul. */
+export const GAME_GROUPS: GameGroup[] = [
+  {
+    id: `arcade`,
+    cat: `Arcade`,
+    label: `Arcade Games`,
+    sub: `Quick reflexes, instant fun`,
+    img: `/img/g-crash.webp`,
+  },
+  {
+    id: `puzzle`,
+    cat: `Puzzle`,
+    label: `Puzzle Games`,
+    sub: `Think it through, match it up`,
+    img: `/img/g-candy.webp`,
+  },
+  {
+    id: `sports`,
+    cat: `Sports`,
+    label: `Sports Games`,
+    sub: `Take your best shot`,
+    img: `/img/g-pool.webp`,
+  },
+];
+
+

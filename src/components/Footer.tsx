@@ -1,10 +1,11 @@
 export function Footer() {
   return (
     <footer
+      className="vp-on-dark"
       style={{
         borderTop: `1px solid var(--line)`,
         // teks footer jatuh di ujung oranye gradien; scrim menaikkannya di atas 4,5:1
-        background: `var(--card-scrim)`,
+        background: `var(--card)`,
         borderRadius: `var(--r-lg)`,
         padding: `26px var(--px) 24px`,
         marginTop: 8,

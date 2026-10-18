@@ -5,16 +5,60 @@ import { Icon } from "./Icon";
 import { LangSwitch } from "./LangSwitch";
 import { PointsCounter } from "./PointsCounter";
 
-const NAV_ITEMS: { id: Route; label: string; icon: ReactNode }[] = [
+type NavItem = { id: Route; label: string; icon: ReactNode };
+
+/** Bar atas desktop: sama isinya dengan dock HP ditambah Explore, supaya
+ *  kategori yang sedang dibuka menyala di sini juga. */
+const NAV_ITEMS: NavItem[] = [
   {
     id: `home`,
     label: `Home`,
     icon: Icon.home,
   },
   {
+    id: `games`,
+    label: `Games`,
+    icon: Icon.game,
+  },
+  {
+    id: `videos`,
+    label: `Videos`,
+    icon: Icon.video,
+  },
+  {
     id: `explore`,
     label: `Explore`,
     icon: Icon.explore,
+  },
+  {
+    id: `rewards`,
+    label: `Rewards`,
+    icon: Icon.gift,
+  },
+  {
+    id: `profile`,
+    label: `Profile`,
+    icon: Icon.user,
+  },
+];
+
+/** Dock HP: dua kategori yang paling sering dibuka naik ke sini.
+ *  Explore turun ke menu Profil supaya kategori lain tetap ada jalannya. */
+const DOCK_ITEMS: NavItem[] = [
+  {
+    id: `home`,
+    label: `Home`,
+    icon: Icon.home,
+  },
+  {
+    id: `games`,
+    label: `Games`,
+    icon: Icon.game,
+  },
+  {
+    id: `videos`,
+    label: `Videos`,
+    icon: Icon.video,
   },
   {
     id: `rewards`,
@@ -50,11 +94,16 @@ export function TopNav({
   pts: number;
 }) {
   const { t } = useI18n();
+  // kategori yang punya butirnya sendiri menyala sendiri; sisanya
+  // (Magazines/Education/English) menyalakan Explore
   const activeId =
-    NAV_ITEMS.find(
-      (item) =>
-        route === item.id || (item.id === `explore` && isCategoryRoute(route)),
-    )?.id ?? `home`;
+    NAV_ITEMS.find((item) => route === item.id)?.id ??
+    (isCategoryRoute(route) ? `explore` : `home`);
+  // dock punya daftarnya sendiri: Games dan Videos adalah halaman betulan di
+  // sini, jadi keduanya bisa jadi aktif tanpa lewat Explore
+  const activeDockId =
+    DOCK_ITEMS.find((item) => route === item.id)?.id ??
+    (isCategoryRoute(route) ? undefined : `home`);
   return (
     <>
       <header
@@ -62,10 +111,12 @@ export function TopNav({
           position: `sticky`,
           top: 0,
           zIndex: 20,
-          background: `rgba(255,255,255,0.1)`,
-          backdropFilter: `blur(16px)`,
-          WebkitBackdropFilter: `blur(16px)`,
-          borderBottom: `1px solid rgba(255,255,255,0.2)`,
+          // kaca putih dulu dipakai untuk melunakkan gradien terang;
+          // di latar gelap ia justru jadi kabut abu-abu
+          background: `rgba(20,10,36,.72)`,
+          backdropFilter: `blur(18px) saturate(1.3)`,
+          WebkitBackdropFilter: `blur(18px) saturate(1.3)`,
+          borderBottom: `1px solid var(--card-border)`,
         }}
       >
         <div
@@ -107,6 +158,9 @@ export function TopNav({
           </nav>
           <div
             style={{
+              // dipaku ke kolom terakhir: tanpa ini, nav tengah yang
+              // display:none di HP membuat kelompok ini naik ke kolom 2
+              gridColumn: 3,
               justifySelf: `end`,
               flexShrink: 0,
               display: `flex`,
@@ -142,8 +196,8 @@ export function TopNav({
       </header>
       <nav className="vp-dock" aria-label={t(`Main`)}>
         <div className="vp-dock-bar">
-          {NAV_ITEMS.map((item) => {
-            const active = activeId === item.id;
+          {DOCK_ITEMS.map((item) => {
+            const active = activeDockId === item.id;
             return (
               <button
                 key={item.id}

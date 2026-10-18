@@ -168,12 +168,12 @@ export function CategoryPage({
           href={more.url}
           target="_blank"
           rel="noopener noreferrer"
+          className="vp-on-dark"
           style={{
             display: `flex`,
             alignItems: `center`,
             gap: 14,
             padding: `16px 18px`,
-            border: `1px solid var(--line)`,
             background: `var(--card)`,
             borderRadius: `var(--r-lg)`,
             textDecoration: `none`,

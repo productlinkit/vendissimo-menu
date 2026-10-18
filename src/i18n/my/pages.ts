@@ -47,6 +47,53 @@ export const pages: Record<string, string> = {
   Unlocked: "ရရှိပြီ",
   Redeem: "လဲလှယ်ရန်",
   "How to redeem": "လဲလှယ်နည်း",
+  "Next reward": "နောက်ဆု",
+
+  // --- level & misi game ---
+  Levels: "အဆင့်များ",
+  Locked: "သော့ပိတ်ထား",
+  All: "အားလုံး",
+  "Current stage": "လက်ရှိ အဆင့်",
+  "Level {n} — locked, unlocks at {exp} EXP":
+    "အဆင့် {n} — သော့ပိတ်ထား၊ {exp} EXP တွင် ပွင့်မည်",
+  "Level {n}": "အဆင့် {n}",
+  EXP: "EXP",
+  Prize: "ဆုလက်ဆောင်",
+  "{n} EXP": "{n} EXP",
+  "{n} EXP more to reach level {lvl}":
+    "အဆင့် {lvl} သို့ရောက်ရန် {n} EXP လိုပါသေးသည်",
+  "Top level reached — every reward is open":
+    "အမြင့်ဆုံးအဆင့် ရောက်ပြီ — ဆုအားလုံး ဖွင့်ထားပြီးဖြစ်သည်",
+  "Level {n} — prize {prize}": "အဆင့် {n} — ဆု {prize}",
+  "Prize: {prize}": "ဆု: {prize}",
+  "Unlocks at {n} EXP": "{n} EXP ရောက်လျှင် ပွင့်မည်",
+  "You are here": "သင် ဤနေရာတွင် ရှိသည်",
+  "Your prize at this level": "ဤအဆင့်တွင် သင်ရမည့် ဆု",
+  "{prize} — {n} pts to claim it": "{prize} — ရယူရန် {n} ပွိုင့်",
+  "Reach {n} EXP to unlock {prize}": "{prize} ဖွင့်ရန် {n} EXP ရောက်အောင် လုပ်ပါ",
+  "Points on offer": "ရနိုင်သော ပွိုင့်",
+  "Mission objectives ({done}/{total})": "မစ်ရှင် ရည်မှန်းချက် ({done}/{total})",
+  "Play {group}": "{group} ကစားရန်",
+  "Play your first game here": "ဤနေရာတွင် ပထမဆုံးဂိမ်း ကစားပါ",
+  "Play {n} games in this group": "ဤအုပ်စုတွင် ဂိမ်း {n} ခု ကစားပါ",
+  "Earn {n} pts from this group": "ဤအုပ်စုမှ {n} ပွိုင့် ရယူပါ",
+  "Arcade Games": "အာကိတ် ဂိမ်းများ",
+  "Puzzle Games": "ပဟေဠိ ဂိမ်းများ",
+  "Sports Games": "အားကစား ဂိမ်းများ",
+  "Quick reflexes, instant fun": "လက်မြန်ခြေမြန် — ချက်ချင်း ပျော်စရာ",
+  "Think it through, match it up": "စဉ်းစားပြီး တွဲဆက်ပါ",
+  "Take your best shot": "အကောင်းဆုံး ပစ်ကြည့်ပါ",
+  "Level up by playing, then swap points for a real reward":
+    "ကစားပြီး အဆင့်တက်ပါ၊ ပြီးရင် ပွိုင့်နဲ့ ဆုအစစ် လဲယူပါ",
+  "How levels work": "အဆင့်စနစ် အလုပ်လုပ်ပုံ",
+  "{n} EXP · see your prize": "{n} EXP · သင့်ဆုကို ကြည့်ရန်",
+  "Each level has its own games and its own prize. Earn EXP to open the next one.":
+    "အဆင့်တိုင်းတွင် ကိုယ်ပိုင်ဂိမ်းများနှင့် ကိုယ်ပိုင်ဆု ရှိသည်။ နောက်တစ်ဆင့် ဖွင့်ရန် EXP ရယူပါ။",
+  "EXP comes from finishing games. It only ever goes up — spending points on a reward never costs you a level.":
+    "EXP သည် ဂိမ်းပြီးဆုံးခြင်းမှ ရသည်။ တိုးသာတက်သည် — ဆုအတွက် ပွိုင့်သုံးလည်း အဆင့် မကျပါ။",
+  "This is what you get at this level. Points pay for it, EXP unlocks it.":
+    "ဤအဆင့်တွင် သင်ရမည့်အရာ ဖြစ်သည်။ ပွိုင့်ဖြင့် ပေးချေ၊ EXP ဖြင့် ဖွင့်သည်။",
+  "Got it": "နားလည်ပါပြီ",
   "How to earn": "ပွိုင့်ရယူနည်း",
   "Finish Education course": "ပညာရေး သင်ခန်းစာ ပြီးဆုံးခြင်း",
   "Complete English practice": "အင်္ဂလိပ်စာ လေ့ကျင့်ခန်း ပြီးဆုံးခြင်း",

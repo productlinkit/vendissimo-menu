@@ -1,23 +1,34 @@
 :root {
   color-scheme: dark;
-  --bg: #8f36a1;
-  --surface: #ffffff26;
-  --surface-2: #fff3;
+  /* Latar terang dan tenang dengan isyarat warna merek saja; gradien
+     terangnya dipakai sebagai aksen. Tinta bawaan jadi plum gelap
+     (15:1 di atas latar ini), lalu dibalik jadi putih di dalam kartu
+     gelap lewat grup .vp-on-dark di bawah. */
+  --bg: #f3ecf9;
+  --bg-2: #fbf7fd;
+  --surface: #ffffff0f;
+  --surface-2: #ffffff17;
   --card-scrim: #4a14509e;
-  --card: linear-gradient(#ffffff26, #ffffff26), var(--card-scrim);
+  --card: #241744;
+  --card-2: #2d1d58;
+  --card-chip: #3a2568;
   /* isian solid untuk nilai status; teks berwarna di atas gradien tidak pernah
      lolos kontras (hijau 1,12:1, oranye 1,14:1 di ujung oranye) */
   --chip-good: #0f766e;
   --chip-count: #9a3412;
-  --card-border: #fff3;
-  --line: #fff3;
-  --line-2: #ffffff4d;
-  --ink: #fff;
+  --card-border: #ffffff1f;
+  --line: #ffffff17;
+  --line-2: #ffffff2e;
+  --ink: #2a0a32;
   /* dulu 95% dan 88%; di atas gradien terang setiap persen alpha langsung
      memotong kontras (teks 13px: 3,51:1 -> 4,21:1 hanya dari ini).
      Hirarki sekarang dari ukuran dan bobot, bukan dari transparansi. */
-  --ink-2: #fff;
-  --ink-3: #fff;
+  --ink-2: #5b3a63;
+  --ink-3: #6e4f76;
+  /* dipakai di dalam kartu gelap */
+  --ink-on-dark: #fff;
+  --ink-on-dark-2: #ded2f0;
+  --ink-on-dark-3: #c3b4de;
   --pink: #e72385;
   /* pink untuk TEKS di atas putih; --pink sendiri hanya 4,22:1 */
   --pink-on-white: #d81b76;
@@ -32,7 +43,16 @@
     #e72385 50%,
     #ff8157 100%
   );
-  --grad-card: linear-gradient(#ffffff26, #ffffff26), var(--card-scrim);
+  /* satu-satunya tempat gradien terang muncul sekarang: bilah kemajuan,
+     cincin, dan cahaya -- permukaan tanpa teks di atasnya */
+  --grad-accent: linear-gradient(135deg, #a855f7, #e72385 58%, #ff8157);
+  /* versi lebih tua untuk permukaan yang MEMBAWA teks putih: ujung pink
+     dan oranye versi terang mentok di 4,2:1, sedangkan ini 5,2:1 ke atas */
+  --grad-accent-ink: linear-gradient(135deg, #7c3aed, #c81e6e 58%, #b8491f);
+  /* isian aksen yang aman untuk teks putih: --pink sendiri cuma 4,22:1 */
+  --accent-ink: #c81e6e;
+  --grad-card: var(--card);
+  --r-xl: 26px;
   --r-lg: 20px;
   --r-md: 16px;
   --r-sm: 12px;
@@ -51,12 +71,39 @@
 :after {
   box-sizing: border-box;
 }
+/* Permukaan gelap di atas latar terang. Custom property ikut diwarisi,
+   jadi anak yang memakai var(--ink-2)/var(--ink-3) otomatis jadi versi
+   terang tanpa perlu disentuh satu per satu. */
+.vp-card,
+.vp-panel,
+.vp-menu-item,
+.vp-pts-pill,
+.vp-lang,
+.vp-carousel,
+.vp-dock-bar,
+.vp-top-nav,
+.vp-tile,
+.vp-sheet-card,
+.vp-level-head,
+.vp-map,
+.vp-level-hero,
+.vp-prize,
+.vp-group,
+.vp-on-dark {
+  --ink: var(--ink-on-dark);
+  --ink-2: var(--ink-on-dark-2);
+  --ink-3: var(--ink-on-dark-3);
+  --line: #ffffff17;
+  --line-2: #ffffff2e;
+  --card-border: #ffffff1f;
+  color: var(--ink-on-dark);
+}
 html {
   /* dock mengambang ~74px: beri ruang supaya elemen yang difokus
      tidak tersembunyi di belakangnya (WCAG 2.4.11) */
   scroll-padding-bottom: 96px;
   scroll-behavior: smooth;
-  background: #8f36a1;
+  background: #f3ecf9;
   max-width: 100%;
   min-height: 100%;
   overflow-x: hidden;
@@ -66,10 +113,12 @@ body {
   font: 400 16px/1.6 var(--f-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* isyarat warna merek saja, bukan gradien penuh */
   background-image:
-    radial-gradient(60% 55% at 18% 22%, #ffffff38, #0000 70%),
-    radial-gradient(45% 45% at 88% 78%, #ffffff24, #0000 70%),
-    linear-gradient(to bottom right, #8f36a1 0%, #e72385 50%, #ff8157 100%);
+    radial-gradient(56% 38% at 10% 0%, #8f36a11f, #0000 70%),
+    radial-gradient(50% 36% at 94% 12%, #e723851f, #0000 70%),
+    radial-gradient(58% 38% at 80% 100%, #ff81571a, #0000 72%),
+    linear-gradient(175deg, var(--bg-2), var(--bg) 62%);
   background-attachment: fixed;
   width: 100%;
   max-width: 100%;
@@ -82,9 +131,10 @@ body:before {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(60% 55% at 18% 22%, #ffffff38, #0000 70%),
-    radial-gradient(45% 45% at 88% 78%, #ffffff24, #0000 70%),
-    linear-gradient(to bottom right, #8f36a1 0%, #e72385 50%, #ff8157 100%);
+    radial-gradient(56% 38% at 10% 0%, #8f36a11f, #0000 70%),
+    radial-gradient(50% 36% at 94% 12%, #e723851f, #0000 70%),
+    radial-gradient(58% 38% at 80% 100%, #ff81571a, #0000 72%),
+    linear-gradient(175deg, var(--bg-2), var(--bg) 62%);
   position: fixed;
   inset: 0;
 }
@@ -140,9 +190,10 @@ svg {
   border-radius: 2px;
 }
 :focus-visible {
-  outline: 3px solid #fff;
+  /* cincin plum + halo putih: terlihat di latar terang maupun kartu gelap */
+  outline: 3px solid #2a0a32;
   outline-offset: 2px;
-  box-shadow: 0 0 0 5px #2a0a3299;
+  box-shadow: 0 0 0 5px #ffffffd9;
 }
 @keyframes flyUp {
   0% {
@@ -254,7 +305,6 @@ svg {
   }
 }
 .toast {
-  border: 1px solid var(--line-2);
   color: var(--ink);
   z-index: 900;
   white-space: nowrap;
@@ -271,17 +321,6 @@ svg {
   bottom: 110px;
   left: 50%;
   transform: translate(-50%);
-}
-@keyframes spinWheel {
-  0% {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(var(--spin-deg, 1440deg));
-  }
-}
-.spinning {
-  animation: 2.4s cubic-bezier(0.2, 0, 0.1, 1) forwards spinWheel;
 }
 .vp-app {
   width: 100%;
@@ -321,11 +360,9 @@ svg {
   .vp-top-nav {
     gap: 2px;
     padding: 4px;
-    border: 1px solid #ffffff59;
+    border: 0;
     border-radius: 999px;
-    /* kaca putih di sini menerangkan gradien: label putih cuma 3,5:1.
-       Scrim yang sama dengan dock bawah membuatnya 6:1 ke atas. */
-    background: #4a14508c;
+    background: var(--card);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
     backdrop-filter: blur(20px) saturate(1.4);
     display: flex;
@@ -345,13 +382,13 @@ svg {
   opacity: 1;
 }
 .vp-top-link.is-on {
-  color: var(--pink-on-white);
-  background: #fff;
+  color: #fff;
+  background: var(--grad-accent-ink);
   opacity: 1;
-  box-shadow: 0 4px 14px -4px #00000047;
+  box-shadow: 0 10px 22px -10px #e7238599;
 }
 .vp-top-link.is-on:hover {
-  background: #fff;
+  background: var(--grad-accent-ink);
 }
 .vp-dock {
   display: none;
@@ -369,7 +406,7 @@ svg {
   }
 }
 .vp-pts-pill {
-  border: 1px solid var(--line-2);
+  border: 0;
   background: var(--card);
   border-radius: 999px;
   flex-shrink: 0;
@@ -512,8 +549,8 @@ svg {
   text-transform: uppercase;
   color: #fff;
   white-space: nowrap;
-  background: #ffffff1a;
-  border: 1px solid #ffffff80;
+  background: #ffffff1f;
+  border: 1px solid #ffffff3d;
   border-radius: 999px;
   align-self: flex-start;
   padding: 3px 8px;
@@ -528,19 +565,20 @@ svg {
   }
 }
 .vp-carousel-btn {
-  color: var(--pink-on-white);
+  color: #fff;
+  background: linear-gradient(135deg, #a855f7, var(--pink) 60%, #ff6f61);
+  box-shadow: 0 14px 28px -14px #e72385e6;
   font-family: var(--f-display);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
-  background: #fff;
   border: 0;
   border-radius: 999px;
   align-self: flex-start;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 10px 16px;
   font-size: 12px;
   font-weight: 900;
   transition: all 0.2s;
@@ -549,7 +587,7 @@ svg {
 }
 .vp-carousel-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 40px #ffffff59;
+  box-shadow: 0 16px 34px -14px #e72385;
 }
 @media (width>=480px) {
   .vp-carousel-btn {
@@ -564,21 +602,86 @@ svg {
     font-size: 14px;
   }
 }
+/* Komposisi yang sengaja tidak simetris: tiap kategori menempati petak
+   yang ditentukan sendiri, bukan kotak seragam. Baris setinggi 64px jadi
+   satuan kecil supaya selisih tingginya bisa besar tanpa menyisakan
+   lubang -- dua kolomnya sama-sama berakhir di baris 9. */
 .vp-cat-grid {
   box-sizing: border-box;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  width: 100%;
   display: grid;
-  border-radius: var(--r-md);
-  overflow: hidden;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: clamp(52px, 15vw, 72px);
+  gap: 12px;
+  width: 100%;
 }
-/* Kartu kategori di HP memakai ubin bergambar yang sama dengan bento
-   desktop: isi aslinya yang jadi gambar, bukan ilustrasi kategori.
-   Diawali .vp-cat-grid karena .vp-tile{min-height:0} ada lebih bawah di
+.vp-cat-grid .is-magazines {
+  grid-column: 1;
+  grid-row: 1 / span 4;
+}
+.vp-cat-grid .is-videos {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+}
+.vp-cat-grid .is-games {
+  grid-column: 2;
+  grid-row: 4 / span 5;
+}
+.vp-cat-grid .is-education {
+  grid-column: 1;
+  grid-row: 5 / span 4;
+}
+.vp-cat-grid .is-english {
+  grid-column: 1 / -1;
+  grid-row: 9 / span 2;
+}
+/* Layar lebar: tiga kolom, Games jadi ubin tinggi yang memimpin. */
+@media (width>=860px) {
+  .vp-cat-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .vp-cat-grid .is-magazines {
+    grid-column: 1;
+    grid-row: 1 / span 4;
+  }
+  .vp-cat-grid .is-education {
+    grid-column: 1;
+    grid-row: 5 / span 4;
+  }
+  .vp-cat-grid .is-videos {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+  .vp-cat-grid .is-english {
+    grid-column: 2;
+    grid-row: 4 / span 5;
+  }
+  .vp-cat-grid .is-games {
+    grid-column: 3;
+    grid-row: 1 / span 8;
+  }
+}
+/* Diawali .vp-cat-grid karena .vp-tile{min-height:0} ada lebih bawah di
    berkas ini dan akan menang pada kekhususan yang sama. */
 .vp-cat-grid .vp-cat-tile {
-  min-height: clamp(150px, 42vw, 196px);
+  width: 100%;
+  margin: 0;
+  min-height: 0;
+  /* tanpa garis tepi: gambarnya sudah mengisi penuh, garis 1px di atasnya
+     terbaca sebagai bingkai gelap di sekeliling kartu */
+  border: 0;
+  box-shadow: 0 14px 30px -22px #2a0a3259;
+}
+/* Fade tipis saja supaya tidak terbaca sebagai pita hitam di bawah kartu. */
+.vp-cat-grid .vp-cat-tile:after {
+  background: linear-gradient(to top, #120820cc 0%, #1208207a 38%, #12082000 68%);
+}
+/* Ilustrasi English hampir putih di bawah, jadi fade setipis ini tidak
+   cukup di sana; hanya ubin itu yang diberi kerudung tambahan. */
+.vp-cat-grid .is-english .vp-tile-art:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #12082080 0%, #12082000 58%);
 }
 .vp-cat-grid .vp-cat-tile .vp-tile-text {
   bottom: 12px;
@@ -593,44 +696,6 @@ svg {
   font-size: 13.5px;
   line-height: 1.3;
   overflow-wrap: anywhere;
-}
-.vp-cat-grid .vp-cat-tile-wide {
-  grid-column: 1 / -1;
-  min-height: clamp(130px, 35vw, 176px);
-  background: #fff;
-}
-/* ilustrasi English dibiarkan utuh dan diberi ruang di bawah untuk teksnya */
-.vp-cat-grid .vp-cat-tile-wide .vp-tile-art > img {
-  object-fit: contain;
-  padding: 10px 6px 52px;
-}
-.vp-cat-grid.is-explore .vp-cat-tile {
-  min-height: clamp(168px, 46vw, 236px);
-}
-.vp-cat-grid.is-explore .vp-cat-tile-wide {
-  min-height: clamp(140px, 38vw, 200px);
-}
-@media (width>=640px) {
-  .vp-cat-grid.is-explore {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  /* English duduk di sebelah Education, bukan sendirian di baris baru */
-  .vp-cat-grid.is-explore .vp-cat-tile-wide {
-    grid-column: 2 / -1;
-  }
-}
-/* Tetap dua kolom di semua lebar: empat kartu jadi 2x2 dan kartu English
-   (gridColumn 1 / -1) membentang penuh di bawahnya. Lima kolom membuat
-   English melar sendirian di baris kedua. */
-.vp-row {
-  scroll-snap-type: x mandatory;
-  box-sizing: border-box;
-  scrollbar-width: none;
-  width: 100%;
-  max-width: 100%;
-  padding-top: 4px;
-  padding-bottom: 8px;
-  overflow-x: auto;
 }
 .vp-row::-webkit-scrollbar {
   display: none;
@@ -721,24 +786,10 @@ svg {
 .vp-grid .vp-edu-card {
   width: 100%;
 }
-.vp-scan > *,
 .vp-pts-hero > div,
 .vp-reward-card > div,
 .vp-menu-item > span:first-of-type {
   min-width: 0;
-}
-.vp-scan {
-  border-radius: var(--r-md);
-  -webkit-backdrop-filter: blur(12px);
-  box-sizing: border-box;
-  background: var(--card);
-  border: 1px solid var(--line);
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 16px;
-  display: flex;
-  box-shadow: 0 10px 40px -10px #00000040;
 }
 .vp-sec-head {
   box-sizing: border-box;
@@ -750,11 +801,11 @@ svg {
   display: flex;
 }
 .vp-sec-head h2 {
-  color: #fff;
+  color: var(--ink);
   font-size: clamp(20px, 5vw, 28px);
 }
 .vp-sec-head .see-all {
-  color: #fff;
+  color: var(--ink);
   white-space: nowrap;
   flex-shrink: 0;
   font-size: 15px;
@@ -762,12 +813,13 @@ svg {
 }
 .btn-primary {
   min-height: var(--btn-h);
-  color: var(--pink-on-white);
+  box-shadow: 0 14px 28px -14px #e72385e6;
+  color: #fff;
   font-family: var(--f-display);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
-  background: #fff;
+  background: var(--grad-accent-ink);
   border: 0;
   border-radius: 999px;
   justify-content: center;
@@ -782,16 +834,16 @@ svg {
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 40px #ffffff59;
+  box-shadow: 0 16px 34px -14px #e72385;
 }
 .btn-primary-full {
   width: 100%;
 }
 .btn-outline {
   cursor: pointer;
-  color: #fff;
+  color: var(--ink);
   background: 0 0;
-  border: 1px solid #fff9;
+  border: 1px solid var(--line-2);
   border-radius: 999px;
   justify-content: center;
   align-items: center;
@@ -805,7 +857,7 @@ svg {
   display: inline-flex;
 }
 .btn-outline:hover {
-  background: #ffffff26;
+  background: #2a0a320f;
 }
 .vp-rewards-grid {
   gap: var(--card-gap);
@@ -839,7 +891,7 @@ svg {
   display: grid;
 }
 .vp-menu-item {
-  border: 1px solid var(--line);
+  border: 0;
   background: var(--card);
   border-radius: var(--r-md);
   text-align: left;
@@ -881,7 +933,7 @@ svg {
   }
 }
 .vp-panel {
-  border: 1px solid var(--card-border);
+  border: 0;
   background: var(--card);
   -webkit-backdrop-filter: blur(12px);
   border-radius: var(--r-md);
@@ -947,63 +999,7 @@ svg {
     max-height: 70vh;
   }
 }
-.vp-spin-section {
-  border: 1px solid var(--line);
-  background: var(--card);
-  border-radius: var(--r-md);
-  box-sizing: border-box;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 18px 16px 20px;
-  display: flex;
-  overflow: hidden;
-}
-.vp-spin-text {
-  flex-direction: column;
-  flex: 1 1 0;
-  gap: 8px;
-  min-width: 0;
-  display: flex;
-}
-@media (width<=380px) {
-  .vp-spin-text {
-    gap: 6px;
-  }
-  .vp-spin-text div {
-    font-size: 15px !important;
-  }
-  .vp-spin-section {
-    gap: 8px;
-    padding: 14px 12px 16px;
-  }
-}
-.vp-spin-canvas-wrap {
-  aspect-ratio: 1;
-  flex-shrink: 0;
-  width: clamp(100px, 30vw, 140px);
-  position: relative;
-}
-.vp-spin-pointer {
-  z-index: 2;
-  border-top: 18px solid #fff;
-  border-left: 8px solid #0000;
-  border-right: 8px solid #0000;
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translate(-50%);
-}
-.vp-spin-wrap {
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  display: flex;
-}
-.vp-profile-card {
+  .vp-profile-card {
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
@@ -1124,7 +1120,7 @@ svg {
 }
 .vp-card {
   text-align: left;
-  border: 1px solid var(--card-border);
+  border: 0;
   background: var(--card);
   -webkit-backdrop-filter: blur(12px);
   border-radius: var(--r-md);
@@ -1249,8 +1245,8 @@ select {
   color: #fff;
   border-radius: var(--r-sm);
   -webkit-backdrop-filter: blur(8px);
-  background: #ffffff26;
-  border: 1px solid #ffffff4d;
+  background: var(--card-chip);
+  border: 1px solid var(--card-border);
   outline: none;
   padding: 10px 14px;
   font-family: inherit;
@@ -1389,7 +1385,7 @@ select:focus {
   inherits: false;
 }
 .vp-lang {
-  border: 1px solid var(--line-2);
+  border: 0;
   background: var(--card);
   border-radius: 999px;
   flex-shrink: 0;
@@ -1408,8 +1404,8 @@ select:focus {
   padding: 0 10px;
 }
 .vp-lang button[aria-pressed="true"] {
-  color: var(--pink-on-white);
-  background: #fff;
+  color: #fff;
+  background: var(--grad-accent-ink);
 }
 /* Myanmar script is taller and has no capitals: give it room and drop caps/tracking */
 :lang(my) {
@@ -1448,8 +1444,10 @@ select:focus {
   text-align: center;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  background: #ffffff2e;
-  border: 1px solid #ffffff4d;
+  background:
+    radial-gradient(120% 140% at 100% 0%, #a855f74d, #0000 58%),
+    var(--card);
+  border: 0;
   border-radius: 28px;
   flex-direction: column;
   align-items: center;
@@ -1487,8 +1485,8 @@ select:focus {
   border-radius: 999px;
 }
 .vp-sheet-primary {
-  color: var(--pink);
-  background: #fff;
+  color: #fff;
+  background: var(--grad-accent-ink);
   border: 0;
   box-shadow: 0 4px 18px #0003;
 }
@@ -1531,6 +1529,610 @@ select:focus {
   font: 900 14px/1 var(--f-display);
   display: grid;
 }
+
+/* ---------- level & misi game ---------- */
+/* Permukaan gelap pekat khusus layar gamifikasi -- kartu di halaman lain
+   tetap kaca terang seperti sebelumnya. Teks putih di sini 15:1 ke atas,
+   jadi kontras tidak pernah jadi soal dan warnanya bisa dibuat pekat. */
+.vp-levels,
+.vp-level-detail {
+  --game-card: #241744;
+  --game-card-2: #2d1d58;
+  --game-chip: #3a2568;
+  --game-line: #ffffff1f;
+  --game-ink-2: #cdbce8;
+  --game-shadow: 0 20px 44px -22px #000000d9;
+}
+.vp-level-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.vp-level-help {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--card);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 26px -14px #000000b3;
+}
+.vp-level-help svg {
+  width: 22px;
+  height: 22px;
+}
+.vp-levels {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+.vp-level-head {
+  border: 0;
+  background:
+    radial-gradient(120% 140% at 100% 0%, #e7238547, #0000 62%),
+    var(--game-card);
+  border-radius: 24px;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+  box-shadow: var(--game-shadow);
+}
+.vp-level-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.vp-level-badge span {
+  font: 900 23px/1 var(--f-display);
+  color: #fff;
+}
+.vp-level-badge strong {
+  font: 500 15px/1 var(--f-mono);
+  color: #fff;
+  background: var(--game-chip);
+  border-radius: 999px;
+  padding: 9px 14px;
+}
+.vp-level-bar {
+  height: 12px;
+  border-radius: 99px;
+  background: #0f0820;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px #00000080;
+}
+.vp-level-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a855f7, var(--pink) 55%, #fea832);
+  box-shadow: 0 0 14px -2px #e72385cc;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.vp-level-next {
+  font-size: 15px;
+  color: var(--game-ink-2);
+}
+.vp-level-now {
+  font: 800 11.5px/1 var(--f-body);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #a855f7, var(--pink));
+  border-radius: 999px;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+/* ---------- peta karnaval ---------- */
+.vp-map {
+  position: relative;
+  height: clamp(480px, 128vw, 640px);
+  border-radius: 28px;
+  overflow: hidden;
+  border: 0;
+  box-shadow: var(--game-shadow);
+  background:
+    radial-gradient(70% 46% at 22% 84%, #ff5fa233, #0000 70%),
+    radial-gradient(64% 44% at 78% 50%, #a855f73d, #0000 70%),
+    radial-gradient(70% 44% at 26% 16%, #ff9a4d2e, #0000 70%),
+    linear-gradient(170deg, #3a1152 0%, #5c1455 46%, #8d1a56 100%);
+}
+/* kilau lembut supaya latarnya tidak terasa datar */
+.vp-map:before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(34% 20% at 70% 14%, #ffffff1f, #0000 70%),
+    radial-gradient(28% 16% at 18% 48%, #ffffff17, #0000 70%);
+  pointer-events: none;
+}
+.vp-map-stage {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: grid;
+  gap: 2px;
+  padding: 10px 16px;
+  border-radius: 16px;
+  background: #2a0a3273;
+  border: 1px solid #ffffff2e;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.vp-map-stage span {
+  font: 500 11px/1 var(--f-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f0dcff;
+}
+.vp-map-stage strong {
+  font: 900 18px/1 var(--f-display);
+  color: #fff;
+}
+.vp-map-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.vp-map-road {
+  fill: none;
+  stroke: #ffffff1a;
+  stroke-width: 26;
+  stroke-linecap: round;
+}
+/* bola lampu: garis putus-putus bertutup bundar, bukan gambar */
+.vp-map-bulbs {
+  fill: none;
+  stroke: #ffe9b0;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 13;
+  filter: drop-shadow(0 0 5px #ffd98a) drop-shadow(0 0 12px #ffb45c96);
+}
+.vp-map-stops {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 2;
+}
+.vp-map-slot {
+  position: absolute;
+  --medal: clamp(76px, 22vw, 96px);
+  transform: translate(-50%, calc(var(--medal) / -2));
+}
+.vp-map-stop {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  width: clamp(104px, 30vw, 132px);
+}
+.vp-map-medal {
+  position: relative;
+  width: var(--medal, clamp(76px, 22vw, 96px));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: visible;
+  display: block;
+}
+.vp-map-medal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 12px 26px -10px #000000d9;
+}
+/* hadiah menempel di tepi medali, jadi "dapat apa" terbaca dari peta */
+.vp-map-prize {
+  position: absolute;
+  right: -8px;
+  bottom: -6px;
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  border: 2px solid #fff !important;
+  border-radius: 50%;
+  background: #2a0a32;
+  padding: 4px;
+  box-shadow: 0 6px 14px -6px #000000d9;
+}
+.vp-map-label {
+  font: 900 clamp(19px, 5.4vw, 24px) / 1 var(--f-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  /* bayangan lembut, bukan garis tepi: tetap terbaca di atas peta tanpa
+     tepi tebal yang bikin huruf terasa berat */
+  text-shadow: 0 2px 10px #2a0a32cc;
+}
+.vp-map-note {
+  font: 700 12.5px/1 var(--f-body);
+  color: #fff;
+  background: #2a0a3299;
+  border: 1px solid #ffffff2e;
+  border-radius: 999px;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.vp-map-you {
+  font: 800 11px/1 var(--f-body);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  /* ujung --pink hanya 4,21:1 dengan teks putih; dua warna ini 5,4:1 ke atas */
+  background: linear-gradient(135deg, #7c3aed, #c81e6e);
+  border-radius: 999px;
+  padding: 6px 10px;
+  white-space: nowrap;
+  box-shadow: 0 8px 18px -8px #c81e6e;
+}
+/* perhentian sekarang berdenyut pelan; dimatikan bila pengguna minta
+   gerakan dikurangi */
+.vp-map-stop.is-now .vp-map-medal:after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 3px solid #ffd98a;
+  animation: 2.4s ease-in-out infinite vpPulse;
+}
+@keyframes vpPulse {
+  50% {
+    transform: scale(1.09);
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vp-map-stop.is-now .vp-map-medal:after {
+    animation: none;
+  }
+}
+/* terkunci: kelabu seluruhnya, bukan sekadar lebih gelap */
+.vp-map-stop.is-locked .vp-map-medal img {
+  filter: grayscale(1) brightness(0.68);
+  border-color: #c9bcd8;
+}
+.vp-map-stop.is-locked .vp-map-prize {
+  filter: grayscale(1);
+  opacity: 0.8;
+}
+.vp-map-stop.is-locked .vp-map-label {
+  color: #d3c7e0;
+}
+.vp-map-stop.is-locked .vp-map-note {
+  color: #d3c7e0;
+}
+.vp-map-stop:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 6px;
+  border-radius: 20px;
+}
+
+/* ---------- satu halaman level ---------- */
+.vp-level-detail {
+  display: grid;
+  gap: 14px;
+}
+.vp-level-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 15px;
+  justify-self: start;
+}
+.vp-level-back span {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.vp-level-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 0;
+  background:
+    radial-gradient(120% 150% at 100% 0%, #a855f759, #0000 60%),
+    var(--game-card);
+  border-radius: 26px;
+  padding: 20px;
+  box-shadow: var(--game-shadow);
+}
+.vp-level-hero > div {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+}
+.vp-level-hero h1 {
+  font-size: clamp(28px, 7vw, 42px);
+  color: #fff;
+}
+.vp-level-hero-sub {
+  font-size: 15px;
+  color: var(--game-ink-2);
+}
+.vp-level-hero-art {
+  width: clamp(84px, 26vw, 128px);
+  border-radius: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 14px 30px -14px #000000d9;
+}
+.vp-prize {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 0;
+  background:
+    radial-gradient(90% 150% at 0% 50%, #fea8323d, #0000 60%),
+    var(--game-card);
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: var(--game-shadow);
+}
+.vp-prize img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 8px 18px #00000073);
+}
+.vp-prize h2 {
+  font-size: 19px;
+  color: #fff;
+}
+.vp-prize p {
+  font-size: 15px;
+  color: var(--game-ink-2);
+  margin-top: 5px;
+}
+.vp-group-list {
+  display: grid;
+  gap: 14px;
+}
+@media (width>=860px) {
+  .vp-group-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.vp-group {
+  border: 0;
+  background: var(--game-card);
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: var(--game-shadow);
+}
+.vp-group-art {
+  display: block;
+  aspect-ratio: 16 / 7;
+  width: 100%;
+  position: relative;
+}
+.vp-group-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* gambar menyatu ke badan kartu, tidak terpotong mendadak */
+.vp-group-art:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #241744 0%, #24174400 46%);
+}
+.vp-group-body {
+  padding: 2px 18px 18px;
+  display: grid;
+  gap: 12px;
+}
+.vp-group-title {
+  font-size: 22px;
+  color: #fff;
+}
+.vp-group-sub {
+  font-size: 15px;
+  color: var(--game-ink-2);
+}
+/* dua keping statistik gelap, seperti referensi */
+.vp-group-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0;
+}
+.vp-group-stats > div {
+  background: var(--game-chip);
+  border-radius: 16px;
+  padding: 11px 14px;
+}
+.vp-group-stats dt {
+  font: 400 12px/1.2 var(--f-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #bfaee0;
+}
+.vp-group-stats dd {
+  margin: 5px 0 0;
+  font: 900 19px/1 var(--f-display);
+  color: #fff;
+}
+.vp-group-go {
+  min-height: 52px;
+  width: 100%;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #a855f7, var(--pink) 60%, #ff6f61);
+  color: #fff;
+  font: 900 19px/1 var(--f-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 14px 28px -14px #e72385e6;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.vp-group-go:active {
+  transform: scale(0.98);
+}
+.vp-group-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+.vp-group-caret {
+  width: 18px;
+  height: 18px;
+  display: block;
+  transition: transform 0.2s;
+  transform: rotate(90deg);
+}
+.vp-group-caret[data-open] {
+  transform: rotate(-90deg);
+}
+.vp-group-objectives {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vp-group-objectives li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  /* belum selesai: abu-abu, supaya yang sudah selesai langsung terbaca */
+  color: #9a8bb8;
+  background: #ffffff0a;
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+.vp-group-objectives li.done {
+  color: #fff;
+  background: #ffffff14;
+}
+.vp-group-tick {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #ffffff2e;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 3px;
+  color: #fff;
+}
+.vp-group-objectives li.done .vp-group-tick {
+  background: var(--chip-good);
+  border-color: var(--chip-good);
+}
+
+/* ---------- tur popup ---------- */
+.vp-coach {
+  position: fixed;
+  inset: 0;
+  z-index: 85;
+}
+.vp-coach-veil {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: #0d0320b3;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+.vp-coach-ring {
+  position: absolute;
+  border: 3px solid #fff;
+  border-radius: 24px;
+  box-shadow: 0 0 0 9999px #0d0320b3, 0 0 22px -2px #ffffffa6;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.vp-coach-card {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 32px));
+  background: #fff;
+  color: #2a0a32;
+  border-radius: 24px;
+  padding: 22px 22px 18px;
+  box-shadow: 0 28px 70px #00000080;
+}
+.vp-coach-card h2 {
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pink-on-white);
+}
+.vp-coach-card p {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2a0a32;
+}
+.vp-coach-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 18px;
+}
+.vp-coach-count {
+  font: 500 16px/1 var(--f-mono);
+  color: #6b4a73;
+}
+.vp-coach-count strong {
+  color: var(--pink-on-white);
+}
+.vp-coach-next {
+  min-height: 46px;
+  padding: 0 30px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #a855f7, var(--pink-on-white));
+  color: #fff;
+  font: 900 16px/1 var(--f-display);
+  cursor: pointer;
+}
+.vp-coach-x {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #6b4a73;
+}
+.vp-coach-x svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* ---------- desktop home: picture tiles filling one screen ---------- */
 .vp-bento,
 .vp-desktop-only {
@@ -1559,10 +2161,8 @@ select:focus {
     height: clamp(540px, calc(100dvh - 60px - 24px - 28px), 820px);
     grid-template-columns: 1.45fr 1fr minmax(230px, 0.62fr);
     grid-template-rows: repeat(3, minmax(0, 1fr));
-    gap: 2px;
+    gap: 12px;
     display: grid;
-    border-radius: var(--r-md);
-    overflow: hidden;
   }
 }
 .vp-tile {
@@ -1570,20 +2170,23 @@ select:focus {
   text-align: left;
   font: inherit;
   cursor: pointer;
-  background: #ffffff1f;
+  background: var(--card);
   border: 0;
-  border-radius: 0;
+  border-radius: 20px;
   min-width: 0;
   min-height: 0;
   padding: 0;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 16px 34px -20px #2a0a3273;
+  transition: transform 0.16s, box-shadow 0.16s;
+}
+.vp-tile:active {
+  transform: scale(0.985);
 }
 .vp-tile:focus-visible {
-  /* ditarik ke dalam: tanpa jarak antar ubin, cincin di luar akan menimpa
-     tetangganya dan ikut terpotong */
-  outline: 3px solid #fff;
-  outline-offset: -3px;
+  outline: 3px solid #2a0a32;
+  outline-offset: 3px;
   z-index: 1;
 }
 .vp-tile-art {
@@ -1620,41 +2223,17 @@ select:focus {
 }
 .vp-tile-title {
   font: 900 clamp(22px, 2.2vw, 34px) / 1.1 var(--f-display);
-  text-shadow: 0 2px 12px #0006;
+  text-shadow: 0 2px 10px #12082080;
 }
 .vp-tile-sub {
   color: #fff;
   font-size: 16px;
   line-height: 1.4;
 }
-.vp-tile-strip {
-  gap: 2px;
-  height: 100%;
-  display: flex;
-}
-.vp-tile-strip img {
-  object-fit: cover;
-  flex: 1;
-  min-width: 0;
-  height: 100%;
-}
 .vp-tile-games {
   grid-area: 1 / 1 / 3 / 2;
   background: radial-gradient(70% 70% at 70% 35%, #ff815766, #0000 70%),
     linear-gradient(135deg, #5a1772, #8f36a1 55%, #e72385);
-}
-.vp-tile-mosaic {
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  height: 100%;
-  display: grid;
-}
-.vp-tile-mosaic img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  min-height: 0;
 }
 .vp-tile-games .vp-tile-title {
   font-size: clamp(34px, 3.6vw, 56px);
@@ -1682,8 +2261,8 @@ select:focus {
 }
 .vp-bento-side {
   grid-area: 1 / 3 / 4 / 4;
-  grid-template-rows: repeat(4, minmax(0, 1fr));
-  gap: 2px;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 12px;
   min-height: 0;
   display: grid;
 }
@@ -1715,144 +2294,6 @@ select:focus {
     padding-inline: 40px !important;
   }
 }
-/* ---------- desktop Today's Missions ---------- */
-.vp-tile-missions .vp-tile-art > img {
-  object-position: 50% 45%;
-}
-.vp-missions-panel {
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: #ffffff1f;
-  grid-template-columns: minmax(280px, 0.8fr) 1.2fr;
-  gap: 28px;
-  padding: 16px 28px 16px 16px;
-  display: grid;
-  overflow: hidden;
-}
-.vp-missions-photo {
-  border-radius: var(--r-md);
-  min-height: 300px;
-  position: relative;
-  overflow: hidden;
-}
-.vp-missions-photo img {
-  object-fit: cover;
-  object-position: 50% 50%;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-.vp-missions-photo:after {
-  content: "";
-  background: linear-gradient(to top, #1e0533eb 0%, #1e05338c 45%, #1e053314 75%);
-  position: absolute;
-  inset: 0;
-}
-.vp-missions-photo-text {
-  z-index: 1;
-  gap: 8px;
-  display: grid;
-  position: absolute;
-  bottom: 20px;
-  left: 22px;
-  right: 22px;
-}
-.vp-missions-photo-text h2 {
-  font-size: 30px;
-  line-height: 1.1;
-}
-.vp-missions-photo-text p {
-  color: var(--ink-2);
-  font-size: 16px;
-}
-.vp-missions-photo-text strong {
-  font: 500 15px/1 var(--f-mono);
-}
-.vp-missions-progress {
-  background: #ffffff38;
-  border-radius: 99px;
-  height: 8px;
-  overflow: hidden;
-}
-.vp-missions-progress span {
-  background: linear-gradient(90deg, var(--pink), #fea832);
-  border-radius: inherit;
-  height: 100%;
-  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  display: block;
-}
-.vp-missions-list {
-  align-content: center;
-  gap: 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-}
-/* light pill rows, like the checklist app in the photo */
-.vp-missions-list li {
-  color: #3a0f5c;
-  background: #fffffff0;
-  border-radius: 20px;
-  align-items: center;
-  gap: 16px;
-  min-height: 76px;
-  padding: 12px 14px 12px 16px;
-  display: flex;
-  box-shadow: 0 10px 30px -14px #3a0f5c80;
-}
-.vp-missions-check {
-  color: #fff;
-  border: 2.5px solid #c9b3dc;
-  border-radius: 50%;
-  flex-shrink: 0;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  padding: 7px;
-  display: grid;
-}
-.vp-missions-list li.done .vp-missions-check {
-  background: var(--pink);
-  border-color: var(--pink);
-}
-.vp-missions-label {
-  flex: 1;
-  min-width: 0;
-  font-size: 17.5px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-.vp-missions-list li.done .vp-missions-label {
-  color: #7d6a8f;
-  text-decoration: line-through;
-}
-.vp-missions-list img {
-  object-fit: contain;
-  flex-shrink: 0;
-  width: 52px;
-  height: 52px;
-}
-.vp-missions-list button {
-  color: #fff;
-  background: var(--pink);
-  font: 900 19px/1 var(--f-display);
-  border: 0;
-  border-radius: 999px;
-  flex-shrink: 0;
-  min-width: 72px;
-  min-height: 44px;
-  padding: 0 20px;
-}
-.vp-missions-done {
-  color: var(--pink);
-  text-align: center;
-  font: 700 14px/1 var(--f-body);
-  flex-shrink: 0;
-  min-width: 72px;
-}
-
 /* ---------- nilai status ---------- */
 .vp-chip {
   font: 700 13px/1 var(--f-body);
@@ -1875,11 +2316,11 @@ select:focus {
   align-items: stretch;
   justify-content: space-around;
   gap: 2px;
-  border: 1px solid #ffffff59;
+  border: 0;
   border-radius: 999px;
   padding: 6px;
   display: flex;
-  background: #4a14508c;
+  background: var(--card);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   backdrop-filter: blur(20px) saturate(1.4);
   box-shadow: 0 16px 40px -8px #00000059;
@@ -1911,10 +2352,32 @@ select:focus {
   text-align: center;
   overflow-wrap: anywhere;
 }
+/* lima butir, bukan empat: di layar sempit labelnya perlu sedikit mengalah */
+@media (width<=380px) {
+  .vp-dock-label {
+    font-size: 10px;
+    letter-spacing: -0.01em;
+  }
+  .vp-dock-link {
+    padding-inline: 2px;
+  }
+}
+/* "ဆုလက်ဆောင်" jauh lebih panjang dari "Rewards" dan pecah sampai tiga baris
+   di dock lima butir. Hanya label dock yang dikecilkan, line-height 1,7
+   untuk Myanmar juga dilonggarkan di sini saja. */
+:lang(my) .vp-dock-label {
+  font-size: 9.5px;
+  line-height: 1.3;
+}
+@media (width<=380px) {
+  :lang(my) .vp-dock-label {
+    font-size: 9px;
+  }
+}
 .vp-dock-link.is-on {
-  color: var(--pink-on-white);
-  background: #fff;
-  box-shadow: 0 6px 20px -4px #00000040;
+  color: #fff;
+  background: var(--grad-accent-ink);
+  box-shadow: 0 10px 22px -10px #e7238599;
 }
 
 /* ---------- kontrol carousel ---------- */
@@ -1927,6 +2390,23 @@ select:focus {
   padding-top: 8px;
 }
 @media (width<=400px) {
+  /* Di 320px kolom teksnya cuma 146px, sementara tag "GAME OF THE DAY"
+     dengan jarak huruf lebar perlu 155px. Kolom dirapatkan dan tag
+     dikecilkan; judul serta tombol tetap satu baris. */
+  .vp-carousel-copy {
+    padding: 14px 6px 12px 10px;
+  }
+  .vp-carousel-tag {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    padding: 3px 7px;
+  }
+  .vp-carousel-btn {
+    padding: 9px 11px;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    gap: 4px;
+  }
   .vp-carousel-ctl {
     gap: 0;
     /* barisnya ditarik masuk ke padding kiri kolom; area sentuh tetap 24px */
@@ -1965,7 +2445,7 @@ select:focus {
   font-size: 12px;
   line-height: 1;
   border-radius: 999px;
-  background: #2a0a3259;
+  background: #ffffff1f;
   margin-right: 2px;
 }
 .vp-carousel-pause:hover {
@@ -1979,7 +2459,7 @@ select:focus {
   font: 800 19px/1.25 var(--f-display);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--ink);
   margin: 0;
 }
 

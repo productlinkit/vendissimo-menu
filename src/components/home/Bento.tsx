@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { CATEGORIES, MISSIONS, REWARDS } from "../../data";
+import { CATEGORIES, REWARDS } from "../../data";
+import { levelOf } from "../../lib/levels";
 import { useI18n } from "../../i18n";
 import type { CategoryId, Progress, Route } from "../../types";
 import { categoryArt } from "./tileArt";
@@ -35,14 +36,10 @@ function Tile({
 
 export function Bento({
   S,
-  spinUsed,
   onNavigate,
-  onScrollTo,
 }: {
   S: Progress;
-  spinUsed: boolean;
   onNavigate: (route: Route) => void;
-  onScrollTo: (id: string) => void;
 }) {
   const { t } = useI18n();
   const category = (id: CategoryId) => CATEGORIES.find((c) => c.id === id)!;
@@ -52,34 +49,34 @@ export function Bento({
     onClick: () => onNavigate(id),
   });
   const nextReward = REWARDS.find((reward) => S.pts < reward.pts);
-  const missionsDone = MISSIONS.filter((m) => S.awarded.includes(m.key)).length;
+  const level = levelOf(S.exp);
 
   return (
     <section className="vp-bento" aria-label={t(`Categories`)}>
       <Tile
         className="vp-tile-games"
         {...tileProps(`games`)}
-        art={categoryArt(`games`, `mosaic`)}
+        art={categoryArt(`games`)}
       />
       <Tile
         className="vp-tile-videos"
         {...tileProps(`videos`)}
-        art={categoryArt(`videos`, `strip`)}
+        art={categoryArt(`videos`)}
       />
       <Tile
         className="vp-tile-mags"
         {...tileProps(`magazines`)}
-        art={categoryArt(`magazines`, `strip`)}
+        art={categoryArt(`magazines`)}
       />
       <Tile
         className="vp-tile-edu"
         {...tileProps(`education`)}
-        art={categoryArt(`education`, `strip`)}
+        art={categoryArt(`education`)}
       />
       <Tile
         className="vp-tile-eng"
         {...tileProps(`english`)}
-        art={categoryArt(`english`, `strip`)}
+        art={categoryArt(`english`)}
       />
       <div className="vp-bento-side">
         <Tile
@@ -98,27 +95,10 @@ export function Bento({
         />
         <Tile
           className="vp-tile-small vp-tile-spin"
-          title={t(`Daily Spin`)}
-          sub={
-            spinUsed ? t(`Come back tomorrow`) : t(`One free spin every day.`)
-          }
-          art={<img src="/img/spin-photo.webp" alt="" loading="lazy" />}
-          onClick={() => onScrollTo(`home-spin`)}
-        />
-        <Tile
-          className="vp-tile-small vp-tile-missions"
-          title={t(`Today's Missions`)}
-          sub={t(`{done} of {total} done`, {
-            done: missionsDone,
-            total: MISSIONS.length,
-          })}
-          art={
-            <>
-              <img src="/img/missions-photo.webp" alt="" />
-              <span className="vp-mini-count">{`${missionsDone}/${MISSIONS.length}`}</span>
-            </>
-          }
-          onClick={() => onScrollTo(`home-missions`)}
+          title={t(`Level {n}`, { n: level.n })}
+          sub={t(`{n} EXP · see your prize`, { n: S.exp })}
+          art={<img src={level.img} alt="" loading="lazy" />}
+          onClick={() => onNavigate(`rewards`)}
         />
         <Tile
           className="vp-tile-small vp-tile-about"

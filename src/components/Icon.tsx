@@ -1,4 +1,32 @@
 export const Icon = {
+  game: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6.5 8h11a4.5 4.5 0 0 1 4.4 5.4l-.7 3.4A2.8 2.8 0 0 1 16.5 18l-1.8-2h-5.4L7.5 18a2.8 2.8 0 0 1-4.7-1.2l-.7-3.4A4.5 4.5 0 0 1 6.5 8z" />
+      <path d="M7.5 11.3v2.4M6.3 12.5h2.4" />
+      <circle cx="16" cy="12" r=".9" fill="currentColor" stroke="none" />
+      <circle cx="18.2" cy="14" r=".9" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  video: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2.5" y="5" width="19" height="14" rx="3.2" />
+      <path d="M10.4 9.3l4.6 2.7-4.6 2.7z" fill="currentColor" stroke="none" />
+    </svg>
+  ),
   home: (
     <svg
       viewBox="0 0 24 24"
