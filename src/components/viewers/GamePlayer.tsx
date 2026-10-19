@@ -33,26 +33,38 @@ export function GamePlayer({
     >
       <div
         style={{
+          position: `absolute`,
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 2,
           display: `flex`,
           alignItems: `center`,
           gap: 12,
-          padding: `10px 14px`,
-          background: `rgba(30,4,55,.9)`,
-          flexShrink: 0,
+          padding: `calc(env(safe-area-inset-top,0px) + 10px) 14px 22px`,
+          // kerudung memudar, bukan bidang pekat: bagian atas game tetap
+          // terlihat di baliknya
+          background: `linear-gradient(to bottom, rgba(18,8,32,.92), rgba(18,8,32,0))`,
+          pointerEvents: `none`,
         }}
+        className="vp-game-bar"
       >
         <button
           onClick={onClose}
           aria-label={t("Close")}
           style={{
-            width: 36,
-            height: 36,
+            width: 44,
+            height: 44,
             borderRadius: `50%`,
-            background: `rgba(255,255,255,.1)`,
+            background: `rgba(18,8,32,.72)`,
+            border: `1px solid rgba(255,255,255,.22)`,
             display: `grid`,
             placeItems: `center`,
             color: `#fff`,
             flexShrink: 0,
+            // induknya pointerEvents:none supaya game di baliknya tetap
+            // bisa disentuh; tombolnya sendiri harus tetap bisa diklik
+            pointerEvents: `auto`,
           }}
         >
           <span
@@ -64,7 +76,10 @@ export function GamePlayer({
             {Icon.close}
           </span>
         </button>
+        {/* judul dan poin menutupi UI game itu sendiri, jadi ia menyingkir
+            sendiri setelah beberapa detik; tombol tutup tetap tinggal */}
         <div
+          className="vp-game-meta"
           style={{
             flex: 1,
             minWidth: 0,
@@ -97,9 +112,11 @@ export function GamePlayer({
         src={game.url}
         title={game.t}
         style={{
-          flex: 1,
+          position: `absolute`,
+          inset: 0,
           border: 0,
           width: `100%`,
+          height: `100%`,
         }}
         allow="accelerometer; gyroscope; fullscreen"
       />

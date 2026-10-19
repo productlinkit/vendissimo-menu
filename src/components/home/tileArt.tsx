@@ -1,17 +1,19 @@
 import type { ReactNode } from "react";
-import { MAGAZINES } from "../../data";
 import type { CategoryId } from "../../types";
 
 // Satu sumber gambar ubin untuk bento desktop dan kartu kategori di HP,
 // supaya keduanya tidak pelan-pelan jadi berbeda.
 
-/** Satu sampul per kategori, dipilih manual. Dulu ini blok 2x2 dan deretan
- *  gambar otomatis; satu gambar besar lebih terbaca di ubin sekecil apa pun
- *  dan tidak pecah jadi sliver di kartu dua kolom. */
+/** Satu sampul per kategori. Sebelumnya memakai gambar isi yang ada
+ *  (512x384 dan sejenisnya) yang pecah saat ubinnya melar di desktop;
+ *  ini foto 1100px yang memang disiapkan sebagai sampul. */
 const SAMPUL: Record<CategoryId, string> = {
-  magazines: MAGAZINES[4].img,
-  videos: `/img/v-3.webp`,
-  games: `/img/g-crash.webp`,
+  magazines: `/img/cover-magazines.webp`,
+  videos: `/img/cover-videos.webp`,
+  games: `/img/cover-games.webp`,
+  // dua ini kembali ke ilustrasi rubah yang lama atas permintaan;
+  // cover-education/cover-english tetap ada di public/img kalau nanti
+  // mau ditukar balik
   education: `/img/edu-video-course.webp`,
   english: `/img/eng-trio.webp`,
 };

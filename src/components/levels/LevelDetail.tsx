@@ -9,7 +9,7 @@ import {
   levelProgress,
   objectivesOf,
 } from "../../lib/levels";
-import type { GameGroup, Progress } from "../../types";
+import type { GameGroup, Progress, Reward } from "../../types";
 import { Icon } from "../Icon";
 
 // Halaman satu level: kelompok game, sasaran misi, dan hadiah yang didapat.
@@ -98,17 +98,20 @@ export function LevelDetail({
   S,
   onBack,
   onPlay,
+  onClaim,
 }: {
   n: number;
   S: Progress;
   onBack: () => void;
   onPlay: (group: GameGroup) => void;
+  onClaim: (reward: Reward) => void;
 }) {
   const { t } = useI18n();
   // nomor level selalu datang dari LEVELS, jadi entri ini pasti ada
   const level = LEVELS.find((lv) => lv.n === n)!;
   const hadiah = REWARDS.find((r) => r.label === level.prize);
   const terbuka = S.exp >= level.exp;
+  const cukupPoin = S.pts >= (hadiah?.pts ?? 0);
   // kemajuan harus mengacu ke level yang sedang dibuka, bukan level
   // pengguna saat ini: kalau tidak, "Level 3" bisa berbunyi "menuju level 2"
   const global = levelProgress(S.exp);
@@ -147,23 +150,37 @@ export function LevelDetail({
         <img src={level.img} alt="" className="vp-level-hero-art" />
       </header>
 
-      {/* menggantikan papan peringkat di referensi */}
+      {/* Menggantikan papan peringkat di referensi, dan sekarang juga
+          satu-satunya jalan menukar poin: daftar hadiah yang lama sudah
+          tidak ada lagi di halaman Rewards. */}
       <section className="vp-prize" data-tour="prize">
         {hadiah && <img src={hadiah.img} alt="" aria-hidden="true" />}
         <div>
           <h2>{t(`Your prize at this level`)}</h2>
           <p>
-            {terbuka
-              ? t(`{prize} — {n} pts to claim it`, {
-                  prize: t(level.prize),
-                  n: hadiah?.pts ?? 0,
-                })
-              : t(`Reach {n} EXP to unlock {prize}`, {
+            {!terbuka
+              ? t(`Reach {n} EXP to unlock {prize}`, {
                   n: level.exp,
                   prize: t(level.prize),
-                })}
+                })
+              : cukupPoin
+                ? t(`{prize} — ready to claim`, { prize: t(level.prize) })
+                : t(`{prize} — {n} more pts needed`, {
+                    prize: t(level.prize),
+                    n: (hadiah?.pts ?? 0) - S.pts,
+                  })}
           </p>
         </div>
+        {terbuka && hadiah && (
+          <button
+            type="button"
+            className="vp-prize-claim"
+            disabled={!cukupPoin}
+            onClick={() => onClaim(hadiah)}
+          >
+            {t(`Redeem`)}
+          </button>
+        )}
       </section>
 
       <div className="vp-group-list">

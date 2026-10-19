@@ -7,15 +7,6 @@ import type { Progress } from "../../types";
 // atasnya. Proyek ini tidak punya aset ilustrasi karnaval, jadi jalur,
 // lampu, dan medalinya digambar dengan SVG + CSS, bukan gambar tempelan.
 
-/** Posisi perhentian dalam persen kotak peta, dipilih supaya tiap objek
- *  berdiri di atas teras pada ilustrasinya. Nilainya berbeda antara HP
- *  dan desktop karena kedua ilustrasi itu komposisinya tidak sama. */
-const TITIK: Record<number, { x: number; y: number }> = {
-  1: { x: 27, y: 70 },
-  2: { x: 63, y: 45 },
-  3: { x: 31, y: 19 },
-};
-
 export function LevelMap({
   S,
   onOpen,
@@ -30,39 +21,30 @@ export function LevelMap({
 
   return (
     <section className="vp-levels" aria-label={t(`Levels`)}>
-      <div className="vp-level-head" data-tour="exp">
-        <div className="vp-level-badge">
-          <span>{t(`Level {n}`, { n: sekarang.n })}</span>
-          <strong>{t(`{n} EXP`, { n: S.exp })}</strong>
-        </div>
-        <div className="vp-level-bar" aria-hidden="true">
-          <span style={{ width: `${pct}%` }} />
-        </div>
-        <p className="vp-level-next">
-          {next
-            ? t(`{n} EXP more to reach level {lvl}`, { n: sisa, lvl: next.n })
-            : t(`Top level reached — every reward is open`)}
-        </p>
-      </div>
-
       <div className="vp-map" data-tour="map">
-        <p className="vp-map-stage">
+        {/* satu-satunya tempat EXP muncul sekarang: kartu di atas peta
+            sudah dibuang, dan langkah tur "exp" menempel ke sini */}
+        <div className="vp-map-stage" data-tour="exp">
           <span>{t(`Current stage`)}</span>
           <strong>{t(`Level {n}`, { n: sekarang.n })}</strong>
-        </p>
+          <em>{t(`{n} EXP`, { n: S.exp })}</em>
+          <span className="vp-level-bar" aria-hidden="true">
+            <span style={{ width: `${pct}%` }} />
+          </span>
+          <small>
+            {next
+              ? t(`{n} EXP more to reach level {lvl}`, { n: sisa, lvl: next.n })
+              : t(`Top level reached — every reward is open`)}
+          </small>
+        </div>
 
         <ol className="vp-map-stops">
           {LEVELS.map((lv) => {
             const terbuka = S.exp >= lv.exp;
             const kini = lv.n === sekarang.n;
             const r = hadiah(lv.prize);
-            const pos = TITIK[lv.n];
             return (
-              <li
-                key={lv.n}
-                className="vp-map-slot"
-                style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-              >
+              <li key={lv.n} className={`vp-map-slot is-lv${lv.n}`}>
                 <button
                   type="button"
                   className={`vp-map-stop is-lv${lv.n}${terbuka ? `` : ` is-locked`}${kini ? ` is-now` : ``}`}

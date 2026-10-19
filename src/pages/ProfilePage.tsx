@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Icon } from "../components/Icon";
-import { REWARDS } from "../data";
+import { RedeemSteps } from "../components/RedeemSheet";
+import { POINTS, REWARDS } from "../data";
 import { useI18n } from "../i18n";
 import type { Progress, Route } from "../types";
 
@@ -11,6 +12,15 @@ const FEATURES = [
   `🔄 Restocked regularly`,
   `🏢 Offices, schools & public spaces`,
   `🎮 Play games while you wait`,
+];
+
+// Amounts are message templates filled with `n` at render time.
+const EARN_WAYS: [label: string, amount: string, n: number][] = [
+  [`Play a game`, `+{n} pts`, 40],
+  [`Finish Education course`, `+{n} pts`, POINTS.lesson],
+  [`Complete English practice`, `+{n} pts`, POINTS.english],
+  [`Watch a video`, `+{n} pts`, POINTS.video],
+  [`Read a magazine`, `+{n} pts`, POINTS.magazine],
 ];
 
 const PHOTOS = [
@@ -172,11 +182,6 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
       <ul className="vp-menu">
         {(
           [
-            {
-              label: `Rewards & points history`,
-              icon: Icon.gift,
-              route: `rewards`,
-            },
             {
               label: `Explore all categories`,
               icon: Icon.explore,
@@ -440,6 +445,87 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
               </div>
             </div>
           </div>
+        )}
+      </section>
+
+      <section className="vp-panel vp-on-dark">
+        <h2 className="vp-eyebrow">
+          {t("How to earn")}
+        </h2>
+        <ul className="vp-earn">
+          {EARN_WAYS.map(([label, amount, n]) => (
+            <li key={label}>
+              <span>{t(label)}</span>
+              <em
+                style={{
+                  fontFamily: `var(--f-mono)`,
+                  fontSize: 13,
+                  fontStyle: `normal`,
+                  color: `var(--ink)`,
+                  fontWeight: 700,
+                  whiteSpace: `nowrap`,
+                }}
+              >
+                {t(amount, { n })}
+              </em>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="vp-panel vp-on-dark">
+        <h2 className="vp-eyebrow">
+          {t("How to redeem")}
+        </h2>
+        <RedeemSteps />
+      </section>
+
+      <section className="vp-panel vp-on-dark">
+        <h2 className="vp-eyebrow">
+          {t("Points history")}
+        </h2>
+        {S.log.filter((entry) => entry.n !== 0).length === 0 ? (
+          <p
+            style={{
+              color: `var(--ink-3)`,
+              fontSize: 15,
+            }}
+          >
+            {t("No points yet. Play a game or try English practice.")}
+          </p>
+        ) : (
+          <ul
+            style={{
+              display: `grid`,
+              gap: 8,
+              maxHeight: 260,
+              overflowY: `auto`,
+            }}
+          >
+            {S.log
+              .filter((entry) => entry.n !== 0)
+              .map((entry, idx) => (
+                <li
+                  key={idx}
+                  style={{
+                    display: `flex`,
+                    justifyContent: `space-between`,
+                    fontSize: 15,
+                    gap: 10,
+                    color: `var(--ink-2)`,
+                  }}
+                >
+                  <span>{t(entry.w)}</span>
+                  <small
+                    className={`vp-chip ${entry.n >= 0 ? `vp-chip-good` : `vp-chip-count`}`}
+                  >
+                    {t("{n} pts", {
+                      n: `${entry.n > 0 ? `+` : ``}${entry.n}`,
+                    })}
+                  </small>
+                </li>
+              ))}
+          </ul>
         )}
       </section>
     </div>

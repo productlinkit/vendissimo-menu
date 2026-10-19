@@ -170,7 +170,6 @@ export default function App() {
             <RewardsPage
               S={progress}
               onRedeem={handleRedeem}
-              onNavigate={navigate}
               onGame={openGame}
             />
           )}

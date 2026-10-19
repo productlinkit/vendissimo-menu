@@ -1543,13 +1543,11 @@ select:focus {
   --game-ink-2: #cdbce8;
   --game-shadow: 0 20px 44px -22px #000000d9;
 }
-.vp-level-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
 .vp-level-help {
+  position: absolute;
+  top: 74px;
+  left: var(--px);
+  z-index: 3;
   flex-shrink: 0;
   width: 46px;
   height: 46px;
@@ -1567,39 +1565,11 @@ select:focus {
 }
 .vp-levels {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
-.vp-level-head {
-  border: 0;
-  background:
-    radial-gradient(120% 140% at 100% 0%, #e7238547, #0000 62%),
-    var(--game-card);
-  border-radius: 24px;
-  padding: 20px;
-  display: grid;
-  gap: 12px;
-  box-shadow: var(--game-shadow);
-}
-.vp-level-badge {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.vp-level-badge span {
-  font: 900 23px/1 var(--f-display);
-  color: #fff;
-}
-.vp-level-badge strong {
-  font: 500 15px/1 var(--f-mono);
-  color: #fff;
-  background: var(--game-chip);
-  border-radius: 999px;
-  padding: 9px 14px;
-}
 .vp-level-bar {
-  height: 12px;
+  height: 10px;
   border-radius: 99px;
   background: #0f0820;
   overflow: hidden;
@@ -1612,10 +1582,6 @@ select:focus {
   background: linear-gradient(90deg, #a855f7, var(--pink) 55%, #fea832);
   box-shadow: 0 0 14px -2px #e72385cc;
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.vp-level-next {
-  font-size: 15px;
-  color: var(--game-ink-2);
 }
 .vp-level-now {
   font: 800 11.5px/1 var(--f-body);
@@ -1631,29 +1597,73 @@ select:focus {
 /* ---------- peta karnaval ---------- */
 .vp-map {
   position: relative;
-  height: clamp(470px, 126vw, 620px);
-  border-radius: 28px;
+  /* satu layar penuh: hanya bar nav yang tersisa di atasnya. Dock
+     mengambang di bawah seperti HUD, jadi perhentian paling bawah
+     ditaruh cukup tinggi agar tidak tertutup.
+     Margin negatif untuk keluar dari padding halaman sudah tidak perlu:
+     .vp-main di halaman ini paddingnya nol, dan kalau dibiarkan petanya
+     jadi 24px lebih lebar dari layar di tiap sisi. */
+  margin-inline: 0;
+  width: 100%;
+  height: calc(100dvh - 60px);
+  border-radius: 0;
   overflow: hidden;
   border: 0;
-  box-shadow: var(--game-shadow);
   background: #3a1152 url("/img/map-mobile.webp") center / cover no-repeat;
+}
+/* halaman ini tidak punya isi lain, jadi paddingnya dibuang semua dan
+   footernya ikut disembunyikan -- tanpa itu petanya tetap satu layar tapi
+   halamannya masih bisa digulir ke bawah menemui tautan mitra */
+.vp-main:has(.vp-map) {
+  padding: 0;
+  max-width: none;
+}
+.vp-main:has(.vp-map) > footer {
+  display: none;
+}
+.vp-view:has(.vp-map) {
+  gap: 0;
+  padding-bottom: 0;
+}
+.vp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 /* ilustrasi lanskap untuk layar lebar: komposisinya berbeda, bukan versi
    potret yang dipotong */
 @media (width>=860px) {
   .vp-map {
-    height: auto;
-    aspect-ratio: 16 / 9;
+    height: calc(100dvh - 60px);
+    aspect-ratio: auto;
     background-image: url("/img/map-desktop.webp");
   }
   /* Petanya jauh lebih besar di sini; objek seukuran HP akan tenggelam.
      Diawali .vp-map karena aturan dasarnya ada lebih bawah di berkas dan
      akan menang pada kekhususan yang sama. */
+  /* Ilustrasi lanskap punya teras di tempat lain. */
   .vp-map .vp-map-slot {
-    --medal: clamp(118px, 11vw, 168px);
+    --medal: clamp(150px, 14vw, 210px);
+  }
+  .vp-map .vp-map-slot.is-lv1 {
+    left: 18%;
+    top: 80%;
+  }
+  .vp-map .vp-map-slot.is-lv2 {
+    left: 62%;
+    top: 62%;
+  }
+  .vp-map .vp-map-slot.is-lv3 {
+    left: 24%;
+    top: 41%;
   }
   .vp-map .vp-map-stop {
-    width: clamp(150px, 14vw, 200px);
+    width: clamp(180px, 16vw, 240px);
   }
   .vp-map .vp-map-label {
     font-size: clamp(24px, 2.2vw, 32px);
@@ -1664,14 +1674,29 @@ select:focus {
   top: 14px;
   right: 14px;
   z-index: 3;
+  width: min(230px, 62vw);
   display: grid;
-  gap: 2px;
-  padding: 10px 16px;
-  border-radius: 16px;
-  background: #2a0a3273;
+  gap: 4px;
+  padding: 12px 16px 14px;
+  border-radius: 18px;
+  background: #1b082ebf;
   border: 1px solid #ffffff2e;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.vp-map-stage em {
+  font: 500 14px/1 var(--f-mono);
+  font-style: normal;
+  color: #fff;
+}
+.vp-map-stage small {
+  font-size: 12.5px;
+  color: #d6c6ee;
+  line-height: 1.3;
+}
+.vp-map-stage .vp-level-bar {
+  margin-top: 4px;
+  height: 8px;
 }
 .vp-map-stage span {
   font: 500 11px/1 var(--f-mono);
@@ -1693,8 +1718,31 @@ select:focus {
 }
 .vp-map-slot {
   position: absolute;
-  --medal: clamp(76px, 22vw, 96px);
-  transform: translate(-50%, calc(var(--medal) / -2));
+  --medal: clamp(110px, 32vw, 158px);
+  /* titiknya adalah GARIS TANAH: slot digeser ke atas setinggi medali,
+     jadi kaki objek tepat menyentuh angka `top`, bukan tengahnya. */
+  transform: translate(-50%, calc(var(--medal) * -1));
+}
+/* Teras pada ilustrasi HP. Angka y = tempat kaki objek menapak.
+   Level 1 ditaruh di 74%, bukan 80%: di 80% label dan keping "YOU ARE
+   HERE"-nya jatuh di belakang dock. Balon memang wajar melayang sedikit
+   di atas teras -- berbeda dengan korsel dan tenda yang harus menapak. */
+.vp-map-slot.is-lv1 {
+  left: 27%;
+  top: 74%;
+}
+@media (height<=700px) {
+  .vp-map-slot.is-lv1 {
+    top: 66%;
+  }
+}
+.vp-map-slot.is-lv2 {
+  left: 64%;
+  top: 50%;
+}
+.vp-map-slot.is-lv3 {
+  left: 33%;
+  top: 31%;
 }
 .vp-map-stop {
   display: grid;
@@ -1844,8 +1892,12 @@ select:focus {
   filter: grayscale(1);
   opacity: 0.8;
 }
+/* Abu-abu muda ini hanya 2,74:1 di atas teras pink terang. Labelnya
+   dibuat putih seperti yang terbuka; status terkunci tetap terbaca dari
+   objeknya yang kelabu dan keping "600 EXP" di bawahnya -- jadi tidak
+   bergantung pada warna saja. */
 .vp-map-stop.is-locked .vp-map-label {
-  color: #d3c7e0;
+  color: #fff;
 }
 .vp-map-stop.is-locked .vp-map-note {
   color: #d3c7e0;
@@ -1934,6 +1986,39 @@ select:focus {
   font-size: 15px;
   color: var(--game-ink-2);
   margin-top: 5px;
+}
+/* di layar sempit tombolnya merebut lebar sampai judul pecah tiga baris */
+@media (width<=520px) {
+  .vp-prize {
+    flex-wrap: wrap;
+  }
+  .vp-prize > div {
+    flex: 1 1 60%;
+    min-width: 0;
+  }
+  .vp-prize-claim {
+    flex: 1 0 100%;
+  }
+}
+.vp-prize-claim {
+  flex-shrink: 0;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--grad-accent-ink);
+  color: #fff;
+  font: 900 16px/1 var(--f-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 24px -12px #c81e6ecc;
+}
+.vp-prize-claim:disabled {
+  background: #ffffff1a;
+  color: #b9a8d6;
+  box-shadow: none;
+  cursor: default;
 }
 .vp-group-list {
   display: grid;
@@ -2080,6 +2165,35 @@ select:focus {
 .vp-group-objectives li.done .vp-group-tick {
   background: var(--chip-good);
   border-color: var(--chip-good);
+}
+
+/* ---------- pemutar game ---------- */
+/* Kerudung dan judul menyingkir setelah beberapa detik supaya gamenya
+   benar-benar penuh. Tombol tutup TIDAK ikut: ia anak dari bilah ini dan
+   satu-satunya jalan keluar, jadi yang dianimasikan hanya latar bilahnya
+   dan blok judulnya -- bukan bilahnya sendiri. */
+.vp-game-bar {
+  animation: 0.6s 4s forwards vpKerudungPergi;
+}
+.vp-game-meta {
+  animation: 0.6s 4s forwards vpSingkir;
+}
+@keyframes vpKerudungPergi {
+  to {
+    background: #0000;
+  }
+}
+@keyframes vpSingkir {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vp-game-bar,
+  .vp-game-meta {
+    animation-duration: 0.01s;
+  }
 }
 
 /* ---------- tur popup ---------- */

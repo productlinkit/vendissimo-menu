@@ -90,21 +90,21 @@ export function Bento({
                 })
               : t(`🎉 All rewards unlocked!`)
           }
-          art={<img src="/img/rewards-photo.webp" alt="" loading="lazy" />}
+          art={<img src="/img/tile-rewards.webp" alt="" loading="lazy" />}
           onClick={() => onNavigate(`rewards`)}
         />
         <Tile
           className="vp-tile-small vp-tile-spin"
           title={t(`Level {n}`, { n: level.n })}
           sub={t(`{n} EXP · see your prize`, { n: S.exp })}
-          art={<img src={level.img} alt="" loading="lazy" />}
+          art={<img src="/img/tile-level.webp" alt="" loading="lazy" />}
           onClick={() => onNavigate(`rewards`)}
         />
         <Tile
           className="vp-tile-small vp-tile-about"
           title={t(`Discover`)}
           sub={t(`About Vendissimo machines`)}
-          art={<img src="/img/about-shop.webp" alt="" />}
+          art={<img src="/img/tile-discover.webp" alt="" />}
           onClick={() => onNavigate(`profile`)}
         />
       </div>
