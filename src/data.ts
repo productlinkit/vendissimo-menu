@@ -953,19 +953,19 @@ export const LEVELS: Level[] = [
   {
     n: 1,
     exp: 0,
-    img: `/img/g-candy.webp`,
+    img: `/img/level-balloon.webp`,
     prize: `Free Coffee`,
   },
   {
     n: 2,
     exp: 250,
-    img: `/img/g-crash.webp`,
+    img: `/img/level-tent.webp`,
     prize: `10% Voucher`,
   },
   {
     n: 3,
     exp: 600,
-    img: `/img/g-basket.webp`,
+    img: `/img/level-carousel.webp`,
     prize: `Free Drink`,
   },
 ];

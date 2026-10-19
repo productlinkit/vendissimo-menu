@@ -7,15 +7,14 @@ import type { Progress } from "../../types";
 // atasnya. Proyek ini tidak punya aset ilustrasi karnaval, jadi jalur,
 // lampu, dan medalinya digambar dengan SVG + CSS, bukan gambar tempelan.
 
-/** Posisi perhentian dalam persen kotak peta; angkanya sama persis dengan
- *  simpul pada jalur SVG di bawah, jadi keduanya selalu berhimpit. */
+/** Posisi perhentian dalam persen kotak peta, dipilih supaya tiap objek
+ *  berdiri di atas teras pada ilustrasinya. Nilainya berbeda antara HP
+ *  dan desktop karena kedua ilustrasi itu komposisinya tidak sama. */
 const TITIK: Record<number, { x: number; y: number }> = {
-  1: { x: 26, y: 68 },
-  2: { x: 70, y: 42 },
-  3: { x: 30, y: 15 },
+  1: { x: 27, y: 70 },
+  2: { x: 63, y: 45 },
+  3: { x: 31, y: 19 },
 };
-
-const JALUR = "M26 68 C 48 66, 66 58, 70 42 S 50 23, 30 15";
 
 export function LevelMap({
   S,
@@ -52,16 +51,6 @@ export function LevelMap({
           <strong>{t(`Level {n}`, { n: sekarang.n })}</strong>
         </p>
 
-        <svg
-          className="vp-map-path"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path className="vp-map-road" d={JALUR} vectorEffect="non-scaling-stroke" />
-          <path className="vp-map-bulbs" d={JALUR} vectorEffect="non-scaling-stroke" />
-        </svg>
-
         <ol className="vp-map-stops">
           {LEVELS.map((lv) => {
             const terbuka = S.exp >= lv.exp;
@@ -76,7 +65,7 @@ export function LevelMap({
               >
                 <button
                   type="button"
-                  className={`vp-map-stop${terbuka ? `` : ` is-locked`}${kini ? ` is-now` : ``}`}
+                  className={`vp-map-stop is-lv${lv.n}${terbuka ? `` : ` is-locked`}${kini ? ` is-now` : ``}`}
                   onClick={() => onOpen(lv.n)}
                   aria-label={
                     terbuka

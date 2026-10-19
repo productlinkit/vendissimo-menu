@@ -7,8 +7,9 @@ import { PointsCounter } from "./PointsCounter";
 
 type NavItem = { id: Route; label: string; icon: ReactNode };
 
-/** Bar atas desktop: sama isinya dengan dock HP ditambah Explore, supaya
- *  kategori yang sedang dibuka menyala di sini juga. */
+/** Bar atas desktop: sama isinya dengan dock HP. Explore tidak ada di
+ *  sini maupun di dock -- kelima kategori sudah jadi kartu di beranda,
+ *  dan halamannya tetap terjangkau dari menu Profil. */
 const NAV_ITEMS: NavItem[] = [
   {
     id: `home`,
@@ -24,11 +25,6 @@ const NAV_ITEMS: NavItem[] = [
     id: `videos`,
     label: `Videos`,
     icon: Icon.video,
-  },
-  {
-    id: `explore`,
-    label: `Explore`,
-    icon: Icon.explore,
   },
   {
     id: `rewards`,
@@ -94,11 +90,11 @@ export function TopNav({
   pts: number;
 }) {
   const { t } = useI18n();
-  // kategori yang punya butirnya sendiri menyala sendiri; sisanya
-  // (Magazines/Education/English) menyalakan Explore
+  // Games dan Videos punya butirnya sendiri; kategori lain tidak
+  // menyalakan apa pun, karena asalnya dari kartu di beranda
   const activeId =
     NAV_ITEMS.find((item) => route === item.id)?.id ??
-    (isCategoryRoute(route) ? `explore` : `home`);
+    (isCategoryRoute(route) ? undefined : `home`);
   // dock punya daftarnya sendiri: Games dan Videos adalah halaman betulan di
   // sini, jadi keduanya bisa jadi aktif tanpa lewat Explore
   const activeDockId =

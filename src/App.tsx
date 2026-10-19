@@ -180,7 +180,7 @@ export default function App() {
           {isCategory && (
             <CategoryPage
               catId={route}
-              onBack={() => navigate(`explore`)}
+              onBack={() => navigate(`home`)}
               onMag={openMagazine}
               onVideo={openVideo}
               onGame={openGame}

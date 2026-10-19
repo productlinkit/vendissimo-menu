@@ -95,7 +95,7 @@ export function CategoryPage({
         >
           {Icon.back}
         </span>
-        {` ${t("Explore")}`}
+        {` ${t("Home")}`}
       </button>
       <div className="vp-cat-head">
         <img
@@ -177,7 +177,9 @@ export function CategoryPage({
             background: `var(--card)`,
             borderRadius: `var(--r-lg)`,
             textDecoration: `none`,
-            color: `inherit`,
+            // gaya inline mengalahkan kelas, jadi `inherit` di sini membuat
+            // teksnya ikut tinta halaman yang gelap di atas kartu gelap
+            color: `var(--ink-on-dark)`,
             transition: `border-color .15s`,
           }}
           onMouseEnter={(event) => {
