@@ -1034,7 +1034,11 @@ svg {
   display: block;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 28px -8px #000000a6;
+  /* Garis rambut di dalam tepi: beberapa sampul (Men's Health, Guitarist,
+     Linux Format) memang putih di bagian atasnya, dan di latar halaman
+     yang kini terang tepinya jadi lenyap -- terbaca seperti ada pita
+     putih nyasar. Cincin ini yang memberi batas. */
+  box-shadow: 0 10px 28px -10px #2a0a3280, inset 0 0 0 1px #2a0a3233;
 }
 .vp-cover:hover .vp-cover-art {
   transform: translateY(-4px);
@@ -1098,7 +1102,7 @@ svg {
   display: block;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 28px -8px #000000a6;
+  box-shadow: 0 10px 28px -10px #2a0a3280, inset 0 0 0 1px #2a0a3233;
 }
 .vp-vcard:hover .vp-vthumb {
   transform: translateY(-4px);
