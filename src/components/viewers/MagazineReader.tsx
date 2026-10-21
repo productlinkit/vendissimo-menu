@@ -80,7 +80,8 @@ export function MagazineReader({
             width: 38,
             height: 38,
             borderRadius: `50%`,
-            background: `rgba(255,255,255,.12)`,
+            // latarnya terang, jadi tombolnya diberi bidang gelap
+            background: `var(--card)`,
             border: 0,
             display: `grid`,
             placeItems: `center`,
@@ -507,9 +508,9 @@ export function MagazineReader({
             gap: 6,
             padding: `11px 20px`,
             borderRadius: 999,
-            border: `1px solid rgba(255,255,255,.6)`,
+            border: `1px solid var(--ink-3)`,
             background: `transparent`,
-            color: `#fff`,
+            color: `var(--ink)`,
             fontFamily: `var(--f-display)`,
             fontWeight: 700,
             fontSize: 14,
@@ -530,7 +531,7 @@ export function MagazineReader({
           style={{
             fontFamily: `var(--f-mono)`,
             fontSize: 13,
-            color: `#fff`,
+            color: `var(--ink-2)`,
           }}
         >
           {page + 1}

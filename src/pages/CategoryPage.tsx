@@ -82,7 +82,7 @@ export function CategoryPage({
           display: `inline-flex`,
           alignItems: `center`,
           gap: 8,
-          color: `#fff`,
+          color: `var(--ink)`,
           fontWeight: 600,
           fontSize: 15,
         }}
