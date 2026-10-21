@@ -1,10 +1,12 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { GAME_MIN_SECONDS } from "../../lib/pointsService";
 import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
-import { HouseAd, pickGamePromo, useAdBreaks } from "./HouseAd";
+import { HouseAd, useAdBreaks } from "./HouseAd";
 import type { Promo } from "./HouseAd";
 import type { Game } from "../../types";
+
+const pickAd = (): Promo => ({ kind: `partner`, id: `gemezz` });
 
 /** Jeda iklan sekali di tengah permainan, jauh setelah poin didapat. */
 const MID_AD_SECONDS = 150;
@@ -13,17 +15,14 @@ export function GamePlayer({
   game,
   onClose,
   onFinish,
-  onPromo,
 }: {
   game: Game;
   onClose: () => void;
   onFinish: () => void;
-  onPromo: (promo: Promo) => void;
 }) {
   const { t } = useI18n();
-  // Game diiklankan dengan promo Vendissimo sendiri: hadiah atau game lain.
-  const pick = useCallback(() => pickGamePromo(game.id), [game.id]);
-  const { ad, mid, close, skip } = useAdBreaks(pick, onClose);
+  // Game diiklankan Gemezz: sekali di tengah permainan, sekali saat keluar.
+  const { ad, mid, close, skip } = useAdBreaks(pickAd, onClose);
   useEffect(() => {
     const id = window.setTimeout(mid, MID_AD_SECONDS * 1000);
     return () => window.clearTimeout(id);
@@ -140,7 +139,6 @@ export function GamePlayer({
           key={ad.at}
           promo={ad.promo}
           onSkip={skip}
-          onCta={onPromo}
         />
       )}
     </div>

@@ -20,8 +20,10 @@ export const viewers: Record<string, string> = {
   "Read every page of hundreds of titles on eMagz.":
     "eMagz မှာ မဂ္ဂဇင်း ရာနဲ့ချီရဲ့ စာမျက်နှာတိုင်းကို ဖတ်ပါ။",
   "Read on eMagz": "eMagz မှာ ဖတ်ရန်",
-  "Redeem it for {n} pts — {desc}": "{n} ပွိုင့်ဖြင့် လဲယူပါ — {desc}",
-  "See rewards": "ဆုလက်ဆောင်များ ကြည့်ရန်",
+  "Hundreds more games to play": "ကစားစရာ ဂိမ်း ရာနဲ့ချီ ထပ်ရှိသေးတယ်",
+  "Join competitions, climb the leaderboard and win prizes on Gemezz.":
+    "Gemezz မှာ ပြိုင်ပွဲဝင်၊ အဆင့်ဇယားတက်ပြီး ဆုတွေ အနိုင်ယူပါ။",
+  "Play on Gemezz": "Gemezz မှာ ကစားရန်",
   "Skip in {n}": "{n} စက္ကန့်အတွင်း ကျော်နိုင်",
   Skip: "ကျော်ရန်",
 

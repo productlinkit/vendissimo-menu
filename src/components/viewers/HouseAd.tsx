@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { GAMES, REWARDS } from "../../data";
 import { useI18n } from "../../i18n";
-import type { Reward } from "../../types";
 
 /** Brand partner portal yang diiklankan sesuai jenis kontennya. */
-export type PartnerId = "booksnap" | "speakeasy" | "emagz";
+export type PartnerId = "booksnap" | "speakeasy" | "emagz" | "gemezz";
 
 type Partner = { name: string; url: string; img: string };
 
@@ -24,24 +22,17 @@ const PARTNERS: Record<PartnerId, Partner> = {
     url: `https://emagz.mobi`,
     img: `/img/cover-magazines.webp`,
   },
+  gemezz: {
+    name: `Gemezz`,
+    url: `https://demo.gemezz.mobi/web/home`,
+    img: `/img/cover-games.webp`,
+  },
 };
 
-/** Iklan milik portal sendiri dan partnernya, bukan jaringan iklan luar. */
-export type Promo =
-  | { kind: "reward"; reward: Reward }
-  | { kind: "game"; idx: number }
-  | { kind: "partner"; id: PartnerId };
+/** Iklan dari partner portal, bukan jaringan iklan luar. */
+export type Promo = { kind: "partner"; id: PartnerId };
 
 const SKIP_SECONDS = 5;
-
-/** Promo Vendissimo acak untuk game; game yang sedang dimainkan tidak ikut. */
-export function pickGamePromo(currentGameId: string): Promo {
-  const pool: Promo[] = [
-    ...REWARDS.map((reward): Promo => ({ kind: `reward`, reward })),
-    ...GAMES.flatMap((g, idx): Promo[] => (g.id === currentGameId ? [] : [{ kind: `game`, idx }])),
-  ];
-  return pool[Math.floor(Math.random() * pool.length)];
-}
 
 type AdBreak = { at: `mid` | `end`; promo: Promo };
 
@@ -73,12 +64,9 @@ export function useAdBreaks(pick: () => Promo, onClose: () => void) {
 export function HouseAd({
   promo,
   onSkip,
-  onCta,
 }: {
   promo: Promo;
   onSkip: () => void;
-  /** Ajakan promo Vendissimo (hadiah / game lain); partner cukup membuka situsnya. */
-  onCta?: (promo: Promo) => void;
 }) {
   const { t } = useI18n();
   const [left, setLeft] = useState(SKIP_SECONDS);
@@ -88,42 +76,30 @@ export function HouseAd({
     return () => window.clearTimeout(id);
   }, [left]);
 
-  let img: string, title: string, sub: string, cta: string, by: string;
-  let href: string | null = null;
-  if (promo.kind === `game`) {
-    const game = GAMES[promo.idx];
-    [img, title, sub, cta, by] = [game.img, game.t, t(game.d), t("Play now"), `Vendissimo`];
-  } else if (promo.kind === `reward`) {
-    const r = promo.reward;
-    img = r.img;
-    title = t(r.label);
-    sub = t("Redeem it for {n} pts — {desc}", { n: r.pts, desc: t(r.desc) });
-    cta = t("See rewards");
-    by = `Vendissimo`;
-  } else {
-    const p = PARTNERS[promo.id];
-    // kalimatnya ditulis literal di t() supaya check:i18n ikut menangkapnya
-    const copy = {
-      booksnap: [
-        t("Hundreds more book summaries"),
-        t("Get the big ideas of a book in minutes. New titles every week on BookSnap."),
-        t("Watch on BookSnap"),
-      ],
-      speakeasy: [
-        t("Speak English with confidence"),
-        t("Full English courses and an AI tutor that listens to you, on SpeakEasy."),
-        t("Try SpeakEasy"),
-      ],
-      emagz: [
-        t("Full issues of your favourite magazines"),
-        t("Read every page of hundreds of titles on eMagz."),
-        t("Read on eMagz"),
-      ],
-    }[promo.id];
-    [img, title, sub, cta, by, href] = [p.img, ...copy, p.name, p.url] as [
-      string, string, string, string, string, string,
-    ];
-  }
+  const p = PARTNERS[promo.id];
+  // kalimatnya ditulis literal di t() supaya check:i18n ikut menangkapnya
+  const [title, sub, cta] = {
+    booksnap: [
+      t("Hundreds more book summaries"),
+      t("Get the big ideas of a book in minutes. New titles every week on BookSnap."),
+      t("Watch on BookSnap"),
+    ],
+    speakeasy: [
+      t("Speak English with confidence"),
+      t("Full English courses and an AI tutor that listens to you, on SpeakEasy."),
+      t("Try SpeakEasy"),
+    ],
+    emagz: [
+      t("Full issues of your favourite magazines"),
+      t("Read every page of hundreds of titles on eMagz."),
+      t("Read on eMagz"),
+    ],
+    gemezz: [
+      t("Hundreds more games to play"),
+      t("Join competitions, climb the leaderboard and win prizes on Gemezz."),
+      t("Play on Gemezz"),
+    ],
+  }[promo.id];
 
   const ctaStyle = {
     flex: 1,
@@ -150,7 +126,7 @@ export function HouseAd({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={t("Sponsored by {brand}", { brand: by })}
+      aria-label={t("Sponsored by {brand}", { brand: p.name })}
       style={{
         position: `absolute`,
         inset: 0,
@@ -179,7 +155,7 @@ export function HouseAd({
       >
         <div style={{ position: `relative` }}>
           <img
-            src={img}
+            src={p.img}
             alt=""
             style={{
               display: `block`,
@@ -203,7 +179,7 @@ export function HouseAd({
               textTransform: `uppercase`,
             }}
           >
-            {t("Sponsored by {brand}", { brand: by })}
+            {t("Sponsored by {brand}", { brand: p.name })}
           </span>
         </div>
         <div style={{ padding: `22px 24px 26px` }}>
@@ -220,16 +196,10 @@ export function HouseAd({
           </h2>
           <p style={{ fontSize: 14, lineHeight: 1.55, margin: `0 0 22px` }}>{sub}</p>
           <div style={{ display: `flex`, gap: 10 }}>
-            {href ? (
-              // situs partner dibuka di tab baru; kontennya di sini lanjut
-              <a href={href} target="_blank" rel="noopener noreferrer" onClick={onSkip} style={ctaStyle}>
-                {cta} →
-              </a>
-            ) : (
-              <button onClick={() => onCta?.(promo)} style={ctaStyle}>
-                {cta} →
-              </button>
-            )}
+            {/* situs partner dibuka di tab baru; kontennya di sini lanjut */}
+            <a href={p.url} target="_blank" rel="noopener noreferrer" onClick={onSkip} style={ctaStyle}>
+              {cta} →
+            </a>
             <button
               onClick={onSkip}
               disabled={left > 0}
