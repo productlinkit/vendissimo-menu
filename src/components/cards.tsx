@@ -167,25 +167,20 @@ export function GameCard({
       {...bind}
       className="vp-card vp-game-card"
     >
-      <div className="vp-thumb">
+      {/* ikon game itu persegi; bingkai persegi supaya judul di gambarnya
+          tidak terpotong, dan tidak ada tombol yang menutupinya */}
+      <div className="vp-thumb sq">
         <img src={game.img} alt="" loading="lazy" />
         <span className="vp-badge">{t(game.cat)}</span>
-        <div className="vp-play">
-          <span
-            style={{
-              width: 18,
-              height: 18,
-            }}
-          >
-            {Icon.play}
-          </span>
-        </div>
       </div>
       <div className="vp-card-body">
         <b>{game.t}</b>
         <div className="vp-card-foot">
-          <span>{t("Play instantly")}</span>
           <em>{t("+{n} pts", { n: game.pts })}</em>
+          <span className="vp-game-go">
+            <span aria-hidden="true">{Icon.play}</span>
+            {t("Play")}
+          </span>
         </div>
       </div>
     </button>

@@ -29,9 +29,9 @@ const MORE_LINKS: Record<CategoryId, MoreLink> = {
   },
   games: {
     q: `Want to play more games?`,
-    sub: `OmniPlay has 50+ games, tournaments and prizes.`,
-    btn: `Visit omniplay.mobi`,
-    url: `https://omniplay.mobi`,
+    sub: `Gemezz has hundreds more games, competitions and prizes.`,
+    btn: `Visit Gemezz`,
+    url: `https://demo.gemezz.mobi/web/home`,
   },
   education: {
     q: `Want to learn more?`,
@@ -171,6 +171,8 @@ export function CategoryPage({
           className="vp-on-dark"
           style={{
             display: `flex`,
+            // di layar sempit tombolnya turun ke bawah teks
+            flexWrap: `wrap`,
             alignItems: `center`,
             gap: 14,
             padding: `16px 18px`,
@@ -191,7 +193,7 @@ export function CategoryPage({
         >
           <span
             style={{
-              flex: 1,
+              flex: `1 1 240px`,
               minWidth: 0,
             }}
           >

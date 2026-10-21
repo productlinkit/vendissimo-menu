@@ -31,6 +31,10 @@ export const pages: Record<string, string> = {
   "OmniPlay has 50+ games, tournaments and prizes.":
     "OmniPlay တွင် ဂိမ်း 50+၊ ပြိုင်ပွဲများနှင့် ဆုများ ရှိသည်။",
   "Visit omniplay.mobi": "omniplay.mobi သို့",
+  "Gemezz has hundreds more games, competitions and prizes.":
+    "Gemezz မှာ ဂိမ်း ရာနဲ့ချီ၊ ပြိုင်ပွဲတွေနဲ့ ဆုတွေ ရှိပါတယ်။",
+  "Visit Gemezz": "Gemezz သို့",
+  Play: "ကစားရန်",
   "Want to learn more?": "ထပ်လေ့လာချင်ပါသလား?",
   "Full English courses and AI tutor on SpeakEasy.":
     "SpeakEasy တွင် အင်္ဂလိပ်စာ သင်တန်းအပြည့်အစုံနှင့် AI ဆရာ ရှိသည်။",
