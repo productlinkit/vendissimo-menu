@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
 import { MoreOnSite } from "./MoreOnSite";
+import { HouseAd, useAdBreaks } from "./HouseAd";
+import type { Promo } from "./HouseAd";
 import type { EnglishSet } from "../../types";
+
+const pickAd = (): Promo => ({ kind: `partner`, id: `speakeasy` });
 
 type EnglishPracticeProps = {
   set: EnglishSet;
@@ -24,6 +28,12 @@ export function EnglishPractice({
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
   const [earned, setEarned] = useState(false);
+  // English dan Education diiklankan SpeakEasy: sekali di soal tengah,
+  // sekali saat keluar.
+  const { ad, mid, close, skip } = useAdBreaks(pickAd, onClose);
+  useEffect(() => {
+    if (questions.length >= 4 && current === Math.floor(questions.length / 2)) mid();
+  }, [current, questions.length, mid]);
   const question = questions[current];
   const progress = questions.length
     ? ((current + 1) / questions.length) * 100
@@ -73,7 +83,7 @@ export function EnglishPractice({
         }}
       >
         <button
-          onClick={onClose}
+          onClick={close}
           aria-label={t("Back")}
           style={{
             width: 38,
@@ -302,9 +312,10 @@ export function EnglishPractice({
           )}
           siteName="SpeakEasy"
           siteUrl="https://www.speakeasy.com"
-          onClose={onClose}
+          onClose={close}
         />
       )}
+      {ad && <HouseAd key={ad.at} promo={ad.promo} onSkip={skip} />}
     </div>
   );
 }

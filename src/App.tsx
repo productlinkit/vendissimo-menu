@@ -6,6 +6,7 @@ import { Toast } from "./components/Toast";
 import { isCategoryRoute, TopNav } from "./components/TopNav";
 import { EnglishPractice } from "./components/viewers/EnglishPractice";
 import { GamePlayer } from "./components/viewers/GamePlayer";
+import type { Promo } from "./components/viewers/HouseAd";
 import { MagazineReader } from "./components/viewers/MagazineReader";
 import { VideoPlayer } from "./components/viewers/VideoPlayer";
 import { useI18n } from "./i18n";
@@ -81,6 +82,16 @@ export default function App() {
       markOpened(`game-${idx}`);
     },
     [markOpened],
+  );
+
+  // Ajakan dari iklan sendiri di game: buka game lain atau halaman hadiah.
+  const openPromo = useCallback(
+    (promo: Promo) => {
+      if (promo.kind === `game`) return openGame(promo.idx);
+      setViewer(null);
+      navigate(`rewards`);
+    },
+    [openGame, navigate],
   );
 
   const openEnglish = useCallback(
@@ -198,6 +209,7 @@ export default function App() {
       )}
       {viewer?.type === `video` && (
         <VideoPlayer
+          key={viewer.idx}
           video={VIDEOS[viewer.idx]}
           onClose={() => setViewer(null)}
           onOther={openVideo}
@@ -206,9 +218,11 @@ export default function App() {
       )}
       {viewer?.type === `game` && (
         <GamePlayer
+          key={viewer.idx}
           game={GAMES[viewer.idx]}
           onClose={() => setViewer(null)}
           onFinish={() => finishGame(viewer.idx)}
+          onPromo={openPromo}
         />
       )}
       {viewer?.type === `eng` && (

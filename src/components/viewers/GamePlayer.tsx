@@ -1,19 +1,33 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { GAME_MIN_SECONDS } from "../../lib/pointsService";
 import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
+import { HouseAd, pickGamePromo, useAdBreaks } from "./HouseAd";
+import type { Promo } from "./HouseAd";
 import type { Game } from "../../types";
+
+/** Jeda iklan sekali di tengah permainan, jauh setelah poin didapat. */
+const MID_AD_SECONDS = 150;
 
 export function GamePlayer({
   game,
   onClose,
   onFinish,
+  onPromo,
 }: {
   game: Game;
   onClose: () => void;
   onFinish: () => void;
+  onPromo: (promo: Promo) => void;
 }) {
   const { t } = useI18n();
+  // Game diiklankan dengan promo Vendissimo sendiri: hadiah atau game lain.
+  const pick = useCallback(() => pickGamePromo(game.id), [game.id]);
+  const { ad, mid, close, skip } = useAdBreaks(pick, onClose);
+  useEffect(() => {
+    const id = window.setTimeout(mid, MID_AD_SECONDS * 1000);
+    return () => window.clearTimeout(id);
+  }, [mid]);
   // The games are third-party iframes on another origin, so there is no
   // game-over message to listen for. Time played is the only signal we get.
   useEffect(() => {
@@ -50,7 +64,7 @@ export function GamePlayer({
         className="vp-game-bar"
       >
         <button
-          onClick={onClose}
+          onClick={close}
           aria-label={t("Close")}
           style={{
             width: 44,
@@ -120,6 +134,15 @@ export function GamePlayer({
         }}
         allow="accelerometer; gyroscope; fullscreen"
       />
+      {/* Game di baliknya tetap berjalan: iframe beda origin tidak bisa dijeda. */}
+      {ad && (
+        <HouseAd
+          key={ad.at}
+          promo={ad.promo}
+          onSkip={skip}
+          onCta={onPromo}
+        />
+      )}
     </div>
   );
 }

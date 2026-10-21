@@ -4,7 +4,11 @@ import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
 import { MagCover } from "../cards";
 import { MoreOnSite } from "./MoreOnSite";
+import { HouseAd, useAdBreaks } from "./HouseAd";
+import type { Promo } from "./HouseAd";
 import type { Magazine } from "../../types";
+
+const pickAd = (): Promo => ({ kind: `partner`, id: `emagz` });
 
 export function MagazineReader({
   mag,
@@ -20,6 +24,11 @@ export function MagazineReader({
   const pageCount = 2 + mag.toc.length;
   const [page, setPage] = useState(0);
   const [showMore, setShowMore] = useState(false);
+  // Majalah diiklankan eMagz: sekali di halaman tengah, sekali saat keluar.
+  const { ad, mid, close, skip } = useAdBreaks(pickAd, onClose);
+  useEffect(() => {
+    if (pageCount >= 4 && page === Math.floor(pageCount / 2)) mid();
+  }, [page, pageCount, mid]);
   const isCover = page === 0;
   const isContents = page === 1;
   const isStory = page >= 2;
@@ -41,7 +50,7 @@ export function MagazineReader({
   };
   const goPrev = () => {
     if (page > 0) setPage((current) => current - 1);
-    else onClose();
+    else close();
   };
   return (
     <div
@@ -65,7 +74,7 @@ export function MagazineReader({
         }}
       >
         <button
-          onClick={onClose}
+          onClick={close}
           aria-label={t("Close")}
           style={{
             width: 38,
@@ -563,9 +572,10 @@ export function MagazineReader({
           sub="Find more titles and full issues on Magzter."
           siteName="Magzter"
           siteUrl="https://www.magzter.com"
-          onClose={onClose}
+          onClose={close}
         />
       )}
+      {ad && <HouseAd key={ad.at} promo={ad.promo} onSkip={skip} />}
     </div>
   );
 }

@@ -1,11 +1,15 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { COMPLETION_RATIO } from "../../lib/pointsService";
 import { useI18n } from "../../i18n";
 import { Icon } from "../Icon";
 import { MoreOnSite } from "./MoreOnSite";
+import { HouseAd, useAdBreaks } from "./HouseAd";
+import type { Promo } from "./HouseAd";
 import { VIDEOS } from "../../data";
 import { formatTime } from "../../lib/format";
 import type { Video } from "../../types";
+
+const pickAd = (): Promo => ({ kind: `partner`, id: `booksnap` });
 
 type VideoPlayerProps = {
   video: Video;
@@ -32,6 +36,16 @@ export function VideoPlayer({
     ...VIDEOS.slice(0, currentIndex),
   ];
   const [showMore, setShowMore] = useState(false);
+  // Video diiklankan BookSnap: sekali di tengah video, sekali saat keluar.
+  const { ad, mid, close, skip } = useAdBreaks(pickAd, onClose);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // Video dijeda selama iklan tengah dan lanjut setelah dilewati.
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || ad?.at !== `mid`) return;
+    el.pause();
+    return () => void el.play().catch(() => {});
+  }, [ad]);
 
   return (
     <div
@@ -44,7 +58,7 @@ export function VideoPlayer({
       }}
     >
       <button
-        onClick={onClose}
+        onClick={close}
         aria-label={t("Back")}
         style={{
           position: `absolute`,
@@ -115,13 +129,16 @@ export function VideoPlayer({
             >
               {position === 0 ? (
                 <video
+                  ref={videoRef}
                   src={item.url}
                   controls
                   autoPlay
                   playsInline
                   onTimeUpdate={(event) => {
                     const el = event.currentTarget;
-                    if (counted.current || !el.duration) return;
+                    if (!el.duration) return;
+                    if (el.currentTime / el.duration >= 0.5) mid();
+                    if (counted.current) return;
                     if (el.currentTime / el.duration >= COMPLETION_RATIO) {
                       counted.current = true;
                       onFinish();
@@ -434,7 +451,7 @@ export function VideoPlayer({
               </span>
             </button>
             <button
-              onClick={onClose}
+              onClick={close}
               style={{
                 display: `flex`,
                 alignItems: `center`,
@@ -461,9 +478,10 @@ export function VideoPlayer({
           sub="New titles added every week on BookSnap."
           siteName="BookSnap"
           siteUrl="https://booksnap.ai"
-          onClose={onClose}
+          onClose={close}
         />
       )}
+      {ad && <HouseAd key={ad.at} promo={ad.promo} onSkip={skip} />}
     </div>
   );
 }
