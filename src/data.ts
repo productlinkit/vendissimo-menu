@@ -12,10 +12,10 @@ import type {
 
 export const REWARDS: Reward[] = [
   {
-    img: `/img/reward-coffee.webp`,
-    label: `Free Coffee`,
+    img: `/img/reward-drink-one.png`,
+    label: `Free Drink`,
     pts: 150,
-    desc: `Hot or iced, from any machine`,
+    desc: `Any drink from any Vendissimo machine`,
   },
   {
     img: `/img/reward-voucher.webp`,
@@ -24,10 +24,10 @@ export const REWARDS: Reward[] = [
     desc: `On your next vending purchase`,
   },
   {
-    img: `/img/reward-drink.webp`,
-    label: `Free Drink`,
+    img: `/img/reward-drinks.png`,
+    label: `2 Free Drinks`,
     pts: 400,
-    desc: `Any drink from Vendissimo`,
+    desc: `Two drinks of your choice from Vendissimo`,
   },
 ];
 
@@ -954,7 +954,7 @@ export const LEVELS: Level[] = [
     n: 1,
     exp: 0,
     img: `/img/level-balloon.webp`,
-    prize: `Free Coffee`,
+    prize: `Free Drink`,
   },
   {
     n: 2,
@@ -966,7 +966,7 @@ export const LEVELS: Level[] = [
     n: 3,
     exp: 600,
     img: `/img/level-carousel.webp`,
-    prize: `Free Drink`,
+    prize: `2 Free Drinks`,
   },
 ];
 

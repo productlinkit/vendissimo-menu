@@ -1,12 +1,12 @@
 // Myanmar translations for user-facing fields in src/data.ts.
 export const data: Record<string, string> = {
   // Rewards
-  "Free Coffee": "ကော်ဖီ အခမဲ့",
-  "Hot or iced, from any machine": "ဘယ်စက်မှာမဆို အပူ ဒါမှမဟုတ် အအေး",
   "10% Voucher": "10% လျှော့စျေးဘောက်ချာ",
   "On your next vending purchase": "နောက်တစ်ကြိမ် စက်မှဝယ်ယူရာတွင် သုံးနိုင်",
   "Free Drink": "အချိုရည် အခမဲ့",
-  "Any drink from Vendissimo": "Vendissimo မှ ကြိုက်တဲ့ အချိုရည်တစ်ခု",
+  "Any drink from any Vendissimo machine": "ဘယ် Vendissimo စက်မှာမဆို ကြိုက်တဲ့ အချိုရည်တစ်ခု",
+  "2 Free Drinks": "အချိုရည် ၂ ဗူး အခမဲ့",
+  "Two drinks of your choice from Vendissimo": "Vendissimo မှ ကြိုက်တဲ့ အချိုရည် ၂ ဗူး",
 
   // Categories
   "Magazines": "မဂ္ဂဇင်းများ",
