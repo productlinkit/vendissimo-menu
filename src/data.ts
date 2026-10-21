@@ -12,7 +12,7 @@ import type {
 
 export const REWARDS: Reward[] = [
   {
-    img: `/img/reward-drink-one.png`,
+    img: `/img/reward-coffee.webp`,
     label: `Free Drink`,
     pts: 150,
     desc: `Any drink from any Vendissimo machine`,
@@ -24,7 +24,7 @@ export const REWARDS: Reward[] = [
     desc: `On your next vending purchase`,
   },
   {
-    img: `/img/reward-drinks.png`,
+    img: `/img/reward-drink.webp`,
     label: `2 Free Drinks`,
     pts: 400,
     desc: `Two drinks of your choice from Vendissimo`,
