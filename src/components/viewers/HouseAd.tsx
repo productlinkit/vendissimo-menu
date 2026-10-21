@@ -20,12 +20,12 @@ const PARTNERS: Record<PartnerId, Partner> = {
   emagz: {
     name: `eMagz`,
     url: `https://emagz.mobi`,
-    img: `/img/cover-magazines.webp`,
+    img: `/img/cover-magazines.jpg`,
   },
   gemezz: {
     name: `Gemezz`,
     url: `https://demo.gemezz.mobi/web/home`,
-    img: `/img/cover-games.webp`,
+    img: `/img/cover-games.jpg`,
   },
 };
 

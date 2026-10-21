@@ -8,9 +8,9 @@ import type { CategoryId } from "../../types";
  *  (512x384 dan sejenisnya) yang pecah saat ubinnya melar di desktop;
  *  ini foto 1100px yang memang disiapkan sebagai sampul. */
 const SAMPUL: Record<CategoryId, string> = {
-  magazines: `/img/cover-magazines.webp`,
+  magazines: `/img/cover-magazines.jpg`,
   videos: `/img/cover-videos.webp`,
-  games: `/img/cover-games.webp`,
+  games: `/img/cover-games.jpg`,
   // dua ini kembali ke ilustrasi rubah yang lama atas permintaan;
   // cover-education/cover-english tetap ada di public/img kalau nanti
   // mau ditukar balik
