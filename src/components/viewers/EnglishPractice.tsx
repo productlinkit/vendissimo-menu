@@ -231,16 +231,14 @@ export function EnglishPractice({
                     onClick={() => answer(idx)}
                     style={{
                       border: `2px solid ${isRight ? `var(--good)` : isWrong ? `var(--bad)` : `var(--line)`}`,
+                      // isian solid: versi transparan nyaris hilang di atas
+                      // latar terang, begitu juga teks hijau/merah terangnya
                       background: isRight
-                        ? `rgba(60,207,147,.13)`
+                        ? `var(--chip-good)`
                         : isWrong
-                          ? `rgba(255,107,107,.12)`
+                          ? `#b42318`
                           : `var(--card)`,
-                      color: isRight
-                        ? `var(--good)`
-                        : isWrong
-                          ? `var(--bad)`
-                          : `var(--ink)`,
+                      color: `var(--ink)`,
                       borderRadius: 14,
                       padding: `14px 18px`,
                       textAlign: `left`,
@@ -262,10 +260,9 @@ export function EnglishPractice({
                         fontSize: 13,
                         fontFamily: `var(--f-mono)`,
                         fontWeight: 700,
-                        background: isRight
-                          ? `rgba(60,207,147,.2)`
-                          : isWrong
-                            ? `rgba(255,107,107,.2)`
+                        background:
+                          isRight || isWrong
+                            ? `rgba(255,255,255,.22)`
                             : `rgba(255,255,255,.08)`,
                         display: `grid`,
                         placeItems: `center`,
@@ -292,7 +289,8 @@ export function EnglishPractice({
               >
                 <span
                   style={{
-                    color: `var(--orange)`,
+                    // oranye terang nyaris hilang di atas latar pink
+                    color: `var(--chip-count)`,
                     fontWeight: 700,
                   }}
                 >
