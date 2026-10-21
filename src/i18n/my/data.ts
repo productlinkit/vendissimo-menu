@@ -26,17 +26,17 @@ export const data: Record<string, string> = {
   "Finish a course or English practice": "သင်ခန်းစာ သို့မဟုတ် အင်္ဂလိပ်စာလေ့ကျင့်ခန်း တစ်ခု ပြီးဆုံးပါ",
 
   // Games
+  "Action": "အက်ရှင်",
   "Arcade": "အာကိတ်",
-  "Launch your truck and wreck every tower in the destruction yard.": "ကုန်တင်ကားကို လွှတ်ပြီး ဖျက်ဆီးရေးကွင်းထဲက မျှော်စင်တိုင်းကို ဖြိုချလိုက်ပါ။",
   "Puzzle": "ပဟေဠိ",
-  "Match three or more candies to collect the stars on every board.": "သကြားလုံး သုံးလုံးနှင့်အထက် တွဲပြီး ဘုတ်တိုင်းမှာ ကြယ်တွေ စုဆောင်းပါ။",
-  "Place the blocks, clear full lines and keep the board open.": "အတုံးတွေချ၊ ပြည့်သွားတဲ့ တန်းတွေကို ရှင်းပြီး ဘုတ်ကို နေရာလွတ်ရှိအောင် ထားပါ။",
-  "Pour the colors until every tube holds a single color.": "ပြွန်တိုင်းမှာ အရောင်တစ်မျိုးတည်း ဖြစ်သွားသည်အထိ အရောင်တွေ လောင်းထည့်ပါ။",
-  "Drop numbered blocks and merge them all the way to 2048.": "နံပါတ်တုံးတွေချပြီး 2048 ရောက်သည်အထိ ပေါင်းစပ်ပါ။",
-  "Tap to fly through the gaps. How far can you go?": "နှိပ်ပြီး ကြားပေါက်တွေကြား ပျံသန်းပါ။ ဘယ်လောက်ဝေးဝေး ရောက်နိုင်မလဲ?",
-  "Sports": "အားကစား",
-  "Line up your shot and sink every ball before your opponent.": "ချိန်ရွယ်ပြီး ပြိုင်ဘက်ထက်အရင် ဘောလုံးအားလုံးကို အပေါက်ထဲ သွင်းပါ။",
-  "Shoot hoops, beat the clock and chase a new high score.": "ခြင်းထဲ ပစ်သွင်း၊ အချိန်နဲ့ ယှဉ်ပြိုင်ပြီး အမှတ်သစ် ချိုးပါ။",
+  "Fire your cannons and sink the enemy fleet before it sinks you.": "အမြောက်တွေ ပစ်ပြီး ရန်သူ့ရေယာဉ်စုက သင့်ကို မနှစ်ခင် သူတို့ကို အရင်နှစ်လိုက်ပါ။",
+  "Take aim with your crossbow and defend the castle from invaders.": "လေးခွကို ချိန်ပြီး ကျူးကျော်သူတွေထံက ရဲတိုက်ကို ကာကွယ်ပါ။",
+  "Drive your battle car and smash every rival machine off the road.": "တိုက်ပွဲကားကို မောင်းပြီး ပြိုင်ဘက်စက်တိုင်းကို လမ်းပေါ်က တိုက်ထုတ်ပါ။",
+  "Aim, shoot and blast the ball through every level.": "ချိန်၊ ပစ်ပြီး အဆင့်တိုင်းကို ဘောလုံးနဲ့ ဖြတ်ကျော်ပါ။",
+  "Run, jump and tumble past the obstacles all the way to the finish.": "ပြေး၊ ခုန်ပြီး အတားအဆီးတွေကို ကျော်ကာ ပန်းတိုင်အထိ ရောက်အောင် သွားပါ။",
+  "Work out how to get the candy to the hungry cat in every level.": "အဆင့်တိုင်းမှာ ဗိုက်ဆာနေတဲ့ ကြောင်ဆီ သကြားလုံး ရောက်အောင် စဉ်းစားပါ။",
+  "Launch the angry heroes and knock down every foe on the board.": "ဒေါသထွက်နေတဲ့ သူရဲကောင်းတွေကို ပစ်လွှတ်ပြီး ရန်သူတိုင်းကို ဖြိုချပါ။",
+  "Match three or more candies to clear the board.": "သကြားလုံး သုံးလုံးနှင့်အထက် တွဲပြီး ဘုတ်ကို ရှင်းလင်းပါ။",
 
   // Courses
   "Travel English": "ခရီးသွား အင်္ဂလိပ်စာ",

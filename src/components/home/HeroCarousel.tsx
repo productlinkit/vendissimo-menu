@@ -31,9 +31,9 @@ export function HeroCarousel({
       p: t(`No sign-up needed to start`),
       btn: t(`Play now`),
       act: () => onNavigate(`games`),
-      img: `/img/hero-crash-tower.webp`,
+      img: `/img/g-battlewheels.jpg`,
       mag: null,
-      frame: false,
+      frame: true,
     },
     {
       tag: t(`Game of the Day`),
@@ -41,10 +41,9 @@ export function HeroCarousel({
       p: t(GAMES[0].d),
       btn: t(`Play instantly`),
       act: () => onNavigate(`games`),
-      // potongan tanpa latar supaya truknya berdiri bebas, bukan foto berbingkai
-      img: `/img/g-crash-cut.webp`,
+      img: GAMES[0].img,
       mag: null,
-      frame: false,
+      frame: true,
     },
     {
       tag: t(`Now Showing`),
