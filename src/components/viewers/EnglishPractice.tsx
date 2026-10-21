@@ -89,7 +89,8 @@ export function EnglishPractice({
             width: 38,
             height: 38,
             borderRadius: `50%`,
-            background: `rgba(255,255,255,.1)`,
+            // latarnya terang, jadi tombolnya diberi bidang gelap
+            background: `var(--card)`,
             border: 0,
             display: `grid`,
             placeItems: `center`,
@@ -218,7 +219,7 @@ export function EnglishPractice({
                 {question.q}
               </h2>
             </div>
-            <div className="eq-options">
+            <div className="eq-options vp-on-dark">
               {question.o.map((text, idx) => {
                 const isAnswer = idx === question.a;
                 const isWrong =
