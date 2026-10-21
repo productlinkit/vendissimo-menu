@@ -322,6 +322,7 @@ export function VideoPlayer({
           );
         })}
         <div
+          className="vp-on-dark"
           style={{
             width: `100%`,
             height: `100%`,
