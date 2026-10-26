@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "../i18n";
+import { BAR, LEAD } from "../lib/carnivalMusic";
 
 type Phase = "scatter" | "gather" | "spin" | "vanish" | "out";
+
+// Fase splash diukur dalam birama musik karnaval (yang mulai bersamaan
+// dengan splash), supaya putaran dan hilangnya logo jatuh di ketukan "oom".
+const at = (bars: number) => (LEAD + bars * BAR) * 1000;
+const SPIN_AT = at(2);
+const VANISH_AT = at(5);
 
 export function Loader({ onDone }: { onDone: () => void }) {
   const { t } = useI18n();
@@ -9,10 +16,10 @@ export function Loader({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(`gather`), 250),
-      setTimeout(() => setPhase(`spin`), 2400),
-      setTimeout(() => setPhase(`vanish`), 5400),
-      setTimeout(() => setPhase(`out`), 6200),
-      setTimeout(onDone, 6800),
+      setTimeout(() => setPhase(`spin`), SPIN_AT),
+      setTimeout(() => setPhase(`vanish`), VANISH_AT),
+      setTimeout(() => setPhase(`out`), at(5.75)),
+      setTimeout(onDone, at(6.3)),
     ];
     return () => {
       timers.forEach(clearTimeout);
@@ -48,7 +55,8 @@ export function Loader({ onDone }: { onDone: () => void }) {
           height: 520,
           borderRadius: `50%`,
           background: `radial-gradient(circle, rgba(235,52,124,.4) 0%, rgba(123,47,247,.25) 42%, transparent 72%)`,
-          animation: `centerAuraPulse 3.5s ease-in-out infinite`,
+          // berdenyut sekali per birama, puncaknya tepat di ketukan pertama
+          animation: `centerAuraPulse ${BAR}s ${LEAD - BAR / 2}s ease-in-out infinite`,
           pointerEvents: `none`,
         }}
       />
@@ -398,7 +406,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
                   animation:
                     phase === `scatter`
                       ? undefined
-                      : `splashBarFill 5.2s cubic-bezier(.4,0,.2,1) forwards`,
+                      : `splashBarFill ${(VANISH_AT - 250) / 1000}s cubic-bezier(.4,0,.2,1) forwards`,
                   width: phase === `scatter` ? `0%` : undefined,
                 }}
               />

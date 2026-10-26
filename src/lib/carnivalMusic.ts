@@ -4,6 +4,10 @@
 // melodinya ditulis sendiri, bukan kutipan lagu sirkus yang terkenal.
 
 const BEAT = 60 / 168; // detik per ketuk
+/** Detik per birama (3 ketuk); splash menyelaraskan fasenya ke sini. */
+export const BAR = BEAT * 3;
+/** Jeda dari start() sampai ketuk pertama berbunyi. */
+export const LEAD = 0.1;
 const LOOKAHEAD = 0.25; // detik ke depan yang dijadwalkan sekaligus
 const VOLUME = 0.12;
 
@@ -136,7 +140,7 @@ export function createCarnival(): Carnival | null {
     start() {
       if (timer !== undefined) return;
       void ctx.resume().catch(() => {});
-      loopStart = ctx.currentTime + 0.1;
+      loopStart = ctx.currentTime + LEAD;
       nextBeat = 0;
       nextNote = 0;
       master.gain.cancelScheduledValues(ctx.currentTime);
