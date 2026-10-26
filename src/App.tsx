@@ -155,9 +155,10 @@ export default function App() {
   const playingGame = viewer?.type === `game`;
   // Beranda adalah peta karnaval; Rewards halaman penukaran voucher.
   const onMap = route === `home`;
-  // musik karnaval hanya di peta, dan diam selama konten apa pun sedang
-  // dibuka; splash punya efek suara game sendiri
-  const music = useCarnivalMusic(onMap && !loading && viewer === null);
+  // musik karnaval mengiringi semua halaman nav, dan diam selama konten apa
+  // pun (game, video, majalah, latihan) sedang dibuka; splash punya efek
+  // suara game sendiri
+  const music = useCarnivalMusic(!loading && viewer === null);
   const { on: soundOn, unlock: unlockMusic } = music;
   // tap di splash: kunci audio musik peta dibuka sekarang juga (hanya boleh
   // di dalam sentuhan), walau musiknya baru berbunyi sesudah splash
