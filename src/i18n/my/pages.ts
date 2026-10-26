@@ -74,6 +74,10 @@ export const pages: Record<string, string> = {
   "You are here": "သင် ဤနေရာတွင် ရှိသည်",
   "Your prize at this level": "ဤအဆင့်တွင် သင်ရမည့် ဆု",
   "Get voucher": "ဘောက်ချာ ယူရန်",
+  "Swap your points for drink vouchers": "ပွိုင့်ကို အချိုရည် ဘောက်ချာနှင့် လဲပါ",
+  "Your level": "သင့်အဆင့်",
+  "Unlocks at Level {n}": "အဆင့် {n} တွင် ပွင့်မည်",
+  "{n} more pts needed": "နောက်ထပ် {n} ပွိုင့် လိုသည်",
   "Points → voucher code → swap it for a drink at any Vendissimo machine.":
     "ပွိုင့် → ဘောက်ချာကုဒ် → ဘယ် Vendissimo စက်မှာမဆို အချိုရည်နှင့် လဲပါ။",
   "{prize} — {n} pts to claim it": "{prize} — ရယူရန် {n} ပွိုင့်",

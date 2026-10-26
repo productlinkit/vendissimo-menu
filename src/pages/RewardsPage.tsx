@@ -1,102 +1,110 @@
-import { GAMES } from "../data";
 import { useState } from "react";
-import { RedeemSheet } from "../components/RedeemSheet";
-import { Coach, sudahPernahTur } from "../components/levels/Coach";
-import { LevelDetail } from "../components/levels/LevelDetail";
-import { LevelMap } from "../components/levels/LevelMap";
-import { Icon } from "../components/Icon";
-import { gamesOf } from "../lib/levels";
+import { RedeemSheet, RedeemSteps } from "../components/RedeemSheet";
+import { VoucherList } from "../components/VoucherList";
+import { REWARDS } from "../data";
 import { useI18n } from "../i18n";
-import type { GameGroup, Progress, Reward, Voucher } from "../types";
+import { LEVELS, levelOf } from "../lib/levels";
+import type { Progress, Reward, Voucher } from "../types";
 
-/** id -> posisi di GAMES, karena pemutar game dibuka dengan indeks. */
-const GAMES_INDEX = new Map(GAMES.map((game, idx) => [game.id, idx]));
+// Halaman penukaran: poin menjadi kode voucher, kode ditukar minuman di
+// mesin. Peta level tetap di beranda; di sini semua hadiah berjajar.
 
-// Halaman ini kini hanya berisi gamifikasinya. Daftar hadiah, cara
-// mendapat poin, dan riwayat pindah ke Profil; penukaran sendiri pindah
-// ke kartu hadiah di halaman level, supaya poin tetap bisa ditukar.
 export function RewardsPage({
   S,
   onRedeem,
-  onGame,
-  musicOn,
-  onToggleMusic,
 }: {
   S: Progress;
   onRedeem: (reward: Reward, voucher: Voucher) => void;
-  onGame: (idx: number) => void;
-  musicOn: boolean;
-  onToggleMusic: () => void;
 }) {
   const { t } = useI18n();
-  // hadiah yang sedang ditukar, atau voucher lama yang dibuka lagi
-  const [redeeming, setRedeeming] = useState<{
-    reward: Reward;
-    voucher?: Voucher;
-  } | null>(null);
-
-  // dipasang di kedua tampilan: dulu hanya ada di peta, sehingga tombol
-  // Redeem di halaman level tidak membuka apa-apa
-  const sheet = redeeming && (
-    <RedeemSheet
-      reward={redeeming.reward}
-      voucher={redeeming.voucher}
-      onConfirm={(v) => onRedeem(redeeming.reward, v)}
-      onClose={() => setRedeeming(null)}
-    />
-  );
-  const [levelTerbuka, setLevelTerbuka] = useState<number | null>(null);
-  const [tur, setTur] = useState(() => !sudahPernahTur());
-
-  // "GO" membuka game pertama di kelompoknya yang belum pernah diselesaikan
-  const mainkan = (group: GameGroup) => {
-    const daftar = gamesOf(group);
-    const belum = daftar.find((game) => !S.played.includes(game.id));
-    const pilih = belum ?? daftar[0];
-    const idx = GAMES_INDEX.get(pilih.id);
-    if (idx !== undefined) onGame(idx);
-  };
-
-  if (levelTerbuka !== null) {
-    return (
-      <>
-        <LevelDetail
-          n={levelTerbuka}
-          S={S}
-          onBack={() => setLevelTerbuka(null)}
-          onPlay={mainkan}
-          onClaim={(reward) => setRedeeming({ reward })}
-          onShowVoucher={(reward, voucher) => setRedeeming({ reward, voucher })}
-        />
-        {tur && <Coach onClose={() => setTur(false)} />}
-        {sheet}
-      </>
-    );
-  }
+  const [menukar, setMenukar] = useState<Reward | null>(null);
+  const sekarang = levelOf(S.exp);
 
   return (
-    <div className="vp-view page-enter">
-      <h1 className="vp-sr-only">{t("Home")}</h1>
-      <button
-        type="button"
-        className="vp-level-help"
-        aria-label={t(`How levels work`)}
-        onClick={() => setTur(true)}
-      >
-        {Icon.info}
-      </button>
-      <button
-        type="button"
-        className="vp-level-help vp-music-toggle"
-        aria-label={musicOn ? t(`Turn music off`) : t(`Turn music on`)}
-        aria-pressed={musicOn}
-        onClick={onToggleMusic}
-      >
-        {musicOn ? Icon.sound : Icon.mute}
-      </button>
-      <LevelMap S={S} onOpen={setLevelTerbuka} />
-      {tur && <Coach onClose={() => setTur(false)} />}
-      {sheet}
+    <div className="vp-view vp-rewards page-enter">
+      <div>
+        <h1 style={{ fontSize: `clamp(26px,6vw,42px)` }}>{t(`Rewards`)}</h1>
+        <p
+          style={{
+            color: `var(--ink-2)`,
+            marginTop: 6,
+            fontSize: 19,
+            fontWeight: 700,
+            lineHeight: 1.35,
+          }}
+        >
+          {t(`Swap your points for drink vouchers`)}
+        </p>
+      </div>
+
+      <section className="vp-rw-balance vp-on-dark">
+        <div>
+          <span>{t(`Your points`)}</span>
+          <strong>{t(`{n} pts`, { n: S.pts })}</strong>
+        </div>
+        <div>
+          <span>{t(`Your level`)}</span>
+          <strong>{t(`Level {n}`, { n: sekarang.n })}</strong>
+        </div>
+        <div>
+          <span>{t(`EXP`)}</span>
+          <strong>{S.exp}</strong>
+        </div>
+      </section>
+
+      <ul className="vp-rw-list">
+        {REWARDS.map((reward) => {
+          // tiap voucher dibuka oleh level yang menjadikannya hadiah
+          const level = LEVELS.find((lv) => lv.prize === reward.label);
+          const terbuka = !level || S.exp >= level.exp;
+          const kurang = reward.pts - S.pts;
+          return (
+            <li key={reward.label} className={`vp-rw-card vp-on-dark${terbuka ? `` : ` is-locked`}`}>
+              <img src={reward.img} alt="" />
+              <div className="vp-rw-text">
+                <h2>{t(reward.label)}</h2>
+                <p>{t(reward.desc)}</p>
+                <span className="vp-rw-cost">{t(`{n} pts`, { n: reward.pts })}</span>
+              </div>
+              {!terbuka && level ? (
+                <span className="vp-rw-state">
+                  🔒 {t(`Unlocks at Level {n}`, { n: level.n })}
+                </span>
+              ) : kurang > 0 ? (
+                <span className="vp-rw-state">
+                  {t(`{n} more pts needed`, { n: kurang })}
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  className="vp-prize-claim"
+                  onClick={() => setMenukar(reward)}
+                >
+                  {t(`Get voucher`)}
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+
+      <section className="vp-panel vp-on-dark">
+        <h2 className="vp-eyebrow">{t(`My vouchers`)}</h2>
+        <VoucherList vouchers={S.vouchers ?? []} />
+      </section>
+
+      <section className="vp-panel vp-on-dark">
+        <h2 className="vp-eyebrow">{t(`How to redeem`)}</h2>
+        <RedeemSteps />
+      </section>
+
+      {menukar && (
+        <RedeemSheet
+          reward={menukar}
+          onConfirm={(v) => onRedeem(menukar, v)}
+          onClose={() => setMenukar(null)}
+        />
+      )}
     </div>
   );
 }

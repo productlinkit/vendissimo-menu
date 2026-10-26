@@ -7,9 +7,9 @@ import { PointsCounter } from "./PointsCounter";
 
 type NavItem = { id: Route; label: string; icon: ReactNode };
 
-/** Bar atas desktop: sama isinya dengan dock HP. Beranda kini peta
- *  karnaval (dulu halaman Rewards), jadi Rewards diganti Explore yang
- *  berisi beranda lama dengan kelima kategori. */
+/** Bar atas desktop: sama isinya dengan dock HP. Beranda adalah peta
+ *  karnaval, Explore berisi beranda lama dengan kelima kategori, dan
+ *  Rewards halaman penukaran voucher minuman. */
 const NAV_ITEMS: NavItem[] = [
   {
     id: `home`,
@@ -30,6 +30,11 @@ const NAV_ITEMS: NavItem[] = [
     id: `explore`,
     label: `Explore`,
     icon: Icon.explore,
+  },
+  {
+    id: `rewards`,
+    label: `Rewards`,
+    icon: Icon.gift,
   },
   {
     id: `profile`,
@@ -59,6 +64,11 @@ const DOCK_ITEMS: NavItem[] = [
     id: `explore`,
     label: `Explore`,
     icon: Icon.explore,
+  },
+  {
+    id: `rewards`,
+    label: `Rewards`,
+    icon: Icon.gift,
   },
   {
     id: `profile`,

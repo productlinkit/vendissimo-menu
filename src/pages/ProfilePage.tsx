@@ -1,14 +1,10 @@
 import { useState, type ReactNode } from "react";
 import { Icon } from "../components/Icon";
-import {
-  RedeemSheet,
-  RedeemSteps,
-  formatUntil,
-  voucherActive,
-} from "../components/RedeemSheet";
+import { RedeemSteps } from "../components/RedeemSheet";
+import { VoucherList } from "../components/VoucherList";
 import { POINTS, REWARDS } from "../data";
 import { useI18n } from "../i18n";
-import type { Progress, Route, Voucher } from "../types";
+import type { Progress, Route } from "../types";
 
 const FEATURES = [
   `🥤 Snacks & drinks for everyone`,
@@ -58,8 +54,6 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
   const { t } = useI18n();
   const unlockedCount = REWARDS.filter((reward) => S.pts >= reward.pts).length;
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [lihat, setLihat] = useState<Voucher | null>(null);
-  const vouchers = S.vouchers ?? [];
   return (
     <div className="vp-view page-enter">
       <h1
@@ -482,37 +476,7 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
 
       <section className="vp-panel vp-on-dark">
         <h2 className="vp-eyebrow">{t("My vouchers")}</h2>
-        {vouchers.length === 0 ? (
-          <p style={{ color: `var(--ink-3)`, fontSize: 15 }}>
-            {t("No vouchers yet. Reach a level, then swap your points for a drink voucher.")}
-          </p>
-        ) : (
-          <ul className="vp-vouchers">
-            {vouchers.map((v) => {
-              const aktif = voucherActive(v);
-              return (
-                <li key={v.code} className={aktif ? undefined : `is-expired`}>
-                  <img src={v.img} alt="" />
-                  <span className="vp-voucher-text">
-                    <b>{v.code}</b>
-                    <small>
-                      {t(v.label)}
-                      {` · `}
-                      {aktif
-                        ? t(`Valid until {time}`, { time: formatUntil(v.until) })
-                        : t(`Expired`)}
-                    </small>
-                  </span>
-                  {aktif && (
-                    <button type="button" onClick={() => setLihat(v)}>
-                      {t(`Show`)}
-                    </button>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <VoucherList vouchers={S.vouchers ?? []} />
       </section>
 
       <section className="vp-panel vp-on-dark">
@@ -570,18 +534,6 @@ export function ProfilePage({ S, onNavigate }: ProfilePageProps) {
           </ul>
         )}
       </section>
-      {lihat && (
-        <RedeemSheet
-          reward={REWARDS.find((r) => r.label === lihat.label) ?? {
-            img: lihat.img,
-            label: lihat.label,
-            pts: 0,
-            desc: ``,
-          }}
-          voucher={lihat}
-          onClose={() => setLihat(null)}
-        />
-      )}
     </div>
   );
 }

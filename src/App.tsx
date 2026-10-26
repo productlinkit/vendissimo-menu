@@ -16,6 +16,7 @@ import { useCarnivalMusic } from "./lib/useCarnivalMusic";
 import { CategoryPage } from "./pages/CategoryPage";
 import { HomePage } from "./pages/HomePage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { MapPage } from "./pages/MapPage";
 import { RewardsPage } from "./pages/RewardsPage";
 import type { Reward, Route, Viewer, Voucher } from "./types";
 
@@ -151,9 +152,8 @@ export default function App() {
 
   const isCategory = isCategoryRoute(route);
   const playingGame = viewer?.type === `game`;
-  // Beranda adalah peta karnaval; `rewards` tetap menuju peta yang sama
-  // supaya tautan lama tidak putus.
-  const onMap = route === `home` || route === `rewards`;
+  // Beranda adalah peta karnaval; Rewards halaman penukaran voucher.
+  const onMap = route === `home`;
   // musik hanya di peta, dan diam selama konten apa pun sedang dibuka
   const music = useCarnivalMusic(onMap && !loading && viewer === null);
 
@@ -170,8 +170,11 @@ export default function App() {
       )}
       {!playingGame && (
         <main className="vp-main">
+          {route === `rewards` && (
+            <RewardsPage S={progress} onRedeem={handleRedeem} />
+          )}
           {onMap && (
-            <RewardsPage
+            <MapPage
               S={progress}
               onRedeem={handleRedeem}
               onGame={openGame}
