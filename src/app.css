@@ -1764,6 +1764,23 @@ select:focus {
   list-style: none;
   z-index: 2;
 }
+/* Di HP, lapisan perhentian dibuat sebesar dan seletak gambar latarnya
+   (`cover` + `center`, gambar 760x1382), jadi persen di bawah adalah persen
+   GAMBAR, bukan layar. Tanpa ini, tiap rasio layar memotong gambar secara
+   berbeda dan objek lepas dari terasnya -- melayang di udara. */
+@media (width<860px) {
+  .vp-map {
+    container-type: size;
+  }
+  .vp-map-stops {
+    inset: auto;
+    left: 50%;
+    top: 50%;
+    width: max(100cqw, 100cqh * 760 / 1382);
+    height: max(100cqh, 100cqw * 1382 / 760);
+    transform: translate(-50%, -50%);
+  }
+}
 .vp-map-slot {
   position: absolute;
   --medal: clamp(110px, 32vw, 158px);
@@ -1771,26 +1788,27 @@ select:focus {
      jadi kaki objek tepat menyentuh angka `top`, bukan tengahnya. */
   transform: translate(-50%, calc(var(--medal) * -1));
 }
-/* Teras pada ilustrasi HP. Angka y = tempat kaki objek menapak.
-   Level 1 ditaruh di 74%, bukan 80%: di 80% label dan keping "YOU ARE
-   HERE"-nya jatuh di belakang dock. Balon memang wajar melayang sedikit
-   di atas teras -- berbeda dengan korsel dan tenda yang harus menapak. */
+/* Teras pada ilustrasi HP, dalam persen gambar; y = tempat kaki objek
+   menapak. Level 3 di teras kiri tengah, level 2 di teras kanan bawahnya,
+   level 1 di jalan lebar kiri bawah -- teras paling bawah tidak dipakai
+   karena label dan keping "YOU ARE HERE"-nya akan jatuh di belakang dock. */
 .vp-map-slot.is-lv1 {
-  left: 27%;
-  top: 74%;
-}
-@media (height<=700px) {
-  .vp-map-slot.is-lv1 {
-    top: 66%;
-  }
+  left: 43%;
+  top: 71.5%;
 }
 .vp-map-slot.is-lv2 {
-  left: 64%;
-  top: 50%;
+  left: 74%;
+  top: 56.5%;
 }
 .vp-map-slot.is-lv3 {
-  left: 33%;
-  top: 31%;
+  left: 20%;
+  top: 39.5%;
+}
+/* layar pendek: objek dikecilkan supaya label level 1 tetap di atas dock */
+@media (width<860px) and (height<=700px) {
+  .vp-map-slot {
+    --medal: clamp(96px, 26vw, 120px);
+  }
 }
 .vp-map-stop {
   display: grid;
