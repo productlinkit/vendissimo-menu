@@ -73,6 +73,9 @@ export const pages: Record<string, string> = {
   "Unlocks at {n} EXP": "{n} EXP ရောက်လျှင် ပွင့်မည်",
   "You are here": "သင် ဤနေရာတွင် ရှိသည်",
   "Your prize at this level": "ဤအဆင့်တွင် သင်ရမည့် ဆု",
+  "Get voucher": "ဘောက်ချာ ယူရန်",
+  "Points → voucher code → swap it for a drink at any Vendissimo machine.":
+    "ပွိုင့် → ဘောက်ချာကုဒ် → ဘယ် Vendissimo စက်မှာမဆို အချိုရည်နှင့် လဲပါ။",
   "{prize} — {n} pts to claim it": "{prize} — ရယူရန် {n} ပွိုင့်",
   "Reach {n} EXP to unlock {prize}": "{prize} ဖွင့်ရန် {n} EXP ရောက်အောင် လုပ်ပါ",
   "Points on offer": "ရနိုင်သော ပွိုင့်",

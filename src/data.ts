@@ -5,6 +5,7 @@ import type {
   Course,
   EnglishSet,
   Game,
+  SoonGame,
   Magazine,
   Reward,
   Video,
@@ -13,21 +14,21 @@ import type {
 export const REWARDS: Reward[] = [
   {
     img: `/img/reward-coffee.webp`,
-    label: `Free Drink`,
+    label: `Drink Voucher`,
     pts: 150,
-    desc: `Any drink from any Vendissimo machine`,
+    desc: `1 free drink at any Vendissimo machine`,
   },
   {
-    img: `/img/reward-voucher.webp`,
-    label: `10% Voucher`,
+    img: `/img/reward-drinks-2.png`,
+    label: `2-Drink Voucher`,
     pts: 250,
-    desc: `On your next vending purchase`,
+    desc: `2 free drinks at any Vendissimo machine`,
   },
   {
-    img: `/img/reward-drink.webp`,
-    label: `2 Free Drinks`,
+    img: `/img/reward-drinks-3.png`,
+    label: `3-Drink Voucher`,
     pts: 400,
-    desc: `Two drinks of your choice from Vendissimo`,
+    desc: `3 free drinks at any Vendissimo machine`,
   },
 ];
 
@@ -111,6 +112,23 @@ export const GAMES: Game[] = [
     img: `/img/g-saitoonmix.jpg`,
     url: `https://fe.r3ste.mobi/games-html/telco/SaitoonMix_Saitoon/`,
   },
+];
+
+/** Dua belas judul pengisi supaya katalog game terasa penuh (5 baris x 4)
+ *  sambil menunggu game sungguhan berikutnya dari tim. */
+export const GAMES_SOON: SoonGame[] = [
+  { t: `Space Blaster`, cat: `Action`, icon: `🚀`, c1: `#1e3a8a`, c2: `#7c3aed` },
+  { t: `Ninja Dash`, cat: `Action`, icon: `🥷`, c1: `#111827`, c2: `#dc2626` },
+  { t: `Zombie Run`, cat: `Action`, icon: `🧟`, c1: `#14532d`, c2: `#65a30d` },
+  { t: `Tank Wars`, cat: `Action`, icon: `🪖`, c1: `#3f3f46`, c2: `#a16207` },
+  { t: `Fruit Slice`, cat: `Arcade`, icon: `🍉`, c1: `#be123c`, c2: `#f97316` },
+  { t: `Sky Racer`, cat: `Arcade`, icon: `🏎️`, c1: `#0369a1`, c2: `#22d3ee` },
+  { t: `Bubble Pop`, cat: `Arcade`, icon: `🫧`, c1: `#6d28d9`, c2: `#ec4899` },
+  { t: `Dino Dash`, cat: `Arcade`, icon: `🦖`, c1: `#15803d`, c2: `#facc15` },
+  { t: `Word Hunt`, cat: `Puzzle`, icon: `🔤`, c1: `#0f766e`, c2: `#34d399` },
+  { t: `Sudoku Daily`, cat: `Puzzle`, icon: `🔢`, c1: `#1d4ed8`, c2: `#60a5fa` },
+  { t: `Tile Master`, cat: `Puzzle`, icon: `🀄`, c1: `#9a3412`, c2: `#fb923c` },
+  { t: `Gem Swap`, cat: `Puzzle`, icon: `💎`, c1: `#86198f`, c2: `#a855f7` },
 ];
 
 // Cover lines are taken from the actual issue covers on eMagz; the story pages only
@@ -954,19 +972,19 @@ export const LEVELS: Level[] = [
     n: 1,
     exp: 0,
     img: `/img/level-balloon.webp`,
-    prize: `Free Drink`,
+    prize: `Drink Voucher`,
   },
   {
     n: 2,
     exp: 250,
     img: `/img/level-tent.webp`,
-    prize: `10% Voucher`,
+    prize: `2-Drink Voucher`,
   },
   {
     n: 3,
     exp: 600,
     img: `/img/level-carousel.webp`,
-    prize: `2 Free Drinks`,
+    prize: `3-Drink Voucher`,
   },
 ];
 

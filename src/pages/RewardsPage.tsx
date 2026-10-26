@@ -7,7 +7,7 @@ import { LevelMap } from "../components/levels/LevelMap";
 import { Icon } from "../components/Icon";
 import { gamesOf } from "../lib/levels";
 import { useI18n } from "../i18n";
-import type { GameGroup, Progress, Reward } from "../types";
+import type { GameGroup, Progress, Reward, Voucher } from "../types";
 
 /** id -> posisi di GAMES, karena pemutar game dibuka dengan indeks. */
 const GAMES_INDEX = new Map(GAMES.map((game, idx) => [game.id, idx]));
@@ -23,13 +23,28 @@ export function RewardsPage({
   onToggleMusic,
 }: {
   S: Progress;
-  onRedeem: (reward: Reward) => void;
+  onRedeem: (reward: Reward, voucher: Voucher) => void;
   onGame: (idx: number) => void;
   musicOn: boolean;
   onToggleMusic: () => void;
 }) {
   const { t } = useI18n();
-  const [redeeming, setRedeeming] = useState<Reward | null>(null);
+  // hadiah yang sedang ditukar, atau voucher lama yang dibuka lagi
+  const [redeeming, setRedeeming] = useState<{
+    reward: Reward;
+    voucher?: Voucher;
+  } | null>(null);
+
+  // dipasang di kedua tampilan: dulu hanya ada di peta, sehingga tombol
+  // Redeem di halaman level tidak membuka apa-apa
+  const sheet = redeeming && (
+    <RedeemSheet
+      reward={redeeming.reward}
+      voucher={redeeming.voucher}
+      onConfirm={(v) => onRedeem(redeeming.reward, v)}
+      onClose={() => setRedeeming(null)}
+    />
+  );
   const [levelTerbuka, setLevelTerbuka] = useState<number | null>(null);
   const [tur, setTur] = useState(() => !sudahPernahTur());
 
@@ -50,9 +65,11 @@ export function RewardsPage({
           S={S}
           onBack={() => setLevelTerbuka(null)}
           onPlay={mainkan}
-          onClaim={setRedeeming}
+          onClaim={(reward) => setRedeeming({ reward })}
+          onShowVoucher={(reward, voucher) => setRedeeming({ reward, voucher })}
         />
         {tur && <Coach onClose={() => setTur(false)} />}
+        {sheet}
       </>
     );
   }
@@ -79,13 +96,7 @@ export function RewardsPage({
       </button>
       <LevelMap S={S} onOpen={setLevelTerbuka} />
       {tur && <Coach onClose={() => setTur(false)} />}
-      {redeeming && (
-        <RedeemSheet
-          reward={redeeming}
-          onConfirm={() => onRedeem(redeeming)}
-          onClose={() => setRedeeming(null)}
-        />
-      )}
+      {sheet}
     </div>
   );
 }

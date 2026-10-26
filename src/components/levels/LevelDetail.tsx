@@ -9,7 +9,8 @@ import {
   levelProgress,
   objectivesOf,
 } from "../../lib/levels";
-import type { GameGroup, Progress, Reward } from "../../types";
+import type { GameGroup, Progress, Reward, Voucher } from "../../types";
+import { formatUntil, voucherActive } from "../RedeemSheet";
 import { Icon } from "../Icon";
 
 // Halaman satu level: kelompok game, sasaran misi, dan hadiah yang didapat.
@@ -99,11 +100,13 @@ export function LevelDetail({
   onBack,
   onPlay,
   onClaim,
+  onShowVoucher,
 }: {
   n: number;
   S: Progress;
   onBack: () => void;
   onPlay: (group: GameGroup) => void;
+  onShowVoucher: (reward: Reward, voucher: Voucher) => void;
   onClaim: (reward: Reward) => void;
 }) {
   const { t } = useI18n();
@@ -112,6 +115,9 @@ export function LevelDetail({
   const hadiah = REWARDS.find((r) => r.label === level.prize);
   const terbuka = S.exp >= level.exp;
   const cukupPoin = S.pts >= (hadiah?.pts ?? 0);
+  const voucherAktif = (S.vouchers ?? []).find(
+    (v) => v.label === level.prize && voucherActive(v),
+  );
   // kemajuan harus mengacu ke level yang sedang dibuka, bukan level
   // pengguna saat ini: kalau tidak, "Level 3" bisa berbunyi "menuju level 2"
   const global = levelProgress(S.exp);
@@ -178,7 +184,23 @@ export function LevelDetail({
             disabled={!cukupPoin}
             onClick={() => onClaim(hadiah)}
           >
-            {t(`Redeem`)}
+            {t(`Get voucher`)}
+          </button>
+        )}
+        <p className="vp-prize-how">
+          {t(`Points → voucher code → swap it for a drink at any Vendissimo machine.`)}
+        </p>
+        {voucherAktif && hadiah && (
+          <button
+            type="button"
+            className="vp-prize-voucher"
+            onClick={() => onShowVoucher(hadiah, voucherAktif)}
+          >
+            <span>{t(`Your voucher code`)}</span>
+            <strong>{voucherAktif.code}</strong>
+            <small>
+              {t(`Valid until {time}`, { time: formatUntil(voucherAktif.until) })}
+            </small>
           </button>
         )}
       </section>

@@ -17,7 +17,7 @@ import { CategoryPage } from "./pages/CategoryPage";
 import { HomePage } from "./pages/HomePage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { RewardsPage } from "./pages/RewardsPage";
-import type { Reward, Route, Viewer } from "./types";
+import type { Reward, Route, Viewer, Voucher } from "./types";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ export default function App() {
   const [viewer, setViewer] = useState<Viewer | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
-  const { S: progress, earnOnce, addPts, markOpened, markPlayed } =
+  const { S: progress, earnOnce, addPts, addVoucher, markOpened, markPlayed } =
     useProgress();
   const { t } = useI18n();
 
@@ -142,8 +142,11 @@ export default function App() {
 
   // Logged under the reward's name; the negative amount shows it was spent.
   const handleRedeem = useCallback(
-    (reward: Reward) => addPts(-reward.pts, reward.label),
-    [addPts],
+    (reward: Reward, voucher: Voucher) => {
+      addPts(-reward.pts, reward.label);
+      addVoucher(voucher);
+    },
+    [addPts, addVoucher],
   );
 
   const isCategory = isCategoryRoute(route);

@@ -1,10 +1,17 @@
 import { Icon } from "../components/Icon";
-import { CourseCard, GameCard, MagCard, VideoCard } from "../components/cards";
+import {
+  CourseCard,
+  GameCard,
+  MagCard,
+  SoonGameCard,
+  VideoCard,
+} from "../components/cards";
 import {
   CATEGORIES,
   COURSES,
   ENGLISH_SETS,
   GAMES,
+  GAMES_SOON,
   MAGAZINES,
   POINTS,
   VIDEOS,
@@ -72,7 +79,9 @@ export function CategoryPage({
       ? `vp-grid covers`
       : catId === `videos`
         ? `vp-grid vgrid`
-        : `vp-grid`;
+        : catId === `games`
+          ? `vp-grid games`
+          : `vp-grid`;
   const more = MORE_LINKS[catId];
   return (
     <div className="vp-view page-enter">
@@ -139,6 +148,8 @@ export function CategoryPage({
           GAMES.map((game, idx) => (
             <GameCard key={idx} game={game} onClick={() => onGame(idx)} />
           ))}
+        {catId === `games` &&
+          GAMES_SOON.map((game) => <SoonGameCard key={game.t} game={game} />)}
         {catId === `education` &&
           COURSES.map((course, idx) => (
             <CourseCard

@@ -114,16 +114,25 @@ export const shell: Record<string, string> = {
 
   // Redeem sheet
   Close: "ပိတ်ရန်",
-  "Use {n} pts to get a code for {reward}?":
-    "{reward} အတွက် ကုဒ်ရယူရန် {n} ပွိုင့် သုံးမလား?",
+  "Use {n} pts to get a voucher code for {reward}?":
+    "{reward} အတွက် ဘောက်ချာကုဒ် ရယူရန် {n} ပွိုင့် သုံးမလား?",
+  "Your voucher code": "သင့် ဘောက်ချာကုဒ်",
+  "Swap it for {what} — show it at the machine or type it in.":
+    "{what} အတွက် လဲလှယ်ပါ — စက်တွင် ပြပါ သို့မဟုတ် ရိုက်ထည့်ပါ။",
+  "Saved in Profile → My vouchers": "ပရိုဖိုင် → ကျွန်ုပ်၏ ဘောက်ချာများ တွင် သိမ်းထားသည်",
+  "My vouchers": "ကျွန်ုပ်၏ ဘောက်ချာများ",
+  "No vouchers yet. Reach a level, then swap your points for a drink voucher.":
+    "ဘောက်ချာ မရှိသေးပါ။ အဆင့်တစ်ခုရောက်ပြီး ပွိုင့်ကို အချိုရည် ဘောက်ချာနှင့် လဲပါ။",
+  Expired: "သက်တမ်းကုန်ပြီ",
+  Show: "ပြရန်",
   "Get my code": "ကုဒ် ရယူမည်",
   Cancel: "မလုပ်တော့ပါ",
   "Your code": "သင့်ကုဒ်",
   "Go to any Vendissimo machine": "မည်သည့် Vendissimo စက်သို့မဆို သွားပါ",
   "Tap “Redeem” on the machine screen":
     "စက်မျက်နှာပြင်ပေါ်ရှိ “လဲလှယ်ရန်” ကို နှိပ်ပါ",
-  "Enter your code and collect your reward":
-    "သင့်ကုဒ်ကို ရိုက်ထည့်ပြီး ဆုလက်ဆောင် ယူပါ",
+  "Enter your voucher code and collect your drink":
+    "ဘောက်ချာကုဒ်ကို ရိုက်ထည့်ပြီး အချိုရည် ယူပါ",
   // desktop home tiles
   "Come back tomorrow": "မနက်ဖြန် ပြန်လာပါ",
   "{done} of {total} done": "{total} ခုထဲက {done} ခု ပြီးပြီ",

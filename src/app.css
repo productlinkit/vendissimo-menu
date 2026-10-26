@@ -733,19 +733,49 @@ svg {
   grid-template-columns: repeat(2, 1fr);
   gap: 20px 16px;
 }
-/* Di grid, sampul mengisi kolomnya; lebar tetap 150px hanya untuk baris
-   gulir mendatar. */
-.vp-grid.covers .vp-cover {
+/* Di grid, sampul majalah dan video mengisi kolomnya; lebar tetap 150px
+   hanya untuk baris gulir mendatar. */
+.vp-grid.covers .vp-cover,
+.vp-grid.vgrid .vp-vcard {
   width: 100%;
 }
-.vp-grid.covers .vp-cover-art {
+.vp-grid.covers .vp-cover-art,
+.vp-grid.vgrid .vp-vthumb {
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 4;
 }
-.vp-grid.covers .vp-cover-meta {
+.vp-grid.covers .vp-cover-meta,
+.vp-grid.vgrid .vp-cover-meta {
   max-width: none;
   width: 100%;
+}
+/* game yang belum tersedia: sampul gradien dengan ikon besar */
+.vp-thumb.soon {
+  display: grid;
+  place-items: center;
+}
+.vp-thumb.soon > i {
+  font-style: normal;
+  font-size: clamp(54px, 9vw, 84px);
+  line-height: 1;
+  filter: drop-shadow(0 10px 18px #0006);
+}
+.vp-game-card.is-soon {
+  cursor: default;
+}
+.vp-game-card.is-soon:hover {
+  transform: none;
+}
+.vp-game-soon {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #ffffff1f;
+  color: var(--ink-on-dark-2);
+  font: 800 12px/1 var(--f-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 @media (width>=540px) {
   .vp-grid.covers {
@@ -1444,7 +1474,7 @@ select:focus {
 }
 /* ---------- redeem ---------- */
 .vp-sheet {
-  z-index: 80;
+  z-index: 90;
   justify-content: center;
   align-items: center;
   padding: 24px 20px;
@@ -1474,6 +1504,10 @@ select:focus {
   gap: 14px;
   width: 100%;
   max-width: 380px;
+  /* kode voucher + QR + langkah bisa lebih tinggi dari layar laptop */
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  box-sizing: border-box;
   padding: 28px 24px;
   display: flex;
   position: relative;
@@ -2565,60 +2599,41 @@ select:focus {
   /* Hanya kartu bergambar landscape (game, kursus, English) yang dipaksa
      mengisi petaknya. Sampul majalah dan cuplikan video itu potret 3:4
      dan 9:16 -- melar ke petak landscape memotong gambarnya habis. */
-  .vp-grid:not(.covers):not(.vgrid) {
+  .vp-grid:not(.covers):not(.vgrid):not(.games) {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, minmax(0, 1fr));
     height: 100%;
     gap: 16px;
   }
-  .vp-grid:not(.covers):not(.vgrid) .vp-card {
+  .vp-grid:not(.covers):not(.vgrid):not(.games) .vp-card {
     width: 100%;
     height: 100%;
     min-height: 0;
   }
-  .vp-grid:not(.covers):not(.vgrid) .vp-thumb {
+  .vp-grid:not(.covers):not(.vgrid):not(.games) .vp-thumb {
     flex: 1;
     width: 100%;
     height: auto;
     min-height: 0;
     aspect-ratio: auto;
   }
-  /* Potret: tingginya yang mengikuti baris, lebarnya mengikuti rasio asli
-     supaya sampulnya utuh. Dua baris tetap muat satu layar. */
-  .vp-grid.vgrid {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(0, 1fr);
-    height: 100%;
-    gap: 14px 20px;
-  }
-  /* Sampul majalah tidak dipaksa muat satu layar: dijepit ke tinggi
-     baris, sampul tegak dipotong jadi mendatar dan masthead putihnya
-     terbaca seperti pita. Halamannya digulir, sampulnya utuh. */
-  .vp-view:has(.vp-grid.covers) {
+  /* Majalah, video, dan game (20 judul) tidak dipaksa muat satu layar:
+     dijepit ke tinggi baris, sampul tegak terpotong jadi mendatar dan
+     kartu video renggang di petak yang lebar. Halamannya digulir. */
+  .vp-view:has(.vp-grid.covers),
+  .vp-view:has(.vp-grid.vgrid),
+  .vp-view:has(.vp-grid.games) {
     height: auto;
     padding-bottom: 28px;
   }
-  .vp-grid.covers {
+  .vp-grid.covers,
+  .vp-grid.vgrid {
     grid-template-columns: repeat(4, 1fr);
     gap: 28px 24px;
   }
-  .vp-grid.vgrid .vp-vcard {
-    height: 100%;
-    width: auto;
-    max-width: 100%;
-    min-height: 0;
-  }
-  .vp-grid.vgrid .vp-vthumb {
-    flex: 1;
-    min-height: 0;
-    height: auto;
-    width: auto;
-    aspect-ratio: 3 / 4;
-  }
-  .vp-grid.vgrid .vp-cover-meta {
-    max-width: none;
-    width: 100%;
-    flex-shrink: 0;
+  .vp-grid.games {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
 }
 /* ---------- nilai status ---------- */
@@ -2842,4 +2857,117 @@ select:focus {
 }
 .vp-game-card:hover .vp-game-go {
   filter: brightness(1.1);
+}
+
+/* ---------- voucher minuman ---------- */
+.vp-prize {
+  flex-wrap: wrap;
+}
+.vp-prize > div {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.vp-prize .vp-prize-how {
+  flex: 1 1 100%;
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  color: var(--game-ink-2);
+}
+.vp-prize-voucher {
+  flex: 1 1 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2px 12px;
+  padding: 12px 16px;
+  border: 1.5px dashed #ffffff8c;
+  border-radius: 16px;
+  background: #ffffff14;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.vp-prize-voucher span {
+  font: 600 12px/1.2 var(--f-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--game-ink-2);
+}
+.vp-prize-voucher strong {
+  grid-row: span 2;
+  font: 600 24px/1 var(--f-mono);
+  letter-spacing: 0.14em;
+}
+.vp-prize-voucher small {
+  font-size: 13px;
+  color: var(--game-ink-2);
+}
+.vp-redeem-eyebrow {
+  font: 600 12px/1 var(--f-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 8px;
+}
+.vp-redeem-what {
+  font-weight: 700;
+}
+.vp-vouchers {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vp-vouchers li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #ffffff10;
+}
+.vp-vouchers img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.vp-vouchers .vp-voucher-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.vp-vouchers b {
+  font: 600 18px/1 var(--f-mono);
+  letter-spacing: 0.12em;
+}
+.vp-vouchers small {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.vp-vouchers li.is-expired {
+  opacity: 0.55;
+}
+.vp-vouchers button {
+  flex-shrink: 0;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--pink-on-white);
+  font: 800 13px/1 var(--f-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+/* jendela kode lebih ringkas: gambar dan QR mengecil */
+.vp-sheet-card:has(.vp-redeem-code) {
+  gap: 10px;
+}
+.vp-sheet-card:has(.vp-redeem-code) .vp-sheet-img {
+  width: 64px;
+  height: 64px;
 }

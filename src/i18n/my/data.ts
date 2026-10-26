@@ -1,12 +1,13 @@
 // Myanmar translations for user-facing fields in src/data.ts.
 export const data: Record<string, string> = {
   // Rewards
-  "10% Voucher": "10% လျှော့စျေးဘောက်ချာ",
-  "On your next vending purchase": "နောက်တစ်ကြိမ် စက်မှဝယ်ယူရာတွင် သုံးနိုင်",
-  "Free Drink": "အချိုရည် အခမဲ့",
-  "Any drink from any Vendissimo machine": "ဘယ် Vendissimo စက်မှာမဆို ကြိုက်တဲ့ အချိုရည်တစ်ခု",
-  "2 Free Drinks": "အချိုရည် ၂ ဗူး အခမဲ့",
-  "Two drinks of your choice from Vendissimo": "Vendissimo မှ ကြိုက်တဲ့ အချိုရည် ၂ ဗူး",
+  "Drink Voucher": "အချိုရည် ဘောက်ချာ",
+  "2-Drink Voucher": "အချိုရည် ၂ ခွက် ဘောက်ချာ",
+  "3-Drink Voucher": "အချိုရည် ၃ ခွက် ဘောက်ချာ",
+  "1 free drink at any Vendissimo machine": "ဘယ် Vendissimo စက်မှာမဆို အချိုရည် ၁ ခွက် အခမဲ့",
+  "2 free drinks at any Vendissimo machine": "ဘယ် Vendissimo စက်မှာမဆို အချိုရည် ၂ ခွက် အခမဲ့",
+  "3 free drinks at any Vendissimo machine": "ဘယ် Vendissimo စက်မှာမဆို အချိုရည် ၃ ခွက် အခမဲ့",
+  "Coming soon": "မကြာမီ လာမည်",
 
   // Categories
   "Magazines": "မဂ္ဂဇင်းများ",

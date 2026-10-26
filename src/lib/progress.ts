@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { Progress } from "../types";
+import type { Progress, Voucher } from "../types";
 
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -15,6 +15,7 @@ const KOSONG: Progress = {
   opened: [],
   awarded: [],
   played: [],
+  vouchers: [],
 };
 
 function loadState(): Progress {
@@ -71,6 +72,14 @@ export function useProgress() {
           exp: prev.exp + Math.max(0, pts),
           log: [{ w: what, n: pts }, ...prev.log].slice(0, 50),
         };
+        saveState(next);
+        return next;
+      });
+    }, []),
+    /** Simpan kode voucher supaya bisa dilihat lagi setelah jendelanya ditutup. */
+    addVoucher: useCallback((voucher: Voucher) => {
+      setState((prev) => {
+        const next = { ...prev, vouchers: [voucher, ...prev.vouchers].slice(0, 20) };
         saveState(next);
         return next;
       });

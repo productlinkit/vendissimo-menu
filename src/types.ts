@@ -7,6 +7,9 @@ export type Route = "home" | "explore" | "rewards" | "profile" | CategoryId;
 
 export type Reward = { img: string; label: string; pts: number; desc: string };
 
+/** Kode yang didapat dari menukar poin; ditukar minuman di mesin. */
+export type Voucher = { code: string; label: string; img: string; until: number };
+
 export type Game = {
   id: string;
   t: string;
@@ -16,6 +19,10 @@ export type Game = {
   img: string;
   url: string;
 };
+
+/** Kartu pengisi untuk game yang belum tersedia; tidak bisa dimainkan
+ *  dan tidak ikut hitungan level. */
+export type SoonGame = { t: string; cat: string; icon: string; c1: string; c2: string };
 
 export type Article = { k: string; h: string; p: string[] };
 
@@ -62,6 +69,8 @@ export type Progress = {
   /** id game yang pernah selesai, seumur hidup -- awarded direset harian
    *  sehingga tidak bisa dipakai menghitung kemajuan level */
   played: string[];
+  /** kode voucher yang pernah ditukar, terbaru di depan */
+  vouchers: Voucher[];
 };
 
 export type Level = {

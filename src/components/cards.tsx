@@ -2,7 +2,8 @@ import { Icon } from "./Icon";
 import { useI18n } from "../i18n";
 import { formatTime } from "../lib/format";
 import { usePress } from "../lib/usePress";
-import type { Course, Game, Magazine, Video } from "../types";
+import type {
+  SoonGame, Course, Game, Magazine, Video } from "../types";
 
 export function MagCover({ mag }: { mag: Magazine }) {
   const { t } = useI18n();
@@ -148,6 +149,29 @@ export function VideoCard({
         <small className="vp-cover-sub">{video.a}</small>
       </span>
     </button>
+  );
+}
+
+/** Game yang belum tersedia: tampil di katalog, tapi tidak bisa dibuka. */
+export function SoonGameCard({ game }: { game: SoonGame }) {
+  const { t } = useI18n();
+  return (
+    <div className="vp-card vp-game-card is-soon" aria-disabled="true">
+      <div
+        className="vp-thumb sq soon"
+        style={{ background: `linear-gradient(135deg, ${game.c1}, ${game.c2})` }}
+      >
+        <i aria-hidden="true">{game.icon}</i>
+        <span className="vp-badge">{t(game.cat)}</span>
+      </div>
+      <div className="vp-card-body">
+        <b>{game.t}</b>
+        <div className="vp-card-foot">
+          <em>{t("+{n} pts", { n: 40 })}</em>
+          <span className="vp-game-soon">{t("Coming soon")}</span>
+        </div>
+      </div>
+    </div>
   );
 }
 

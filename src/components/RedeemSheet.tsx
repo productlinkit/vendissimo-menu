@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import qrcode from "qrcode-generator";
 import { useI18n } from "../i18n";
-import type { Reward } from "../types";
+import type { Reward, Voucher } from "../types";
 
 export const REDEEM_STEPS = [
   `Go to any Vendissimo machine`,
   `Tap “Redeem” on the machine screen`,
-  `Enter your code and collect your reward`,
+  `Enter your voucher code and collect your drink`,
 ];
 
 // No 0/O or 1/I, so the code is easy to read off a phone and type on the machine.
@@ -19,8 +19,21 @@ function makeCode() {
   ).join(``);
 }
 
-/** Codes are short-lived so a screenshot cannot be reused days later. */
-const CODE_MINUTES = 15;
+/** Berlaku sehari: cukup untuk sampai ke mesin, tidak bisa dipakai berhari-hari. */
+const CODE_HOURS = 24;
+
+export function voucherActive(v: Voucher) {
+  return v.until > Date.now();
+}
+
+export function formatUntil(until: number) {
+  return new Date(until).toLocaleString([], {
+    day: `numeric`,
+    month: `short`,
+    hour: `2-digit`,
+    minute: `2-digit`,
+  });
+}
 
 /** Real, scannable QR as an inline SVG — the machine reads the same string the
  *  user would otherwise type in. */
@@ -65,17 +78,20 @@ export function RedeemSteps() {
 
 export function RedeemSheet({
   reward,
+  voucher: saved,
   onConfirm,
   onClose,
 }: {
   reward: Reward;
-  /** spend the points; called once, when the code is generated */
-  onConfirm: () => void;
+  /** voucher yang sudah ada: jendela langsung menampilkan kodenya */
+  voucher?: Voucher;
+  /** spend the points and keep the voucher; called once, when the code is made */
+  onConfirm?: (voucher: Voucher) => void;
   onClose: () => void;
 }) {
   const { t } = useI18n();
-  const [code, setCode] = useState<string | null>(null);
-  const [expires, setExpires] = useState<string | null>(null);
+  const [voucher, setVoucher] = useState<Voucher | null>(saved ?? null);
+  const code = voucher?.code ?? null;
   const label = t(reward.label);
   return (
     <div
@@ -96,25 +112,25 @@ export function RedeemSheet({
         {code === null ? (
           <>
             <p>
-              {t(`Use {n} pts to get a code for {reward}?`, {
+              {t(`Use {n} pts to get a voucher code for {reward}?`, {
                 n: reward.pts,
                 reward: label,
               })}
             </p>
+            <p className="vp-redeem-what">{t(reward.desc)}</p>
             <div className="vp-sheet-actions">
               <button
                 type="button"
                 className="vp-sheet-primary"
                 onClick={() => {
-                  onConfirm();
-                  setCode(makeCode());
-                  const until = new Date(Date.now() + CODE_MINUTES * 60000);
-                  setExpires(
-                    until.toLocaleTimeString([], {
-                      hour: `2-digit`,
-                      minute: `2-digit`,
-                    }),
-                  );
+                  const baru: Voucher = {
+                    code: makeCode(),
+                    label: reward.label,
+                    img: reward.img,
+                    until: Date.now() + CODE_HOURS * 3600000,
+                  };
+                  onConfirm?.(baru);
+                  setVoucher(baru);
                 }}
               >
                 {t(`Get my code`)}
@@ -130,11 +146,18 @@ export function RedeemSheet({
           </>
         ) : (
           <>
-            <p>{t(`Show this at any Vendissimo machine`)}</p>
-            <QrCode value={code} />
+            <p className="vp-redeem-eyebrow">{t(`Your voucher code`)}</p>
             <div className="vp-redeem-code">{code}</div>
+            <QrCode value={code} />
+            <p>
+              {t(`Swap it for {what} — show it at the machine or type it in.`, {
+                what: t(reward.desc),
+              })}
+            </p>
             <p className="vp-redeem-expiry">
-              {t(`Valid until {time}`, { time: expires ?? `` })}
+              {t(`Valid until {time}`, { time: formatUntil(voucher!.until) })}
+              {` · `}
+              {t(`Saved in Profile → My vouchers`)}
             </p>
             <RedeemSteps />
             <button
