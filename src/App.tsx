@@ -154,8 +154,9 @@ export default function App() {
   const playingGame = viewer?.type === `game`;
   // Beranda adalah peta karnaval; Rewards halaman penukaran voucher.
   const onMap = route === `home`;
-  // musik hanya di peta, dan diam selama konten apa pun sedang dibuka
-  const music = useCarnivalMusic(onMap && !loading && viewer === null);
+  // musik di splash dan peta (mengalir terus dari splash ke peta), dan diam
+  // selama konten apa pun sedang dibuka
+  const music = useCarnivalMusic((loading || onMap) && viewer === null);
 
   return (
     <div
