@@ -12,8 +12,8 @@ import { useI18n } from "./i18n";
 import { ENGLISH_SETS, GAMES, MAGAZINES, POINTS, VIDEOS } from "./data";
 import { useProgress } from "./lib/progress";
 import { award } from "./lib/pointsService";
+import { useCarnivalMusic } from "./lib/useCarnivalMusic";
 import { CategoryPage } from "./pages/CategoryPage";
-import { ExplorePage } from "./pages/ExplorePage";
 import { HomePage } from "./pages/HomePage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { RewardsPage } from "./pages/RewardsPage";
@@ -148,6 +148,11 @@ export default function App() {
 
   const isCategory = isCategoryRoute(route);
   const playingGame = viewer?.type === `game`;
+  // Beranda adalah peta karnaval; `rewards` tetap menuju peta yang sama
+  // supaya tautan lama tidak putus.
+  const onMap = route === `home` || route === `rewards`;
+  // musik hanya di peta, dan diam selama konten apa pun sedang dibuka
+  const music = useCarnivalMusic(onMap && !loading && viewer === null);
 
   return (
     <div
@@ -162,16 +167,17 @@ export default function App() {
       )}
       {!playingGame && (
         <main className="vp-main">
-          {route === `home` && (
-            <HomePage S={progress} onNavigate={navigate} />
-          )}
-          {route === `explore` && <ExplorePage onNavigate={navigate} />}
-          {route === `rewards` && (
+          {onMap && (
             <RewardsPage
               S={progress}
               onRedeem={handleRedeem}
               onGame={openGame}
+              musicOn={music.on}
+              onToggleMusic={music.toggle}
             />
+          )}
+          {route === `explore` && (
+            <HomePage S={progress} onNavigate={navigate} />
           )}
           {route === `profile` && (
             <ProfilePage S={progress} onNavigate={navigate} />
@@ -179,7 +185,7 @@ export default function App() {
           {isCategory && (
             <CategoryPage
               catId={route}
-              onBack={() => navigate(`home`)}
+              onBack={() => navigate(`explore`)}
               onMag={openMagazine}
               onVideo={openVideo}
               onGame={openGame}

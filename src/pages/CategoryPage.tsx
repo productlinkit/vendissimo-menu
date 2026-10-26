@@ -95,7 +95,7 @@ export function CategoryPage({
         >
           {Icon.back}
         </span>
-        {` ${t("Home")}`}
+        {` ${t("Explore")}`}
       </button>
       <div className="vp-cat-head">
         <img

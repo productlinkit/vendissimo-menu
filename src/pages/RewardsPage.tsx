@@ -19,10 +19,14 @@ export function RewardsPage({
   S,
   onRedeem,
   onGame,
+  musicOn,
+  onToggleMusic,
 }: {
   S: Progress;
   onRedeem: (reward: Reward) => void;
   onGame: (idx: number) => void;
+  musicOn: boolean;
+  onToggleMusic: () => void;
 }) {
   const { t } = useI18n();
   const [redeeming, setRedeeming] = useState<Reward | null>(null);
@@ -55,7 +59,7 @@ export function RewardsPage({
 
   return (
     <div className="vp-view page-enter">
-      <h1 className="vp-sr-only">{t("Rewards")}</h1>
+      <h1 className="vp-sr-only">{t("Home")}</h1>
       <button
         type="button"
         className="vp-level-help"
@@ -63,6 +67,15 @@ export function RewardsPage({
         onClick={() => setTur(true)}
       >
         {Icon.info}
+      </button>
+      <button
+        type="button"
+        className="vp-level-help vp-music-toggle"
+        aria-label={musicOn ? t(`Turn music off`) : t(`Turn music on`)}
+        aria-pressed={musicOn}
+        onClick={onToggleMusic}
+      >
+        {musicOn ? Icon.sound : Icon.mute}
       </button>
       <LevelMap S={S} onOpen={setLevelTerbuka} />
       {tur && <Coach onClose={() => setTur(false)} />}

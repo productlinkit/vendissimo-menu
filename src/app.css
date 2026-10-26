@@ -1583,6 +1583,10 @@ select:focus {
   width: 22px;
   height: 22px;
 }
+/* tombol musik tepat di bawah tombol bantuan */
+.vp-music-toggle {
+  top: 130px;
+}
 .vp-levels {
   display: grid;
   gap: 10px;

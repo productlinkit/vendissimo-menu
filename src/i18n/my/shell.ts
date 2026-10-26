@@ -25,6 +25,8 @@ export const shell: Record<string, string> = {
   // Navigation
   Home: "ပင်မ",
   Explore: "ရှာဖွေရန်",
+  "Turn music off": "ဂီတ ပိတ်ရန်",
+  "Turn music on": "ဂီတ ဖွင့်ရန်",
   Rewards: "ဆုလက်ဆောင်",
   Profile: "ပရိုဖိုင်",
   pts: "ပွိုင့်",
