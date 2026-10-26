@@ -21,9 +21,9 @@ export function LevelMap({
 
   return (
     <section className="vp-levels" aria-label={t(`Levels`)}>
-      <div className="vp-map" data-tour="map">
-        {/* satu-satunya tempat EXP muncul sekarang: kartu di atas peta
-            sudah dibuang, dan langkah tur "exp" menempel ke sini */}
+      <div className="vp-map">
+        {/* satu-satunya tempat EXP muncul sekarang; langkah tur "exp"
+            menempel ke sini */}
         <div className="vp-map-stage" data-tour="exp">
           <span>{t(`Current stage`)}</span>
           <strong>{t(`Level {n}`, { n: sekarang.n })}</strong>
@@ -47,6 +47,9 @@ export function LevelMap({
               <li key={lv.n} className={`vp-map-slot is-lv${lv.n}`}>
                 <button
                   type="button"
+                  // tur menyorot perhentian yang sedang ditempati, bukan
+                  // seluruh peta yang memenuhi layar
+                  data-tour={kini ? `level` : undefined}
                   className={`vp-map-stop is-lv${lv.n}${terbuka ? `` : ` is-locked`}${kini ? ` is-now` : ``}`}
                   onClick={() => onOpen(lv.n)}
                   aria-label={
@@ -63,7 +66,14 @@ export function LevelMap({
                 >
                   <span className="vp-map-medal" aria-hidden="true">
                     <img src={lv.img} alt="" loading="lazy" />
-                    {r && <img className="vp-map-prize" src={r.img} alt="" />}
+                    {r && (
+                      <img
+                        className="vp-map-prize"
+                        src={r.img}
+                        alt=""
+                        data-tour={kini ? `prize` : undefined}
+                      />
+                    )}
                   </span>
                   <span className="vp-map-label">
                     {t(`Level {n}`, { n: lv.n })}

@@ -98,6 +98,7 @@ export const pages: Record<string, string> = {
   "This is what you get at this level. Points pay for it, EXP unlocks it.":
     "ဤအဆင့်တွင် သင်ရမည့်အရာ ဖြစ်သည်။ ပွိုင့်ဖြင့် ပေးချေ၊ EXP ဖြင့် ဖွင့်သည်။",
   "Got it": "နားလည်ပါပြီ",
+  Next: "ရှေ့သို့",
   "How to earn": "ပွိုင့်ရယူနည်း",
   "Finish Education course": "ပညာရေး သင်ခန်းစာ ပြီးဆုံးခြင်း",
   "Complete English practice": "အင်္ဂလိပ်စာ လေ့ကျင့်ခန်း ပြီးဆုံးခြင်း",

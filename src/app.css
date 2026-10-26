@@ -2226,83 +2226,160 @@ select:focus {
   inset: 0;
   z-index: 85;
 }
+/* lapisan bening penangkap sentuhan; gelapnya datang dari bayangan
+   sorotan, supaya yang disorot tetap terang dan tajam (tanpa blur) */
 .vp-coach-veil {
   position: absolute;
   inset: 0;
-  border: 0;
-  background: #0d0320b3;
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
+}
+.vp-coach:not(:has(.vp-coach-ring)) .vp-coach-veil {
+  background: #0d0320a6;
 }
 .vp-coach-ring {
-  position: absolute;
-  border: 3px solid #fff;
-  border-radius: 24px;
-  box-shadow: 0 0 0 9999px #0d0320b3, 0 0 22px -2px #ffffffa6;
+  position: fixed;
+  border-radius: 22px;
+  box-shadow:
+    0 0 0 3px #fff,
+    0 0 26px 4px #ffffffa6,
+    0 0 0 9999px #0d0320a6;
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    top 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: vpCoachPulse 1.8s ease-in-out infinite;
+}
+@keyframes vpCoachPulse {
+  50% {
+    box-shadow:
+      0 0 0 3px #fff,
+      0 0 34px 10px #ff9ccfb3,
+      0 0 0 9999px #0d0320a6;
+  }
 }
 .vp-coach-card {
-  position: absolute;
+  position: fixed;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: min(420px, calc(100% - 32px));
+  translate: -50% -50%;
+  width: min(360px, calc(100vw - 24px));
+  box-sizing: border-box;
   background: #fff;
   color: #2a0a32;
-  border-radius: 24px;
-  padding: 22px 22px 18px;
-  box-shadow: 0 28px 70px #00000080;
+  border-radius: 22px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 24px 60px -12px #0d0320cc;
+  opacity: 0;
+}
+.vp-coach-card.is-ready {
+  translate: none;
+  opacity: 1;
+  transition:
+    top 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s;
+}
+.vp-coach-arrow {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 3px;
+  translate: -50% 0;
+  rotate: 45deg;
+}
+.vp-coach-arrow.is-atas {
+  top: -7px;
+}
+.vp-coach-arrow.is-bawah {
+  bottom: -7px;
+}
+.vp-coach-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vp-coach-step {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #a855f7, var(--pink-on-white));
+  color: #fff;
+  font: 800 14px/1 var(--f-display);
 }
 .vp-coach-card h2 {
-  font-size: 15px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--pink-on-white);
+  font: 800 19px/1.2 var(--f-display);
+  color: #2a0a32;
+  letter-spacing: 0;
 }
 .vp-coach-card p {
-  margin-top: 10px;
-  font-size: 16px;
+  margin: 10px 0 0;
+  font-size: 15px;
   line-height: 1.5;
-  color: #2a0a32;
+  color: #4a2b52;
 }
 .vp-coach-foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin-top: 18px;
+  gap: 8px;
+  margin-top: 16px;
 }
-.vp-coach-count {
-  font: 500 16px/1 var(--f-mono);
+.vp-coach-dots {
+  display: flex;
+  gap: 6px;
+  margin-right: auto;
+}
+.vp-coach-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: #e3d4ea;
+  transition: width 0.25s, background 0.25s;
+}
+.vp-coach-dots .is-on {
+  width: 20px;
+  background: var(--pink-on-white);
+}
+.vp-coach-skip,
+.vp-coach-back {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
   color: #6b4a73;
+  font: 700 14px/1 var(--f-display);
+  cursor: pointer;
 }
-.vp-coach-count strong {
-  color: var(--pink-on-white);
+.vp-coach-back {
+  background: #f3e8f7;
+  color: #5a1772;
 }
 .vp-coach-next {
-  min-height: 46px;
-  padding: 0 30px;
+  min-height: 40px;
+  padding: 0 20px;
   border: 0;
   border-radius: 999px;
   background: linear-gradient(135deg, #a855f7, var(--pink-on-white));
   color: #fff;
-  font: 900 16px/1 var(--f-display);
+  font: 800 15px/1 var(--f-display);
   cursor: pointer;
+  box-shadow: 0 6px 16px -6px #d81b76;
 }
-.vp-coach-x {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  color: #6b4a73;
+.vp-coach-next:focus-visible,
+.vp-coach-back:focus-visible,
+.vp-coach-skip:focus-visible {
+  outline: 3px solid #a855f7;
+  outline-offset: 2px;
 }
-.vp-coach-x svg {
-  width: 20px;
-  height: 20px;
+@media (prefers-reduced-motion: reduce) {
+  .vp-coach-ring {
+    animation: none;
+  }
 }
 
 /* ---------- desktop home: picture tiles filling one screen ---------- */
