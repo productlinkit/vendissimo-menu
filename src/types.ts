@@ -22,7 +22,7 @@ export type Game = {
 
 /** Kartu pengisi untuk game yang belum tersedia; tidak bisa dimainkan
  *  dan tidak ikut hitungan level. */
-export type SoonGame = { t: string; cat: string; icon: string; c1: string; c2: string };
+export type SoonGame = { t: string; cat: string; img: string };
 
 export type Article = { k: string; h: string; p: string[] };
 

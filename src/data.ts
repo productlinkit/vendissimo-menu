@@ -115,20 +115,22 @@ export const GAMES: Game[] = [
 ];
 
 /** Dua belas judul pengisi supaya katalog game terasa penuh (5 baris x 4)
- *  sambil menunggu game sungguhan berikutnya dari tim. */
+ *  sambil menunggu game sungguhan berikutnya dari tim. Gambarnya ilustrasi
+ *  domain publik / CC0 dari Openverse; sumbernya di
+ *  public/img/CREDITS-dummy-games.txt. */
 export const GAMES_SOON: SoonGame[] = [
-  { t: `Space Blaster`, cat: `Action`, icon: `🚀`, c1: `#1e3a8a`, c2: `#7c3aed` },
-  { t: `Ninja Dash`, cat: `Action`, icon: `🥷`, c1: `#111827`, c2: `#dc2626` },
-  { t: `Zombie Run`, cat: `Action`, icon: `🧟`, c1: `#14532d`, c2: `#65a30d` },
-  { t: `Tank Wars`, cat: `Action`, icon: `🪖`, c1: `#3f3f46`, c2: `#a16207` },
-  { t: `Fruit Slice`, cat: `Arcade`, icon: `🍉`, c1: `#be123c`, c2: `#f97316` },
-  { t: `Sky Racer`, cat: `Arcade`, icon: `🏎️`, c1: `#0369a1`, c2: `#22d3ee` },
-  { t: `Bubble Pop`, cat: `Arcade`, icon: `🫧`, c1: `#6d28d9`, c2: `#ec4899` },
-  { t: `Dino Dash`, cat: `Arcade`, icon: `🦖`, c1: `#15803d`, c2: `#facc15` },
-  { t: `Word Hunt`, cat: `Puzzle`, icon: `🔤`, c1: `#0f766e`, c2: `#34d399` },
-  { t: `Sudoku Daily`, cat: `Puzzle`, icon: `🔢`, c1: `#1d4ed8`, c2: `#60a5fa` },
-  { t: `Tile Master`, cat: `Puzzle`, icon: `🀄`, c1: `#9a3412`, c2: `#fb923c` },
-  { t: `Gem Swap`, cat: `Puzzle`, icon: `💎`, c1: `#86198f`, c2: `#a855f7` },
+  { t: `Ninja Dash`, cat: `Action`, img: `/img/g-soon-ninja.jpg` },
+  { t: `Tank Wars`, cat: `Action`, img: `/img/g-soon-tank.jpg` },
+  { t: `Dragon Fury`, cat: `Action`, img: `/img/g-soon-dragon.jpg` },
+  { t: `Alien Invasion`, cat: `Action`, img: `/img/g-soon-alien.jpg` },
+  { t: `Rocket Rush`, cat: `Arcade`, img: `/img/g-soon-rocket.jpg` },
+  { t: `Retro Racer`, cat: `Arcade`, img: `/img/g-soon-racer.jpg` },
+  { t: `Fruit Slice`, cat: `Arcade`, img: `/img/g-soon-fruit.jpg` },
+  { t: `Dino Dash`, cat: `Arcade`, img: `/img/g-soon-dino.jpg` },
+  { t: `Word Hunt`, cat: `Puzzle`, img: `/img/g-soon-word.jpg` },
+  { t: `Chess Master`, cat: `Puzzle`, img: `/img/g-soon-chess.jpg` },
+  { t: `Kitty Match`, cat: `Puzzle`, img: `/img/g-soon-kitty.jpg` },
+  { t: `Monster Match`, cat: `Puzzle`, img: `/img/g-soon-monster.jpg` },
 ];
 
 // Cover lines are taken from the actual issue covers on eMagz; the story pages only

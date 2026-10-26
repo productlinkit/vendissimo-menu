@@ -750,17 +750,7 @@ svg {
   max-width: none;
   width: 100%;
 }
-/* game yang belum tersedia: sampul gradien dengan ikon besar */
-.vp-thumb.soon {
-  display: grid;
-  place-items: center;
-}
-.vp-thumb.soon > i {
-  font-style: normal;
-  font-size: clamp(54px, 9vw, 84px);
-  line-height: 1;
-  filter: drop-shadow(0 10px 18px #0006);
-}
+/* game yang belum tersedia */
 .vp-game-card.is-soon {
   cursor: default;
 }

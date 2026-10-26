@@ -157,11 +157,8 @@ export function SoonGameCard({ game }: { game: SoonGame }) {
   const { t } = useI18n();
   return (
     <div className="vp-card vp-game-card is-soon" aria-disabled="true">
-      <div
-        className="vp-thumb sq soon"
-        style={{ background: `linear-gradient(135deg, ${game.c1}, ${game.c2})` }}
-      >
-        <i aria-hidden="true">{game.icon}</i>
+      <div className="vp-thumb sq">
+        <img src={game.img} alt="" loading="lazy" />
         <span className="vp-badge">{t(game.cat)}</span>
       </div>
       <div className="vp-card-body">
