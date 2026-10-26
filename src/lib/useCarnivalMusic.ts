@@ -32,15 +32,16 @@ export function useCarnivalMusic(active: boolean) {
     if (!music) return;
     const sync = () => (document.hidden ? music.stop() : music.start());
     sync();
-    // audio baru boleh berbunyi setelah sentuhan pertama di halaman
+    // audio baru boleh berbunyi setelah sentuhan pertama di halaman. Di layar
+    // sentuh, pointerdown belum dihitung sebagai izin dari pengguna; baru
+    // touchend/pointerup/click yang dihitung, jadi semuanya didengarkan.
     const unlock = () => music.resume();
-    window.addEventListener(`pointerdown`, unlock);
-    window.addEventListener(`keydown`, unlock);
+    const events = [`pointerdown`, `pointerup`, `touchend`, `click`, `keydown`];
+    for (const e of events) window.addEventListener(e, unlock);
     document.addEventListener(`visibilitychange`, sync);
     return () => {
       music.stop();
-      window.removeEventListener(`pointerdown`, unlock);
-      window.removeEventListener(`keydown`, unlock);
+      for (const e of events) window.removeEventListener(e, unlock);
       document.removeEventListener(`visibilitychange`, sync);
     };
   }, [play]);
@@ -55,5 +56,14 @@ export function useCarnivalMusic(active: boolean) {
     });
   }, []);
 
-  return { on, toggle };
+  /**
+   * Panggil langsung di dalam handler sentuhan (mis. tap di splash): audio
+   * hanya boleh dibuka di sana, sebelum `active` sempat menjalankan musik.
+   */
+  const unlock = useCallback(() => {
+    engine.current ??= createCarnival();
+    engine.current?.resume();
+  }, []);
+
+  return { on, toggle, unlock };
 }

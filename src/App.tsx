@@ -154,9 +154,19 @@ export default function App() {
   const playingGame = viewer?.type === `game`;
   // Beranda adalah peta karnaval; Rewards halaman penukaran voucher.
   const onMap = route === `home`;
-  // musik di splash dan peta (mengalir terus dari splash ke peta), dan diam
-  // selama konten apa pun sedang dibuka
-  const music = useCarnivalMusic((loading || onMap) && viewer === null);
+  // splash menunggu tap dulu; musik mulai dari tap itu, mengalir terus ke
+  // peta, dan diam selama konten apa pun sedang dibuka
+  const [splashTapped, setSplashTapped] = useState(false);
+  const music = useCarnivalMusic(
+    (loading ? splashTapped : onMap) && viewer === null,
+  );
+  const { unlock: unlockMusic } = music;
+  const startSplash = useCallback(() => {
+    unlockMusic();
+    setSplashTapped(true);
+  }, [unlockMusic]);
+  // stabil, supaya timer splash tidak ter-reset tiap App render ulang
+  const endSplash = useCallback(() => setLoading(false), []);
 
   return (
     <div
@@ -165,7 +175,7 @@ export default function App() {
         background: `transparent`,
       }}
     >
-      {loading && <Loader onDone={() => setLoading(false)} />}
+      {loading && <Loader onStart={startSplash} onDone={endSplash} />}
       {!playingGame && (
         <TopNav route={route} onNavigate={navigate} pts={progress.pts} />
       )}

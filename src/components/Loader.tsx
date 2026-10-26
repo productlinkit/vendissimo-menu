@@ -2,20 +2,30 @@ import { useEffect, useState } from "react";
 import { useI18n } from "../i18n";
 import { BAR, LEAD } from "../lib/carnivalMusic";
 
-type Phase = "scatter" | "gather" | "spin" | "vanish" | "out";
+// "ready" menunggu sentuhan pertama: browser baru mengizinkan suara setelah
+// itu, jadi musik dan animasi sama-sama mulai dari sentuhan tersebut.
+type Phase = "ready" | "gather" | "spin" | "vanish" | "out";
 
 // Fase splash diukur dalam birama musik karnaval (yang mulai bersamaan
-// dengan splash), supaya putaran dan hilangnya logo jatuh di ketukan "oom".
+// dengan sentuhan), supaya putaran dan hilangnya logo jatuh di ketukan "oom".
 const at = (bars: number) => (LEAD + bars * BAR) * 1000;
 const SPIN_AT = at(2);
 const VANISH_AT = at(5);
 
-export function Loader({ onDone }: { onDone: () => void }) {
+export function Loader({
+  onStart,
+  onDone,
+}: {
+  /** Dipanggil di dalam sentuhan itu sendiri, supaya audio boleh dibuka. */
+  onStart: () => void;
+  onDone: () => void;
+}) {
   const { t } = useI18n();
-  const [phase, setPhase] = useState<Phase>(`scatter`);
+  const [phase, setPhase] = useState<Phase>(`ready`);
+  const started = phase !== `ready`;
   useEffect(() => {
+    if (!started) return;
     const timers = [
-      setTimeout(() => setPhase(`gather`), 250),
       setTimeout(() => setPhase(`spin`), SPIN_AT),
       setTimeout(() => setPhase(`vanish`), VANISH_AT),
       setTimeout(() => setPhase(`out`), at(5.75)),
@@ -24,7 +34,12 @@ export function Loader({ onDone }: { onDone: () => void }) {
     return () => {
       timers.forEach(clearTimeout);
     };
-  }, [onDone]);
+  }, [started, onDone]);
+  const start = () => {
+    if (started) return;
+    onStart();
+    setPhase(`gather`);
+  };
   return (
     <div
       style={{
@@ -45,7 +60,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
     >
       <style>
         {
-          "\n        @keyframes floatIdle {\n          0%, 100% { transform: translateY(0px) rotate(0deg); }\n          50%      { transform: translateY(-8px) rotate(4deg); }\n        }\n        @keyframes spinOrbitRing {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(720deg); }\n        }\n        @keyframes counterSpin {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(-720deg); }\n        }\n        @keyframes centerAuraPulse {\n          0%, 100% { transform: scale(0.92); opacity: 0.5; }\n          50%      { transform: scale(1.22); opacity: 0.9; }\n        }\n        @keyframes sparkPulse {\n          0%, 100% { opacity: .25; transform: scale(.7) rotate(0deg); }\n          50%      { opacity: 1;   transform: scale(1.35) rotate(35deg); }\n        }\n        @keyframes splashBarFill {\n          0%   { width: 0%; }\n          15%  { width: 25%; }\n          40%  { width: 55%; }\n          75%  { width: 85%; }\n          95%  { width: 98%; }\n          100% { width: 100%; }\n        }\n      "
+          "\n        @keyframes floatIdle {\n          0%, 100% { transform: translateY(0px) rotate(0deg); }\n          50%      { transform: translateY(-8px) rotate(4deg); }\n        }\n        @keyframes spinOrbitRing {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(720deg); }\n        }\n        @keyframes counterSpin {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(-720deg); }\n        }\n        @keyframes centerAuraPulse {\n          0%, 100% { transform: scale(0.92); opacity: 0.5; }\n          50%      { transform: scale(1.22); opacity: 0.9; }\n        }\n        @keyframes sparkPulse {\n          0%, 100% { opacity: .25; transform: scale(.7) rotate(0deg); }\n          50%      { opacity: 1;   transform: scale(1.35) rotate(35deg); }\n        }\n        @keyframes splashBarFill {\n          0%   { width: 0%; }\n          15%  { width: 25%; }\n          40%  { width: 55%; }\n          75%  { width: 85%; }\n          95%  { width: 98%; }\n          100% { width: 100%; }\n        }\n        @keyframes tapPrompt {\n          0%, 100% { opacity: .55; transform: scale(1); }\n          50%      { opacity: 1;   transform: scale(1.06); }\n        }\n      "
         }
       </style>
       <div
@@ -55,11 +70,30 @@ export function Loader({ onDone }: { onDone: () => void }) {
           height: 520,
           borderRadius: `50%`,
           background: `radial-gradient(circle, rgba(235,52,124,.4) 0%, rgba(123,47,247,.25) 42%, transparent 72%)`,
-          // berdenyut sekali per birama, puncaknya tepat di ketukan pertama
-          animation: `centerAuraPulse ${BAR}s ${LEAD - BAR / 2}s ease-in-out infinite`,
+          // sesudah disentuh: berdenyut sekali per birama, puncaknya tepat di
+          // ketukan pertama; sebelumnya berdenyut pelan sambil menunggu
+          animation: started
+            ? `centerAuraPulse ${BAR}s ${LEAD - BAR / 2}s ease-in-out infinite`
+            : `centerAuraPulse 2.4s ease-in-out infinite`,
           pointerEvents: `none`,
         }}
       />
+      {!started && (
+        <button
+          type="button"
+          autoFocus
+          aria-label={t(`Tap to start`)}
+          onClick={start}
+          style={{
+            position: `absolute`,
+            inset: 0,
+            zIndex: 20,
+            border: `none`,
+            background: `none`,
+            cursor: `pointer`,
+          }}
+        />
+      )}
       {[
         {
           top: `12%`,
@@ -97,8 +131,8 @@ export function Loader({ onDone }: { onDone: () => void }) {
             fontSize: spark.size,
             color: `#fea832`,
             lineHeight: 1,
-            opacity: phase === `scatter` ? 0 : 1,
-            transform: phase === `scatter` ? `scale(0)` : `scale(1)`,
+            opacity: started ? 1 : 0,
+            transform: started ? `scale(1)` : `scale(0)`,
             transition: `opacity .5s ${spark.delay} ease, transform .6s ${spark.delay} cubic-bezier(.34,1.56,.64,1)`,
             animation: `sparkPulse ${2 + i * 0.4}s ${spark.delay} ease-in-out infinite`,
             pointerEvents: `none`,
@@ -281,7 +315,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               let transform = ``;
               let opacity = 0;
               let transition = ``;
-              if (phase === `scatter`) {
+              if (phase === `ready`) {
                 transform = `translate(${item.scatterX}px, ${item.scatterY}px) rotate(${item.scatterRot}deg) scale(0.35)`;
                 opacity = 0;
                 transition = `transform 0.5s ease-out, opacity 0.5s ease-out`;
@@ -355,12 +389,6 @@ export function Loader({ onDone }: { onDone: () => void }) {
             flexDirection: `column`,
             alignItems: `center`,
             gap: 8,
-            transform:
-              phase === `scatter`
-                ? `scale(.92) translateY(16px)`
-                : `scale(1) translateY(0)`,
-            opacity: phase === `scatter` ? 0 : 1,
-            transition: `transform .7s .15s cubic-bezier(.34,1.3,.64,1), opacity .6s .1s ease`,
           }}
         >
           <img
@@ -382,6 +410,27 @@ export function Loader({ onDone }: { onDone: () => void }) {
           >
             {t(`Smart Vending Experience`)}
           </span>
+          {!started ? (
+            <div
+              aria-hidden="true"
+              style={{
+                marginTop: 10,
+                padding: `10px 22px`,
+                borderRadius: 999,
+                background: `linear-gradient(90deg,#eb347c,#fea832)`,
+                boxShadow: `0 0 18px rgba(254,168,50,.6)`,
+                fontFamily: `var(--f-mono)`,
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: `.18em`,
+                textTransform: `uppercase`,
+                color: `#fff`,
+                animation: `tapPrompt 1.6s ease-in-out infinite`,
+              }}
+            >
+              {t(`Tap to start`)}
+            </div>
+          ) : (
           <div
             style={{
               width: 200,
@@ -403,11 +452,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
                   borderRadius: 99,
                   background: `linear-gradient(90deg,#eb347c,#fea832)`,
                   boxShadow: `0 0 14px rgba(254,168,50,.75)`,
-                  animation:
-                    phase === `scatter`
-                      ? undefined
-                      : `splashBarFill ${(VANISH_AT - 250) / 1000}s cubic-bezier(.4,0,.2,1) forwards`,
-                  width: phase === `scatter` ? `0%` : undefined,
+                  animation: `splashBarFill ${VANISH_AT / 1000}s cubic-bezier(.4,0,.2,1) forwards`,
                 }}
               />
             </div>
@@ -425,6 +470,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               {t(`Loading…`)}
             </div>
           </div>
+          )}
         </div>
       </div>
     </div>

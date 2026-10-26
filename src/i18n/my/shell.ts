@@ -44,6 +44,7 @@ export const shell: Record<string, string> = {
   Laptop: "လက်ပ်တော့",
   "Smart Vending Experience": "စမတ် အရောင်းစက် အတွေ့အကြုံ",
   "Loading…": "ဖွင့်နေသည်…",
+  "Tap to start": "စတင်ရန် နှိပ်ပါ",
 
   // Welcome
   "Play arcade games": "အာကိတ်ဂိမ်းများ ကစားပါ",
