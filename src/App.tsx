@@ -12,6 +12,7 @@ import { useI18n } from "./i18n";
 import { ENGLISH_SETS, GAMES, MAGAZINES, POINTS, VIDEOS } from "./data";
 import { useProgress } from "./lib/progress";
 import { award } from "./lib/pointsService";
+import { playSplashSfx } from "./lib/splashSfx";
 import { useCarnivalMusic } from "./lib/useCarnivalMusic";
 import { CategoryPage } from "./pages/CategoryPage";
 import { HomePage } from "./pages/HomePage";
@@ -154,17 +155,16 @@ export default function App() {
   const playingGame = viewer?.type === `game`;
   // Beranda adalah peta karnaval; Rewards halaman penukaran voucher.
   const onMap = route === `home`;
-  // splash menunggu tap dulu; musik mulai dari tap itu, mengalir terus ke
-  // peta, dan diam selama konten apa pun sedang dibuka
-  const [splashTapped, setSplashTapped] = useState(false);
-  const music = useCarnivalMusic(
-    (loading ? splashTapped : onMap) && viewer === null,
-  );
-  const { unlock: unlockMusic } = music;
+  // musik karnaval hanya di peta, dan diam selama konten apa pun sedang
+  // dibuka; splash punya efek suara game sendiri
+  const music = useCarnivalMusic(onMap && !loading && viewer === null);
+  const { on: soundOn, unlock: unlockMusic } = music;
+  // tap di splash: kunci audio musik peta dibuka sekarang juga (hanya boleh
+  // di dalam sentuhan), walau musiknya baru berbunyi sesudah splash
   const startSplash = useCallback(() => {
     unlockMusic();
-    setSplashTapped(true);
-  }, [unlockMusic]);
+    if (soundOn) playSplashSfx();
+  }, [unlockMusic, soundOn]);
   // stabil, supaya timer splash tidak ter-reset tiap App render ulang
   const endSplash = useCallback(() => setLoading(false), []);
 

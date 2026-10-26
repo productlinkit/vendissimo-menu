@@ -4,10 +4,7 @@
 // melodinya ditulis sendiri, bukan kutipan lagu sirkus yang terkenal.
 
 const BEAT = 60 / 168; // detik per ketuk
-/** Detik per birama (3 ketuk); splash menyelaraskan fasenya ke sini. */
-export const BAR = BEAT * 3;
-/** Jeda dari start() sampai ketuk pertama berbunyi. */
-export const LEAD = 0.1;
+const LEAD = 0.1; // jeda dari start() sampai ketuk pertama berbunyi
 const LOOKAHEAD = 0.25; // detik ke depan yang dijadwalkan sekaligus
 const VOLUME = 0.12;
 

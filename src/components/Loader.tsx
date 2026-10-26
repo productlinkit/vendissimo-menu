@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "../i18n";
-import { BAR, LEAD } from "../lib/carnivalMusic";
+import { SPIN_LEN, SPLASH } from "../lib/splashSfx";
 
 // "ready" menunggu sentuhan pertama: browser baru mengizinkan suara setelah
-// itu, jadi musik dan animasi sama-sama mulai dari sentuhan tersebut.
+// itu, jadi efek suara dan animasi sama-sama mulai dari sentuhan tersebut.
 type Phase = "ready" | "gather" | "spin" | "vanish" | "out";
 
-// Fase splash diukur dalam birama musik karnaval (yang mulai bersamaan
-// dengan sentuhan), supaya putaran dan hilangnya logo jatuh di ketukan "oom".
-const at = (bars: number) => (LEAD + bars * BAR) * 1000;
-const SPIN_AT = at(2);
-const VANISH_AT = at(5);
+// jadwalnya sama dengan efek suara splash, supaya tiap bunyi pas momennya
+const ms = (s: number) => s * 1000;
 
 export function Loader({
   onStart,
@@ -26,10 +23,10 @@ export function Loader({
   useEffect(() => {
     if (!started) return;
     const timers = [
-      setTimeout(() => setPhase(`spin`), SPIN_AT),
-      setTimeout(() => setPhase(`vanish`), VANISH_AT),
-      setTimeout(() => setPhase(`out`), at(5.75)),
-      setTimeout(onDone, at(6.3)),
+      setTimeout(() => setPhase(`spin`), ms(SPLASH.spin)),
+      setTimeout(() => setPhase(`vanish`), ms(SPLASH.vanish)),
+      setTimeout(() => setPhase(`out`), ms(SPLASH.out)),
+      setTimeout(onDone, ms(SPLASH.done)),
     ];
     return () => {
       timers.forEach(clearTimeout);
@@ -70,11 +67,8 @@ export function Loader({
           height: 520,
           borderRadius: `50%`,
           background: `radial-gradient(circle, rgba(235,52,124,.4) 0%, rgba(123,47,247,.25) 42%, transparent 72%)`,
-          // sesudah disentuh: berdenyut sekali per birama, puncaknya tepat di
-          // ketukan pertama; sebelumnya berdenyut pelan sambil menunggu
-          animation: started
-            ? `centerAuraPulse ${BAR}s ${LEAD - BAR / 2}s ease-in-out infinite`
-            : `centerAuraPulse 2.4s ease-in-out infinite`,
+          // berdenyut pelan sambil menunggu tap, lalu lebih cepat sesudahnya
+          animation: `centerAuraPulse ${started ? 1.1 : 2.4}s ease-in-out infinite`,
           pointerEvents: `none`,
         }}
       />
@@ -203,7 +197,7 @@ export function Loader({
               placeItems: `center`,
               animation:
                 phase === `spin`
-                  ? `spinOrbitRing 2.8s cubic-bezier(.36,.05,.2,1) forwards`
+                  ? `spinOrbitRing ${SPIN_LEN}s cubic-bezier(.36,.05,.2,1) forwards`
                   : `none`,
             }}
           >
@@ -354,7 +348,7 @@ export function Loader({
                       height: `100%`,
                       animation:
                         phase === `spin`
-                          ? `counterSpin 2.8s cubic-bezier(.36,.05,.2,1) forwards`
+                          ? `counterSpin ${SPIN_LEN}s cubic-bezier(.36,.05,.2,1) forwards`
                           : phase === `gather`
                             ? `floatIdle ${2.6 + (i % 3) * 0.4}s ${i * 0.12}s ease-in-out infinite`
                             : `none`,
@@ -452,7 +446,7 @@ export function Loader({
                   borderRadius: 99,
                   background: `linear-gradient(90deg,#eb347c,#fea832)`,
                   boxShadow: `0 0 14px rgba(254,168,50,.75)`,
-                  animation: `splashBarFill ${VANISH_AT / 1000}s cubic-bezier(.4,0,.2,1) forwards`,
+                  animation: `splashBarFill ${SPLASH.vanish}s cubic-bezier(.4,0,.2,1) forwards`,
                 }}
               />
             </div>
