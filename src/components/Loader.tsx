@@ -405,14 +405,14 @@ export function Loader({
             {t(`Smart Vending Experience`)}
           </span>
           {!started ? (
-            // warna primary polos (versi aman untuk teks putih), berdenyut pelan
+            // navy polos supaya kontras dengan latar pink, berdenyut pelan
             <div
               aria-hidden="true"
               style={{
                 marginTop: 12,
                 padding: `11px 26px`,
                 borderRadius: 999,
-                background: `var(--accent-ink)`,
+                background: `#1b2554`,
                 boxShadow: `0 8px 20px -8px rgba(0,0,0,.55)`,
                 fontFamily: `var(--f-display)`,
                 fontSize: 15,
