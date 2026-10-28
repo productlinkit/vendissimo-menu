@@ -57,7 +57,7 @@ export function Loader({
     >
       <style>
         {
-          "\n        @keyframes floatIdle {\n          0%, 100% { transform: translateY(0px) rotate(0deg); }\n          50%      { transform: translateY(-8px) rotate(4deg); }\n        }\n        @keyframes spinOrbitRing {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(720deg); }\n        }\n        @keyframes counterSpin {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(-720deg); }\n        }\n        @keyframes centerAuraPulse {\n          0%, 100% { transform: scale(0.92); opacity: 0.5; }\n          50%      { transform: scale(1.22); opacity: 0.9; }\n        }\n        @keyframes sparkPulse {\n          0%, 100% { opacity: .25; transform: scale(.7) rotate(0deg); }\n          50%      { opacity: 1;   transform: scale(1.35) rotate(35deg); }\n        }\n        @keyframes splashBarFill {\n          0%   { width: 0%; }\n          15%  { width: 25%; }\n          40%  { width: 55%; }\n          75%  { width: 85%; }\n          95%  { width: 98%; }\n          100% { width: 100%; }\n        }\n        @keyframes tapPrompt {\n          0%, 100% { opacity: .55; transform: scale(1); }\n          50%      { opacity: 1;   transform: scale(1.06); }\n        }\n      "
+          "\n        @keyframes floatIdle {\n          0%, 100% { transform: translateY(0px) rotate(0deg); }\n          50%      { transform: translateY(-8px) rotate(4deg); }\n        }\n        @keyframes spinOrbitRing {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(720deg); }\n        }\n        @keyframes counterSpin {\n          0%   { transform: rotate(0deg); }\n          100% { transform: rotate(-720deg); }\n        }\n        @keyframes centerAuraPulse {\n          0%, 100% { transform: scale(0.92); opacity: 0.5; }\n          50%      { transform: scale(1.22); opacity: 0.9; }\n        }\n        @keyframes sparkPulse {\n          0%, 100% { opacity: .25; transform: scale(.7) rotate(0deg); }\n          50%      { opacity: 1;   transform: scale(1.35) rotate(35deg); }\n        }\n        @keyframes splashBarFill {\n          0%   { width: 0%; }\n          15%  { width: 25%; }\n          40%  { width: 55%; }\n          75%  { width: 85%; }\n          95%  { width: 98%; }\n          100% { width: 100%; }\n        }\n        @keyframes tapPrompt {\n          0%, 100% { transform: scale(1); }\n          50%      { transform: scale(1.05); }\n        }\n      "
         }
       </style>
       <div
@@ -405,21 +405,22 @@ export function Loader({
             {t(`Smart Vending Experience`)}
           </span>
           {!started ? (
+            // warna primary polos (versi aman untuk teks putih), berdenyut pelan
             <div
               aria-hidden="true"
               style={{
-                marginTop: 10,
-                padding: `10px 22px`,
+                marginTop: 12,
+                padding: `11px 26px`,
                 borderRadius: 999,
-                background: `linear-gradient(90deg,#eb347c,#fea832)`,
-                boxShadow: `0 0 18px rgba(254,168,50,.6)`,
-                fontFamily: `var(--f-mono)`,
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: `.18em`,
+                background: `var(--accent-ink)`,
+                boxShadow: `0 8px 20px -8px rgba(0,0,0,.55)`,
+                fontFamily: `var(--f-display)`,
+                fontSize: 15,
+                fontWeight: 800,
+                letterSpacing: `.08em`,
                 textTransform: `uppercase`,
                 color: `#fff`,
-                animation: `tapPrompt 1.6s ease-in-out infinite`,
+                animation: `tapPrompt 1.4s ease-in-out infinite`,
               }}
             >
               {t(`Tap to start`)}
